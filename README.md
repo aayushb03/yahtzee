@@ -112,6 +112,24 @@ Flow is as follows:
 - Interface Design: Figma
 - Backend: Next.js
 
+```mermaid
+flowchart RL
+subgraph Front End
+	A(Javascript: React)
+end
+	
+subgraph Back End
+	B(Express/Node)
+end
+	
+subgraph Database
+	C[(MySQL)]
+end
+
+A <-->|Next.js| B
+B <-->|React Server Components| C
+```
+
 
 #### Database
 
