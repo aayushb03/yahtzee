@@ -107,19 +107,15 @@ Flow is as follows:
 
 #### Technology Stack
 
-- Database: MySQL
-- Frontend: React (TypeScript)
-- Interface Design: Figma
-- Backend: Next.js
 
 ```mermaid
 flowchart RL
 subgraph Front End
-	A(Javascript: React)
+	A(TypeScript: React)
 end
 	
 subgraph Back End
-	B(Express/Node)
+	B(Express.js/Node.js)
 end
 	
 subgraph Database
@@ -127,7 +123,7 @@ subgraph Database
 end
 
 A <-->|Next.js| B
-B <-->|React Server Components| C
+B <-->|SQL Queries| C
 ```
 
 
