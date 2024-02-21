@@ -207,6 +207,29 @@ classDiagram
 
 #### Sequence Diagram
 
+```mermaid
+flowchart RL
+subgraph User
+	A(User Inputs)
+end
+	
+subgraph Frontend/Interface
+	B(Typescript: React & Figma)
+end
+	
+subgraph Backend
+	C(Next.js)
+end
+
+subgraph Database
+	D[(MySQL)]
+end
+
+A --> B
+B --> |Next.js| C
+C --> |SQL Queries| D
+```
+
 
 ## Coding Style and Naming Conventions
 <!--Here you can document your coding standards and conventions. This includes decisions about naming, style guides, etc.-->
