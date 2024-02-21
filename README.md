@@ -229,7 +229,6 @@ subgraph Database
 	D[(MySQL)]
 end
 
-A --> B
 A --> E
 E --> B
 B --> |Next.js| C
