@@ -38,14 +38,13 @@ Our customer will be ...
 
 | ID   | Description                                                  | Priority | Status |
 | ---- | ------------------------------------------------------------ | -------- | ------ |
-| R1  | Users will not need to sign in but will need to enter their name and the game room they wish to join/create. | High      | Open   |
-| R2  | The user should pick a single or multi-player mode first, the interface will vary depending on how many people join the game. | Med     | Open   |
-| R3  | A user can only have three dice roll. | High     | Open   |
-| R4  | A user can only select scoring options based on the rolled dice. | High      | Open   |
-| R5  | The user should be able to end their turn within their three rolls. | Med     | Open   |
-| R6  | The game  will end when all scores have been entered. | High     | Open   |
-| R7  | The user should be able to see their opponents dice roll but can't change any scores. | Med     | Open   |
-| R8  | Any user should be able to cancel or restart the game. | Med     | Open   |
+| R1  | Users will be able to restart or exit the game | Med      | Open   |
+| R2  | The user will be able to update their score card after they roll the dies | High     | Open   |
+| R3  | Users will see their opponents turn in real time | Med     | Open   |
+| R4  | A user will be able to start a game of Yahtzee and play following the rules | High      | Open   |
+| R5  | The user should see the Yahtzee page | High     | Open   |
+| R6  | The game will end when all scores have been entered. | Med     | Open   |
+| R7  | The user will see a consistent interface. | Med     | Open   |
 
 
 ### Use Cases & User Stories
