@@ -213,8 +213,12 @@ subgraph User
 	A(User Inputs)
 end
 	
-subgraph Frontend/Interface
-	B(Typescript: React & Figma)
+subgraph Frontend
+	B(Typescript: React)
+end
+
+subgraph Interface
+    E(Figma)
 end
 	
 subgraph Backend
@@ -226,6 +230,8 @@ subgraph Database
 end
 
 A --> B
+A --> E
+E --> B
 B --> |Next.js| C
 C --> |SQL Queries| D
 ```
