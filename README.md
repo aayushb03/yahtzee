@@ -8,7 +8,7 @@
 - Ben - Backend
 - Aayush - Backend
 - Carmen - Database administrator 
-- Eric  - Frontend
+- Meng(Eric)  - Frontend
 
 ### Scrum Masters and Product Owners:
 
