@@ -100,7 +100,7 @@ const YahtzeeGame: React.FC<{}> = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#CC5D64]">
+    <div className="flex flex-col h-screen bg-[#CC5D64]" style={{ minWidth: '1162px' }}>
       <div className="flex flex-col items-center">
         <h1 className="text-6xl text-white my-4">YAHTZEE</h1>
 
