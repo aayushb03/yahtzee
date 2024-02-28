@@ -1,5 +1,9 @@
 # Yahtzee - Team 22
 
+### Team name
+Yahtzee
+
+### Team Logo
 
 ### Initial Roles: 
 
