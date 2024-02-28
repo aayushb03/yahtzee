@@ -5,6 +5,8 @@ Yahtzee
 
 ### Team Logo
 
+![Team Logo of a crystal die with 2 on each face representing team 22](Screenshot_2024-02-27_at_4.42.03_PM.png)
+
 ### Initial Roles: 
 
 - Griffin - Backend
