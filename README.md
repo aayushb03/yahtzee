@@ -1,7 +1,7 @@
 # Yahtzee - Team 22
 
 ### Team name
-Yahtzee
+Yahtzee - 22
 
 ### Team Logo
 
