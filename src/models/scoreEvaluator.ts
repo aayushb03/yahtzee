@@ -129,6 +129,7 @@ export class ScoreEvaluator implements IScoreEvaluator {
    * @returns 50 if all the dice are the same, otherwise 0.
    */
   private calculateYahtzee(): number {
+    if (this.dice[0] == 0) return 0;
     for (let key in this.counts) {
       if (this.counts[key] === 5) return 50;
     }

@@ -1,69 +1,120 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './Board.module.css'; // 引入CSS模块
+import { ScoreCategory as SC } from '@/models/enums';
+import { Scorecard } from '@/models/scorecard';
+import { Dice } from '@/models/dice';
+import { ScoreEvaluator } from "@/models/scoreEvaluator";
 
-type ScoreCategory =
-  | 'Ones'
-  | 'Twos'
-  | 'Threes'
-  | 'Fours'
-  | 'Fives'
-  | 'Sixes'
-  | 'TopBonus'
-  | 'TopTotal'
-  | 'ThreeOfAKind'
-  | 'FourOfAKind'
-  | 'FullHouse'
-  | 'SmallStraight'
-  | 'LargeStraight'
-  | 'Chance'
-  | 'Yahtzee'
-  | 'TotalScore';
+// type ScoreCategory =
+//   | 'Ones'
+//   | 'Twos'
+//   | 'Threes'
+//   | 'Fours'
+//   | 'Fives'
+//   | 'Sixes'
+//   | 'TopBonus'
+//   | 'TopTotal'
+//   | 'ThreeOfAKind'
+//   | 'FourOfAKind'
+//   | 'FullHouse'
+//   | 'SmallStraight'
+//   | 'LargeStraight'
+//   | 'Chance'
+//   | 'Yahtzee'
+//   | 'TotalScore';
 
-interface Scores {
-  [key: string]: { [key in ScoreCategory]?: number };
+// interface Scores {
+//   [key: string]: { [key in ScoreCategory]?: number };
+// }
+
+type BoardProps = {
+  currentScores: Scorecard;
+  potentialScores: ScoreEvaluator;
+  onScoreSelect: (category: SC, score: number) => void;
+  diceRolled: boolean;
 }
 
-interface BoardProps {
-  diceRolls: number[];
-  currentScores: Scores;
-  onScoreSelect: (category: ScoreCategory, score: number) => void;
-}
-
-const Board: React.FC<BoardProps> = ({ diceRolls, currentScores, onScoreSelect }) => {
+const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : BoardProps) => {
   // const [currentPlayer, setCurrentPlayer] = React.useState<'you' | 'bill'>('you');
   const currentPlayer = 'you';
 
-  const renderScoreCell = (player: 'you' | 'bill', category: ScoreCategory) => {
-    const score = currentScores[currentPlayer]?.[category];
-    const cellClass = player === 'you' ? `${styles.activePlayerCell} ${styles.playerCell}` : `${styles.inactivePlayerCell} ${styles.playerCell}`;
+  const renderScoreCell = (player : string, category: SC) => {
+    let score = currentScores.scores[category];
+    let potential = false;
+    if (score === -1) {
+      potential = true;
+      score = potentialScores.scores[category];
+    }
+    let cellClass = player === 'you' ? `bg-[#E8CC9D] text-center` : `bg-[#F5F5F5] text-center`;
+    cellClass += (diceRolled && potential && player === 'you') ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
+
+    if (!diceRolled && potential) {
+      return (
+        <td className={cellClass}></td>
+      )
+    }
+
+    if (potential) {
+      return (
+        <td
+          className={cellClass}
+          onClick={() => {
+            onScoreSelect(category, score);
+          }}
+        >
+          {score !== undefined ? <span className="text-red-600">{score}</span> : <span className={styles.score}>0</span>}
+        </td>
+      );
+    } else {
+      return (
+        <td
+          className={cellClass}
+        >
+          {score !== undefined ? <span className="text-black">{score}</span> : <span className={styles.score}>0</span>}
+        </td>
+      );
+    }
+  }
+
+  const renderTotalScoreCell = (player : string, category: string) => {
+    let score = 0;
+    if (category === 'TopTotal') {
+      score = currentScores.topTotal;
+    } else if (category === 'TotalScore') {
+      score = currentScores.totalScore;
+    } else {
+      score = currentScores.topBonus;
+    }
+
+    const cellClass = player === 'you' ? `bg-[#E8CC9D] text-center` : `bg-[#F5F5F5] text-center`;
+
     return (
-      <td
-        className={cellClass}
-        onClick={() => {
-          onScoreSelect(category, calculateScore(diceRolls, category));
-        }}
-      >
-        {score !== undefined ? <span className={styles.score}>{score}</span> : <span className={styles.score}>0</span>}
-      </td>
-    );
+        <td
+          className={cellClass}
+        >
+          {score !== undefined ? <span className="text-black">{score}</span> : <span className={styles.score}>0</span>}
+        </td>
+      );
+
   }
   
-  
-  const calculateScore = (dice: number[], category: ScoreCategory): number => {
-    // Logic to calculate score based on dice and category
-    return 0; // Placeholder
-  };
+  // const calculateScore = (dice: number[], category: SC): number => {
+  //   // Logic to calculate score based on dice and category
+  //   return 0; // Placeholder
+  // };
 
-  const leftTableCategories: ScoreCategory[] = ['Ones', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes', 'TopBonus', 'TopTotal'];
-  const rightTableCategories: ScoreCategory[] = ['ThreeOfAKind', 'FourOfAKind', 'FullHouse', 'SmallStraight', 'LargeStraight', 'Chance', 'Yahtzee', 'TotalScore'];
+  const leftTableCategories: SC[] = [SC.Ones, SC.Twos, SC.Threes, SC.Fours, SC.Fives, SC.Sixes];
+  const leftTableTotalCategories: string[] = ['TopBonus', 'TopTotal'];
+  const rightTableCategories: SC[] = [SC.ThreeOfAKind, SC.FourOfAKind, SC.FullHouse, SC.SmallStraight, SC.LargeStraight, SC.Chance, SC.Yahtzee];
+  const rightTableTotalCategories: string[] = ['TotalScore'];
 
-  const renderTable = (categories: ScoreCategory[]) => (
+  const renderTable = (categories: SC[], totals: string[]) => (
     <table className={styles.table}>
       <thead>
         <tr>
           <th className={styles.tableHeader}>ROLLS</th>
           <th className={`${styles.tableHeader} ${styles.playerHeader}`}>YOU</th>
-          <th className={`${styles.tableHeader} ${styles.playerHeader}`}>BILL</th>
+          {/*<th className={`${styles.tableHeader} ${styles.playerHeader}`}>BILL</th>*/}
         </tr>
       </thead>
       <tbody>
@@ -71,7 +122,14 @@ const Board: React.FC<BoardProps> = ({ diceRolls, currentScores, onScoreSelect }
           <tr key={category}>
             <td className={styles.tableCell}>{category}</td>
             {renderScoreCell('you', category)}
-            {renderScoreCell('bill', category)}
+            {/*{renderScoreCell('bill', category)}*/}
+          </tr>
+        ))}
+        {totals.map(category => (
+          <tr key={category}>
+            <td className={styles.tableCell}>{category}</td>
+            {renderTotalScoreCell('you', category)}
+            {/*{renderTotalScoreCell('bill', category)}*/}
           </tr>
         ))}
       </tbody>
@@ -81,10 +139,10 @@ const Board: React.FC<BoardProps> = ({ diceRolls, currentScores, onScoreSelect }
   return (
     <div className={styles.yahtzeeBoard}>
       <div className={styles.section}>
-        {renderTable(leftTableCategories)}
+        {renderTable(leftTableCategories, leftTableTotalCategories)}
       </div>
       <div className={styles.section}>
-        {renderTable(rightTableCategories)}
+        {renderTable(rightTableCategories, rightTableTotalCategories)}
       </div>
     </div>
   );

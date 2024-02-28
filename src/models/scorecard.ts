@@ -82,6 +82,7 @@ export class Scorecard implements IScorecard {
       if (this.topBonus != 35 && this.topTotal >= 63) {
         this.topBonus = 35;
         this.totalScore += 35;
+        this.topTotal += 35;
       }
     }
   }
