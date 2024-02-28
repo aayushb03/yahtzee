@@ -30,7 +30,6 @@ const DiceRow = ({dice, rollDice, diceRolled, playerName, playerTurn} : DiceRowP
 
   return (
     <div className="flex justify-center items-center my-4">
-      {/* <div className="text-4xl text-white mr-4">YOU</div> */}
       <div className="text-4xl text-white mr-4">{playerName}</div>
       {diceArr.map((die, index) => (
         <div key={index}

@@ -1,31 +1,8 @@
 import React, {useState} from 'react';
-import styles from './Board.module.css'; // 引入CSS模块
+import styles from './Board.module.css';
 import { ScoreCategory as SC } from '@/models/enums';
 import { Scorecard } from '@/models/scorecard';
-import { Dice } from '@/models/dice';
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
-
-// type ScoreCategory =
-//   | 'Ones'
-//   | 'Twos'
-//   | 'Threes'
-//   | 'Fours'
-//   | 'Fives'
-//   | 'Sixes'
-//   | 'TopBonus'
-//   | 'TopTotal'
-//   | 'ThreeOfAKind'
-//   | 'FourOfAKind'
-//   | 'FullHouse'
-//   | 'SmallStraight'
-//   | 'LargeStraight'
-//   | 'Chance'
-//   | 'Yahtzee'
-//   | 'TotalScore';
-
-// interface Scores {
-//   [key: string]: { [key in ScoreCategory]?: number };
-// }
 
 type BoardProps = {
   currentScores: Scorecard;
@@ -97,11 +74,6 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
       );
 
   }
-  
-  // const calculateScore = (dice: number[], category: SC): number => {
-  //   // Logic to calculate score based on dice and category
-  //   return 0; // Placeholder
-  // };
 
   const leftTableCategories: SC[] = [SC.Ones, SC.Twos, SC.Threes, SC.Fours, SC.Fives, SC.Sixes];
   const leftTableTotalCategories: string[] = ['TopBonus', 'TopTotal'];
@@ -122,14 +94,12 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
           <tr key={category}>
             <td className={styles.tableCell}>{category}</td>
             {renderScoreCell('you', category)}
-            {/*{renderScoreCell('bill', category)}*/}
           </tr>
         ))}
         {totals.map(category => (
           <tr key={category}>
             <td className={styles.tableCell}>{category}</td>
             {renderTotalScoreCell('you', category)}
-            {/*{renderTotalScoreCell('bill', category)}*/}
           </tr>
         ))}
       </tbody>

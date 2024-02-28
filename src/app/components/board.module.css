@@ -1,8 +1,8 @@
 .yahtzeeBoard {
     display: flex;
     justify-content: space-between;
-    background: #F5F5F5; /* 游戏板背景颜色调整 */
-    min-width: 1162px; /* 确保至少581*2的大小 */
+    background: #F5F5F5;
+    min-width: 1162px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -29,23 +29,6 @@
     background-color: #f2f2f2;
 }
 
-/*.activePlayerCell {*/
-/*    background-color: #E8CC9D; !* 活跃玩家列背景颜色 *!*/
-/*    !*cursor: pointer;*!*/
-/*}*/
-
-/*.inactivePlayerCell {*/
-/*    background-color: #F5F5F5; !* 非活跃玩家列背景颜色更白 *!*/
-/*}*/
-
-/*.score {*/
-/*    color: black; !* 确保文字颜色为黑色 *!*/
-/*}*/
-
-/*.playerCell {*/
-/*    text-align: center; !* 文字居中 *!*/
-/*  }*/
-/*  */
-  .playerHeader {
-    text-align: center; /* 表头文字居中 */
-  }
+.playerHeader {
+text-align: center; /* 表头文字居中 */
+}
