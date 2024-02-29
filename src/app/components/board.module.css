@@ -1,3 +1,4 @@
+/* yahtzeeBoard class css */
 .yahtzeeBoard {
     display: flex;
     justify-content: space-between;
@@ -8,27 +9,32 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* section class css */
 .section {
     flex: 1;
     margin: 0 10px;
 }
 
+/* Table class css */
 .table {
     width: 100%;
     border-collapse: collapse;
 }
 
+/* Table cell class css */
 .tableCell, .tableHeader {
     padding: 8px;
     text-align: left;
     border: 1px solid #ddd;
-    color: black; /* 确保文字颜色为黑色 */
+    color: black;
 }
 
+/* Table header class css */
 .tableHeader {
     background-color: #f2f2f2;
 }
 
+/* Table cell class css */
 .playerHeader {
-text-align: center; /* 表头文字居中 */
+    text-align: center;
 }

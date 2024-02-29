@@ -15,6 +15,12 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
   // const [currentPlayer, setCurrentPlayer] = React.useState<'you' | 'bill'>('you');
   const currentPlayer = 'you';
 
+  /**
+   * Renders a cell in the scorecard table.
+   * @param player 
+   * @param category 
+   * @returns  The cell to render.
+   */
   const renderScoreCell = (player : string, category: SC) => {
     let score = currentScores.scores[category];
     let potential = false;
@@ -53,6 +59,12 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
     }
   }
 
+  /**
+   * Renders a cell in the total score table.
+   * @param player 
+   * @param category 
+   * @returns  The cell to render.
+   */
   const renderTotalScoreCell = (player : string, category: string) => {
     let score = 0;
     if (category === 'TopTotal') {
@@ -80,6 +92,12 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
   const rightTableCategories: SC[] = [SC.ThreeOfAKind, SC.FourOfAKind, SC.FullHouse, SC.SmallStraight, SC.LargeStraight, SC.Chance, SC.Yahtzee];
   const rightTableTotalCategories: string[] = ['TotalScore'];
 
+  /**
+   * Renders the scorecard table.
+   * @param categories 
+   * @param totals 
+   * @returns  The table to render.
+   */
   const renderTable = (categories: SC[], totals: string[]) => (
     <table className={styles.table}>
       <thead>

@@ -7,6 +7,7 @@ import { Scorecard } from "@/models/scorecard";
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import { ScoreCategory } from "@/models/enums";
 
+
 const YahtzeeGame = () => {
   const [dice, setDice] = useState(new Dice());
   const [scores, setScores] = useState<Scorecard>(new Scorecard());
@@ -14,11 +15,17 @@ const YahtzeeGame = () => {
   const [rollsLeft, setRollsLeft] = useState(3);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 
+  /**
+   * Resets the game to the initial state.
+   */
   useEffect(() => {
     setDice(new Dice());
     setScores(new Scorecard());
   }, []);
 
+  /** 
+   * Updates the score evaluator when the dice change.
+   */
   useEffect(() => {
     setScoreEval(new ScoreEvaluator(dice));
   }, [dice]);
@@ -43,6 +50,11 @@ const YahtzeeGame = () => {
     }
   };
 
+  /**
+   * Handles the selection of a score category.
+   * @param category 
+   * @param score 
+   */
   const handleScoreSelect = (category: ScoreCategory, score: number) => {
     scores.addScore(category, score);
     setScores(new Scorecard(scores));
@@ -50,6 +62,9 @@ const YahtzeeGame = () => {
     setRollsLeft(3);
   };
 
+  /**
+   * Resets the game to the initial state.
+   */
   const resetGame = () => {
     setDice(new Dice());
     setScores(new Scorecard());
