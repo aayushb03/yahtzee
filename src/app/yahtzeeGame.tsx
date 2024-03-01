@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Board from './components/board'
-import DiceRow from "@/app/components/dice-row";
+import DiceRow from "@/app/components/dice_row";
 import { Dice } from "@/models/dice";
 import { Scorecard } from "@/models/scorecard";
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
@@ -72,6 +72,8 @@ const YahtzeeGame = () => {
     setIsPlayerTurn(true);
   };
 
+  console.log("YahtzeeGame rollsLeft:", rollsLeft);
+
   return (
     <div className="flex flex-col h-screen bg-[#CC5D64]" style={{ minWidth: '1162px' }}>
       <div className="flex flex-col items-center">
@@ -90,7 +92,7 @@ const YahtzeeGame = () => {
           diceRolled={rollsLeft < 3}
         />
 
-        <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={"YOU"} playerTurn={true}></DiceRow>
+        <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={"YOU"} playerTurn={true} rollsLeft={rollsLeft} />
     </div>
   </div>);
 };
