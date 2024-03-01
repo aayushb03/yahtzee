@@ -13,3 +13,13 @@ export enum ScoreCategory {
   Yahtzee = 'Yahtzee',
   Chance = 'Chance'
 }
+
+export enum GameMode {
+  Local = 'Local',
+  Online = 'Online'
+}
+
+export enum GameStatus {
+  AddPlayers = 'AddPlayers',
+  InProgress = 'InProgress',
+}

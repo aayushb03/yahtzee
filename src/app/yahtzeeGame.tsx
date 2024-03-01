@@ -7,8 +7,11 @@ import { Scorecard } from "@/models/scorecard";
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import { ScoreCategory } from "@/models/enums";
 
+type YahtzeeGameProps = {
+  changePlayers: () => void;
+}
 
-const YahtzeeGame = () => {
+const YahtzeeGame = ({changePlayers} : YahtzeeGameProps) => {
   const [dice, setDice] = useState(new Dice());
   const [scores, setScores] = useState<Scorecard>(new Scorecard());
   const [scoreEval, setScoreEval] = useState<ScoreEvaluator>(new ScoreEvaluator(dice));
@@ -46,7 +49,7 @@ const YahtzeeGame = () => {
       setDice(new Dice(dice));
       setRollsLeft(rollsLeft - 1);
     } else {
-      alert('No rolls left, please choose a score category.');
+      // alert('No rolls left, please choose a score category.');
     }
   };
 
@@ -72,26 +75,26 @@ const YahtzeeGame = () => {
     setIsPlayerTurn(true);
   };
 
+  const changePlayersAndReset = () => {
+    resetGame();
+    changePlayers();
+  }
+
   return (
-    <div className="flex flex-col h-screen bg-[#CC5D64]" style={{ minWidth: '1162px' }}>
-      <div className="flex flex-col items-center">
-        <h1 className="text-6xl text-white my-4">YAHTZEE</h1>
+    <div className="flex flex-col items-center">
+      <div className="flex justify-center my-4">
+        <button className="bg-[#555363] text-white px-4 py-2 rounded mx-2 w-48 transition hover:scale-105" onClick={resetGame}>New Game</button>
+        <button className="bg-[#555363] text-white px-4 py-2 rounded mx-2 w-48 transition hover:scale-105" onClick={changePlayersAndReset}>Change Players</button>
+      </div>
 
-        <div className="flex justify-center my-4">
-          <button className="bg-[#555363] text-white px-4 py-2 rounded mx-2" onClick={resetGame}>New Game</button>
-          <button className="bg-[#555363] text-white px-4 py-2 rounded mx-2">Single Player</button>
-          <button className="bg-[#555363] text-white px-4 py-2 rounded mx-2">Multi Player</button>
-        </div>
+      <Board
+        currentScores={scores}
+        onScoreSelect={handleScoreSelect}
+        potentialScores={scoreEval}
+        diceRolled={rollsLeft < 3}
+      />
 
-        <Board
-          currentScores={scores}
-          onScoreSelect={handleScoreSelect}
-          potentialScores={scoreEval}
-          diceRolled={rollsLeft < 3}
-        />
-
-        <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={"YOU"} playerTurn={true} rollsLeft={rollsLeft} />
-    </div>
+      <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={"YOU"} playerTurn={true} rollsLeft={rollsLeft} />
   </div>);
 };
 
