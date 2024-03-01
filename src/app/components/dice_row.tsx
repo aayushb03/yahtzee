@@ -71,7 +71,7 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, playerTurn, rollsLeft
       ))}
       {playerTurn && (
         <button
-          className="bg-[#E8CC9D] text-white px-4 py-2 rounded mx-2"
+          className="bg-[#E8CC9D] text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105"
           onClick={() => rollDice(selectedDice)}
         >
           ROLL
