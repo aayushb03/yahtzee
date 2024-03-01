@@ -13,7 +13,6 @@ type DiceRowProps = {
 const DiceRow = ({ dice, rollDice, diceRolled, playerName, playerTurn, rollsLeft = 3 }: DiceRowProps) => {
   const [diceArr, setDiceArr] = useState([0, 0, 0, 0, 0]);
   const [selectedDice, setSelectedDice] = useState([0, 0, 0, 0, 0]);
-  console.log("DiceRow rollsLeft:", rollsLeft);
   useEffect(() => {
     setDiceArr([...dice.dice]);
   }, [dice]);

@@ -72,8 +72,6 @@ const YahtzeeGame = () => {
     setIsPlayerTurn(true);
   };
 
-  console.log("YahtzeeGame rollsLeft:", rollsLeft);
-
   return (
     <div className="flex flex-col h-screen bg-[#CC5D64]" style={{ minWidth: '1162px' }}>
       <div className="flex flex-col items-center">
