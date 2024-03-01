@@ -7,12 +7,12 @@ type DiceRowProps = {
   diceRolled: boolean;
   playerName: string;
   playerTurn: boolean;
+  rollsLeft?: number;
 }
 
-const DiceRow = ({dice, rollDice, diceRolled, playerName, playerTurn} : DiceRowProps) => {
+const DiceRow = ({ dice, rollDice, diceRolled, playerName, playerTurn, rollsLeft = 3 }: DiceRowProps) => {
   const [diceArr, setDiceArr] = useState([0, 0, 0, 0, 0]);
   const [selectedDice, setSelectedDice] = useState([0, 0, 0, 0, 0]);
-
   useEffect(() => {
     setDiceArr([...dice.dice]);
   }, [dice]);
@@ -28,9 +28,38 @@ const DiceRow = ({dice, rollDice, diceRolled, playerName, playerTurn} : DiceRowP
     setSelectedDice(newSelectedDice);
   }
 
+  type VerticalProgressBarProps = {
+    rollsLeft: number;
+  };
+  
+  /* vertical progress bar for rolls left */
+  const VerticalProgressBar = ({ rollsLeft }: VerticalProgressBarProps) => (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column-reverse', 
+      height: '60px',
+      width: '20px',
+      marginLeft: '10px',
+      marginRight: '10px',
+      border: '1px solid #879CB9',
+      borderRadius: '5px', 
+      overflow: 'hidden' 
+    }}>
+      {Array.from({ length: 3 }).map((_, index) => (
+        <div key={index} style={{
+          height: '20px',
+          backgroundColor: index < rollsLeft ? '#879CB9' : 'transparent',
+          transition: 'background-color 0.3s ease'
+        }} />
+      ))}
+    </div>
+  );
+  
+  
   return (
     <div className="flex justify-center items-center my-4">
       <div className="text-4xl text-white mr-4">{playerName}</div>
+      <VerticalProgressBar rollsLeft={rollsLeft} />
       {diceArr.map((die, index) => (
         <div key={index}
              onClick={() => handleDiceClick(index)}
@@ -45,7 +74,6 @@ const DiceRow = ({dice, rollDice, diceRolled, playerName, playerTurn} : DiceRowP
           className="bg-[#E8CC9D] text-white px-4 py-2 rounded mx-2"
           onClick={() => rollDice(selectedDice)}
         >
-          {/* Roll ({rollsLeft}) */}
           ROLL
         </button>
       )}
