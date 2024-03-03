@@ -240,22 +240,18 @@ B --> |Next.js| C
 C --> |SQL Queries| D
 ```
 
+## Coding Style and Naming Convention
 
-## Coding Style and Naming Conventions
-<!--Here you can document your coding standards and conventions. This includes decisions about naming, style guides, etc.-->
+We will be using typescript to complete this project. The following standards are a synopsis of the typescript style guide from Google.
 
-### Language
-
-This project will use TypeScript with React for the frontend, Next.js for the backend, and a MySQL database.
-
-### Coding Style
-
-We adhere to clean and readable code following common TypeScript conventions. Please make sure your code follows these conventions.
-
-### Naming Conventions
-
-1. **Variables**: Use meaningful and descriptive names for variables. Follow the camelCase naming convention.
-
+### Formatting:
+- Use 2 spaces for indentation.
+    ```typescript
+    function exampleFunction() {
+      // code here
+    }
+    ```
+- Prefer camelCase for variable and function names.
     ```typescript
     // Good
     const userName = "JohnDoe";
@@ -263,28 +259,130 @@ We adhere to clean and readable code following common TypeScript conventions. Pl
     // Avoid
     const un = "JohnDoe";
     ```
+- Limit lines to 80 characters.
 
-2. **Functions/Methods**: Use verbs or verb phrases for function names. Follow the camelCase naming convention.
-
+### Type Annotations:
+- Prefer explicit typing over implicit typing when the type is not clear.
     ```typescript
-    // Good
-    function calculateTotal(price: number, quantity: number): number {
-        return price * quantity;
-    }
-    
-    // Avoid
-    function total(p: number, q: number): number {
-        return p * q;
+    // Explicit typing
+    let count: number = 5;
+
+    // Implicit typing (when the type is clear)
+    let message = "Hello, TypeScript!";
+    ```
+
+- Use type annotations for parameters and return types in functions.
+    ```typescript
+    function addNumbers(a: number, b: number): number {
+      return a + b;
     }
     ```
 
-3. **Constants**: Use uppercase letters with underscores for constant variable names.
-
+### Interfaces:
+- Use interfaces for shapes and contracts.
     ```typescript
-    // Good
-    const MAX_RETRIES = 3;
-    
-    // Avoid
-    const maxRetries = 3;
+    interface IUser {
+      name: string;
+      age: number;
+    }
     ```
+
+### Modules:
+- Use ES6-style imports over the older `require` syntax.
+    ```typescript 
+    import { Module } from 'module';
+    ```
+
+- Avoid using wildcard imports.
+    ```typescript
+    // Avoid this
+    import * as myModule from 'module';
+    ```
+
+### Variables:
+- Prefer `const` over `let` for variable declarations.
+    ```typescript
+    const PI = 3.14;
+    ```
+
+- Avoid using `var`.
+    ```typescript
+    // Avoid this
+    var x = 5;
+    ```
+
+### Functions:
+- Prefer arrow functions over function expressions for concise syntax.
+    ```typescript
+    const addNumbers = (a: number, b: number): number => a + b;
+    ```
+
+### Promises and Async/Await:
+- Prefer using Promises and async/await over callbacks.
+    ```typescript
+    // Using Promises
+    function fetchData(): Promise<Data> {
+      // implementation
+    }
+
+    // Using async/await
+    async function fetchDataAsync(): Promise<Data> {
+      // implementation
+    }
+    ```
+
+- Ensure proper error handling for Promises.
+    ```typescript
+    fetchData().then(data => {
+      // success
+    }).catch(error => {
+      // handle error
+    });
+    ```
+
+### Naming Conventions:
+- Use descriptive and meaningful names for variables and functions.
+    ```typescript
+    // Descriptive variable name
+    let totalAmount = 100;
+
+    // Descriptive function name
+    function calculateTotalAmount() {
+      // implementation
+    }
+    ```
+
+- Prefix interfaces with `I` (e.g., `IUser`).
+    ```typescript
+    interface IUser {
+      name: string;
+      age: number;
+    }
+    ```
+
+### Comments:
+- Write clear and concise comments where necessary.
+- Avoid unnecessary or redundant comments.
+
+### Linting:
+- Use a linter to enforce coding standards.
+- Consider tools like ESLint (we will use ESLint).
+
+### Testing:
+- Write unit tests for functions and modules.
+    ```typescript
+    // Example test using Jest
+    test('addNumbers adds two numbers correctly', () => {
+      expect(addNumbers(2, 3)).toBe(5);
+    });
+    ```
+
+- Follow testing best practices (as laid out in class and the book).
+    ```typescript
+    // Example of a well-named test
+    test('calculateTotalAmount calculates the sum of positive numbers correctly', () => {
+      // implementation
+    });
+    ```
+
 
