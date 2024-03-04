@@ -78,12 +78,12 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
     const cellClass = player === 'you' ? `bg-[#E8CC9D] text-center` : `bg-[#F5F5F5] text-center`;
 
     return (
-        <td
-          className={cellClass}
-        >
-          {score !== undefined ? <span className="text-black">{score}</span> : <span className={styles.score}>0</span>}
-        </td>
-      );
+      <td
+        className={cellClass}
+      >
+        {score !== undefined ? <span className="text-black">{score}</span> : <span className={styles.score}>0</span>}
+      </td>
+    );
 
   }
 

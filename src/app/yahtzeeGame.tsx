@@ -36,7 +36,7 @@ const YahtzeeGame = ({changePlayers} : YahtzeeGameProps) => {
   const rollDice = (selectedDice? : number[]) => {
     if (rollsLeft > 0) {
       if (selectedDice) {
-        let indices = [];
+        const indices = [];
         for (let i = 0; i < selectedDice.length; i++) {
           if (selectedDice[i] == 0) {
             indices.push(i);
@@ -95,7 +95,7 @@ const YahtzeeGame = ({changePlayers} : YahtzeeGameProps) => {
       />
 
       <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={"YOU"} playerTurn={true} rollsLeft={rollsLeft} />
-  </div>);
+    </div>);
 };
 
 export default YahtzeeGame;
