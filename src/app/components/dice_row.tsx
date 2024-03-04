@@ -6,13 +6,13 @@ type DiceRowProps = {
   rollDice: (selectedDice: number[]) => void;
   diceRolled: boolean;
   playerName: string;
-  playerTurn: boolean;
   rollsLeft?: number;
 }
 
-const DiceRow = ({ dice, rollDice, diceRolled, playerName, playerTurn, rollsLeft = 3 }: DiceRowProps) => {
+const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: DiceRowProps) => {
   const [diceArr, setDiceArr] = useState([0, 0, 0, 0, 0]);
   const [selectedDice, setSelectedDice] = useState([0, 0, 0, 0, 0]);
+
   useEffect(() => {
     setDiceArr([...dice.dice]);
   }, [dice]);
@@ -58,7 +58,7 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, playerTurn, rollsLeft
   
   return (
     <div className="flex justify-center items-center my-4">
-      <div className="text-4xl text-white mr-4">{playerName}</div>
+      {/*{playerName && <div className="text-4xl text-white mr-4">{playerName}'s turn: </div>}*/}
       <VerticalProgressBar rollsLeft={rollsLeft} />
       {diceArr.map((die, index) => (
         <div key={index}
@@ -69,14 +69,12 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, playerTurn, rollsLeft
           </div>
         </div>
       ))}
-      {playerTurn && (
-        <button
-          className="bg-[#E8CC9D] text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105"
-          onClick={() => rollDice(selectedDice)}
-        >
-          ROLL
-        </button>
-      )}
+      <button
+        className="bg-[#E8CC9D] text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105"
+        onClick={() => rollDice(selectedDice)}
+      >
+        ROLL
+      </button>
     </div>
   );
 }

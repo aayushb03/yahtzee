@@ -3,14 +3,29 @@ import GameModeCard from './gameModeCard'
 import YahtzeeGame from './yahtzeeGame'
 import React, {useState} from "react";
 import {GameStatus as GS} from "@/models/enums";
+import {Player} from "@/models/player";
 
 export default function Home() {
-  const [gameStatus, setGameStatus] = useState<GS>(GS.AddPlayers)
+  const [gameStatus, setGameStatus] = useState<GS>(GS.AddPlayers);
+  const [players, setPlayers] = useState<Player[]>([]);
 
-  const startGame = (players : string[]) => {
+  /**
+   * Starts the game with the given players and number of players.
+   * @param playerNames
+   * @param numPlayers
+   */
+  const startGame = (playerNames : string[], numPlayers : number) => {
+    let newPlayers = [];
+    for (let i = 0; i < numPlayers; i++) {
+      newPlayers.push(new Player(playerNames[i]));
+    }
+    setPlayers(newPlayers);
     setGameStatus(GS.InProgress);
   }
 
+  /**
+   * Changes the players in the game.
+   */
   const changePlayers = () => {
     setGameStatus(GS.AddPlayers);
   }
@@ -19,7 +34,7 @@ export default function Home() {
     <div className="flex flex-col h-screen bg-[#CC5D64]" style={{ minWidth: '1162px' }}>
       <h1 className="text-6xl text-white my-4 w-full text-center">YAHTZEE</h1>
       {gameStatus == GS.AddPlayers &&  <GameModeCard startYahtzee={startGame}/>}
-      {gameStatus == GS.InProgress && <YahtzeeGame changePlayers={changePlayers}/>}
+      {gameStatus == GS.InProgress && <YahtzeeGame changePlayers={changePlayers} players={players}/>}
     </div>
   );
 }
