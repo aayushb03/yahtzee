@@ -39,15 +39,15 @@ const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
         <div className={"flex justify-around"}>
           <button className={`bg-[#555363] border-[#555363] px-2 py-1 rounded mx-1 w-48 border transition hover:scale-105
           ${gameMode == GM.Local ? 'bg-[#555363] text-white' : 'bg-white'}`}
-                  onClick={() => {
-                    setGameMode(GM.Local)
-                  }}>Local
+          onClick={() => {
+            setGameMode(GM.Local)
+          }}>Local
           </button>
           <button className={`bg-[#555363] border-[#555363] px-2 py-1 rounded mx-1 w-48 border transition hover:scale-105
           ${gameMode == GM.Online ? 'bg-[#555363] text-white' : 'bg-white'}`}
-                  onClick={() => {
-                    setGameMode(GM.Online)
-                  }}>Online
+          onClick={() => {
+            setGameMode(GM.Online)
+          }}>Online
           </button>
         </div>
         <div className={"flex flex-col h-48 items-center w-full py-2"}>
@@ -61,24 +61,24 @@ const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
                       Player {playerNum}:
                     </div>
                     <input className={`border-b-[1px] ${players[i].trim() == "" ? "border-red-500" : "border-gray-400"} outline-0 text-center w-32`}
-                           defaultValue={players[i]}
-                           onChange={(e) => onPlayerChange(i, e.target.value)}
+                      defaultValue={players[i]}
+                      onChange={(e) => onPlayerChange(i, e.target.value)}
                     />
                   </div>
                 </div>
               );
             })}
-              <div className={"flex justify-center items-center h-8 mt-2"}>
-                {numPlayers != 4 &&
+            <div className={"flex justify-center items-center h-8 mt-2"}>
+              {numPlayers != 4 &&
                     <button
-                        className={"bg-green-200 rounded mx-1 w-24 border border-green-500 transition hover:scale-105"}
-                        onClick={addPlayer}>Add</button>
-                }
-                {numPlayers != 1 &&
+                      className={"bg-green-200 rounded mx-1 w-24 border border-green-500 transition hover:scale-105"}
+                      onClick={addPlayer}>Add</button>
+              }
+              {numPlayers != 1 &&
                     <button className={"bg-red-200 rounded mx-1 w-24 border border-red-500 transition hover:scale-105"}
-                            onClick={removePlayer}>Remove</button>
-                }
-              </div>
+                      onClick={removePlayer}>Remove</button>
+              }
+            </div>
           </>}
           {gameMode == GM.Online && <>
               (Online game mode options)

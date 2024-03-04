@@ -23,7 +23,7 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
 
   const handleDiceClick = (index: number) => {
     if (!diceRolled) return;
-    let newSelectedDice = [...selectedDice];
+    const newSelectedDice = [...selectedDice];
     newSelectedDice[index] = newSelectedDice[index] == 0 ? 1 : 0;
     setSelectedDice(newSelectedDice);
   }
@@ -62,8 +62,8 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
       <VerticalProgressBar rollsLeft={rollsLeft} />
       {diceArr.map((die, index) => (
         <div key={index}
-             onClick={() => handleDiceClick(index)}
-             className={`p-4 mx-1 rounded-full cursor:pointer text-2xl text-black ${diceRolled && 'cursor-pointer hover:bg-gray-400'} ${selectedDice[index]==1 ? 'bg-gray-400' : "bg-white"}` }>
+          onClick={() => handleDiceClick(index)}
+          className={`p-4 mx-1 rounded-full cursor:pointer text-2xl text-black ${diceRolled && 'cursor-pointer hover:bg-gray-400'} ${selectedDice[index]==1 ? 'bg-gray-400' : "bg-white"}` }>
           <div className={"w-4 h-7 text-center"}>
             {die != 0 && die}
           </div>

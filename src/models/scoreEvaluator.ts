@@ -84,7 +84,7 @@ export class ScoreEvaluator implements IScoreEvaluator {
    * @returns The sum of all the dice if there are N or more of the same number, otherwise 0.
    */
   private calculateNOfAKind(n: 3 | 4): number {
-    for (let key in this.counts) {
+    for (const key in this.counts) {
       if (this.counts[key] >= n) {
         return this.sum;
       }
@@ -99,7 +99,7 @@ export class ScoreEvaluator implements IScoreEvaluator {
   private calculateFullHouse(): number {
     let contains2 = false;
     let contains3 = false;
-    for (let key in this.counts) {
+    for (const key in this.counts) {
       if (this.counts[key] === 2) contains2 = true;
       if (this.counts[key] === 3) contains3 = true;
     }
@@ -130,7 +130,7 @@ export class ScoreEvaluator implements IScoreEvaluator {
    */
   private calculateYahtzee(): number {
     if (this.dice[0] == 0) return 0;
-    for (let key in this.counts) {
+    for (const key in this.counts) {
       if (this.counts[key] === 5) return 50;
     }
     return 0;
