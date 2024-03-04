@@ -7,6 +7,8 @@ import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import { ScoreCategory } from "@/models/enums";
 import {Player} from "@/models/player";
 import {LocalPlayers} from "@/models/localPlayers";
+import { Baloo_2 } from "next/font/google";
+const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type YahtzeeGameProps = {
   changePlayers: () => void;
@@ -97,17 +99,19 @@ const YahtzeeGame = ({changePlayers, players} : YahtzeeGameProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-center my-4">
+      <div className={`flex justify-center my-4 ${baloo2.className}`}>
         <button className="bg-[#555363] text-white px-4 py-2 rounded mx-2 w-48 transition hover:scale-105" onClick={resetGame}>New Game</button>
         <button className="bg-[#555363] text-white px-4 py-2 rounded mx-2 w-48 transition hover:scale-105" onClick={changePlayersAndReset}>Change Players</button>
       </div>
 
-      <Board
-        currentPlayers={curPlayers}
-        onScoreSelect={handleScoreSelect}
-        potentialScores={scoreEval}
-        diceRolled={rollsLeft < 3}
-      />
+      <div className={baloo2.className}>
+        <Board
+          currentPlayers={curPlayers}
+          onScoreSelect={handleScoreSelect}
+          potentialScores={scoreEval}
+          diceRolled={rollsLeft < 3}
+        />
+      </div>
 
       <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={curPlayers.getCurrentPlayer().name} rollsLeft={rollsLeft} />
   </div>);

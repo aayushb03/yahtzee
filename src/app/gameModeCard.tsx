@@ -1,6 +1,8 @@
 'use client';
 import {useState} from "react";
 import {GameMode as GM} from "@/models/enums";
+import { Baloo_2 } from "next/font/google";
+const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type GameModeCardProps = {
   startYahtzee: (players: string[], numPlayers : number) => void;
@@ -50,7 +52,7 @@ const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
           }}>Online
           </button>
         </div>
-        <div className={"flex flex-col h-48 items-center w-full py-2"}>
+        <div className={`flex flex-col h-48 items-center w-full py-2 ${baloo2.className}`}>
           {gameMode == GM.Local && <>
             {[...Array(numPlayers)].map((_, i) => {
               const playerNum = i + 1;
@@ -84,7 +86,7 @@ const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
               (Online game mode options)
           </>}
         </div>
-        <div className={"flex justify-center items-center"}>
+        <div className={`flex justify-center items-center ${baloo2.className}`}>
           <button
             className="bg-[#CC5D64] px-2 py-1 text-white rounded mx-1 w-32 border transition hover:scale-110" onClick={startGame}>
             Start Game!
