@@ -3,7 +3,7 @@ import {useState} from "react";
 import {GameMode as GM} from "@/models/enums";
 
 type GameModeCardProps = {
-  startYahtzee: (players: string[]) => void;
+  startYahtzee: (players: string[], numPlayers : number) => void;
 }
 
 const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
@@ -25,13 +25,12 @@ const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
     setPlayers(newPlayers);
   }
   const startGame = () => {
-    console.log(players);
     for (let i = 0; i < numPlayers; i++) {
       if (players[i].trim() == "") {
         return;
       }
     }
-    startYahtzee(players);
+    startYahtzee(players, numPlayers);
   }
 
   return (

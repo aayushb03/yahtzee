@@ -1,19 +1,18 @@
-import React, {useState} from 'react';
 import styles from './Board.module.css';
 import { ScoreCategory as SC } from '@/models/enums';
-import { Scorecard } from '@/models/scorecard';
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
+import {LocalPlayers} from "@/models/localPlayers";
+import {Player} from "@/models/player";
 
 type BoardProps = {
-  currentScores: Scorecard;
+  currentPlayers: LocalPlayers;
   potentialScores: ScoreEvaluator;
   onScoreSelect: (category: SC, score: number) => void;
   diceRolled: boolean;
 }
 
-const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : BoardProps) => {
-  // const [currentPlayer, setCurrentPlayer] = React.useState<'you' | 'bill'>('you');
-  const currentPlayer = 'you';
+const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : BoardProps) => {
+
 
   /**
    * Renders a cell in the scorecard table.
@@ -21,15 +20,16 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
    * @param category 
    * @returns  The cell to render.
    */
-  const renderScoreCell = (player : string, category: SC) => {
-    let score = currentScores.scores[category];
+  const renderScoreCell = (player : Player, category: SC) => {
+    let score = player.scorecard.scores[category];
     let potential = false;
-    if (score === -1) {
+    let isPlayersTurn = currentPlayers.isPlayersTurn(player);
+    if (score === -1 && isPlayersTurn) {
       potential = true;
       score = potentialScores.scores[category];
     }
-    let cellClass = player === 'you' ? `bg-[#E8CC9D] text-center` : `bg-[#F5F5F5] text-center`;
-    cellClass += (diceRolled && potential && player === 'you') ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
+    let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-[#E8CC9D] text-center` : `bg-[#F5F5F5] text-center`;
+    cellClass += (diceRolled && potential && currentPlayers.isPlayersTurn(player)) ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
 
     if (!diceRolled && potential) {
       return (
@@ -45,7 +45,7 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
             onScoreSelect(category, score);
           }}
         >
-          {score !== undefined ? <span className="text-red-600">{score}</span> : <span className={styles.score}>0</span>}
+          {score != undefined ? <span className="text-red-600">{score}</span> : <span className={styles.score}>0</span>}
         </td>
       );
     } else {
@@ -53,7 +53,7 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
         <td
           className={cellClass}
         >
-          {score !== undefined ? <span className="text-black">{score}</span> : <span className={styles.score}>0</span>}
+          {score != -1 ? <span className="text-black">{score}</span> : <span className={styles.score}></span>}
         </td>
       );
     }
@@ -65,17 +65,17 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
    * @param category 
    * @returns  The cell to render.
    */
-  const renderTotalScoreCell = (player : string, category: string) => {
+  const renderTotalScoreCell = (player : Player, category: string) => {
     let score = 0;
     if (category === 'TopTotal') {
-      score = currentScores.topTotal;
+      score = player.scorecard.topTotal;
     } else if (category === 'TotalScore') {
-      score = currentScores.totalScore;
+      score = player.scorecard.totalScore;
     } else {
-      score = currentScores.topBonus;
+      score = player.scorecard.topBonus;
     }
 
-    const cellClass = player === 'you' ? `bg-[#E8CC9D] text-center` : `bg-[#F5F5F5] text-center`;
+    let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-[#E8CC9D] text-center` : `bg-[#F5F5F5] text-center`;
 
     return (
       <td
@@ -103,21 +103,26 @@ const Board = ({ currentScores, potentialScores, onScoreSelect, diceRolled } : B
       <thead>
         <tr>
           <th className={styles.tableHeader}>ROLLS</th>
-          <th className={`${styles.tableHeader} ${styles.playerHeader}`}>YOU</th>
-          {/*<th className={`${styles.tableHeader} ${styles.playerHeader}`}>BILL</th>*/}
+          {currentPlayers.players.map(player => (
+            <th className={`${styles.tableHeader} ${styles.playerHeader}`}>{player.name}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
         {categories.map(category => (
           <tr key={category}>
             <td className={styles.tableCell}>{category}</td>
-            {renderScoreCell('you', category)}
+            {currentPlayers.players.map(player => (
+              renderScoreCell(player, category)
+            ))}
           </tr>
         ))}
         {totals.map(category => (
           <tr key={category}>
             <td className={styles.tableCell}>{category}</td>
-            {renderTotalScoreCell('you', category)}
+            {currentPlayers.players.map(player => (
+              renderTotalScoreCell(player, category)
+            ))}
           </tr>
         ))}
       </tbody>

@@ -3,27 +3,33 @@ import React, { useEffect, useState } from 'react';
 import Board from './components/board'
 import DiceRow from "@/app/components/dice_row";
 import { Dice } from "@/models/dice";
-import { Scorecard } from "@/models/scorecard";
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import { ScoreCategory } from "@/models/enums";
+import {Player} from "@/models/player";
+import {LocalPlayers} from "@/models/localPlayers";
 
 type YahtzeeGameProps = {
   changePlayers: () => void;
+  players: Player[];
 }
 
-const YahtzeeGame = ({changePlayers} : YahtzeeGameProps) => {
+const YahtzeeGame = ({changePlayers, players} : YahtzeeGameProps) => {
   const [dice, setDice] = useState(new Dice());
-  const [scores, setScores] = useState<Scorecard>(new Scorecard());
+  // const [scores, setScores] = useState<Scorecard>(new Scorecard());
   const [scoreEval, setScoreEval] = useState<ScoreEvaluator>(new ScoreEvaluator(dice));
   const [rollsLeft, setRollsLeft] = useState(3);
-  const [isPlayerTurn, setIsPlayerTurn] = useState(true);
+  const [curPlayers, setCurPlayers] = useState<LocalPlayers>(new LocalPlayers([]));
+  const [gameLoaded, setGameLoaded] = useState(false);
 
   /**
    * Resets the game to the initial state.
    */
   useEffect(() => {
     setDice(new Dice());
-    setScores(new Scorecard());
+    // setScores(new Scorecard());
+    setRollsLeft(3);
+    setCurPlayers(new LocalPlayers([...players], true));
+    setGameLoaded(true);
   }, []);
 
   /** 
@@ -33,6 +39,10 @@ const YahtzeeGame = ({changePlayers} : YahtzeeGameProps) => {
     setScoreEval(new ScoreEvaluator(dice));
   }, [dice]);
 
+  /**
+   * Rolls the dice.
+   * @param selectedDice an array of ones and zeros to indicate which dice to roll.
+   */
   const rollDice = (selectedDice? : number[]) => {
     if (rollsLeft > 0) {
       if (selectedDice) {
@@ -59,10 +69,11 @@ const YahtzeeGame = ({changePlayers} : YahtzeeGameProps) => {
    * @param score 
    */
   const handleScoreSelect = (category: ScoreCategory, score: number) => {
-    scores.addScore(category, score);
-    setScores(new Scorecard(scores));
+    curPlayers.getCurrentPlayer().scorecard.addScore(category, score);
+    curPlayers.nextTurn();
     setDice(new Dice());
     setRollsLeft(3);
+    setCurPlayers(new LocalPlayers([...curPlayers.players], false, curPlayers.currentTurn));
   };
 
   /**
@@ -70,14 +81,18 @@ const YahtzeeGame = ({changePlayers} : YahtzeeGameProps) => {
    */
   const resetGame = () => {
     setDice(new Dice());
-    setScores(new Scorecard());
+    curPlayers.clearScores();
+    setCurPlayers(new LocalPlayers([...players], true));
     setRollsLeft(3);
-    setIsPlayerTurn(true);
   };
 
   const changePlayersAndReset = () => {
     resetGame();
     changePlayers();
+  }
+
+  if (!gameLoaded) {
+    return <div></div>;
   }
 
   return (
@@ -88,14 +103,14 @@ const YahtzeeGame = ({changePlayers} : YahtzeeGameProps) => {
       </div>
 
       <Board
-        currentScores={scores}
+        currentPlayers={curPlayers}
         onScoreSelect={handleScoreSelect}
         potentialScores={scoreEval}
         diceRolled={rollsLeft < 3}
       />
 
-      <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={"YOU"} playerTurn={true} rollsLeft={rollsLeft} />
-    </div>);
+      <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={curPlayers.getCurrentPlayer().name} rollsLeft={rollsLeft} />
+  </div>);
 };
 
 export default YahtzeeGame;
