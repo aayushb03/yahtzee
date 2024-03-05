@@ -32,7 +32,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen bg-[#CC5D64]" style={{ minWidth: '1162px' }}>
-      <h1 className="text-6xl text-white my-4 w-full text-center">YAHTZEE</h1>
+      <h1 className="text-6xl text-white my-4 w-full text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)]">YAHTZEE</h1>
       {gameStatus == GS.AddPlayers &&  <GameModeCard startYahtzee={startGame}/>}
       {gameStatus == GS.InProgress && <YahtzeeGame changePlayers={changePlayers} players={players}/>}
     </div>
