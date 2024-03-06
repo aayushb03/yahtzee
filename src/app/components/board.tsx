@@ -28,7 +28,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
       potential = true;
       score = potentialScores.scores[category];
     }
-    let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-[#E8CC9D] text-center` : `bg-[#F5F5F5] text-center`;
+    let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center` : `text-center`;
     cellClass += (diceRolled && potential && currentPlayers.isPlayersTurn(player)) ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
 
     if (!diceRolled && potential) {
@@ -45,7 +45,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
             onScoreSelect(category, score);
           }}
         >
-          {score != undefined ? <span className="text-red-600">{score}</span> : <span className={styles.score}>0</span>}
+          {score != undefined ? <span className="text-app-red">{score}</span> : <span className={styles.score}>0</span>}
         </td>
       );
     } else {

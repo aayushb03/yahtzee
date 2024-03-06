@@ -42,14 +42,14 @@ const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
     <div className={"flex h-full w-full justify-center items-center mb-40"}>
       <div className={"flex flex-col p-2 w-96 rounded-xl bg-white text-black shadow-2xl"}>
         <div className={"flex justify-around"}>
-          <button className={`bg-[#555363] border-[#555363] px-2 py-1 rounded mx-1 w-48 border transition hover:scale-105
-          ${gameMode == GM.Local ? 'bg-[#555363] text-white' : 'bg-white'}`}
+          <button className={`border-app-gray px-2 py-1 rounded mx-1 w-48 border transition hover:scale-105
+          ${gameMode == GM.Local ? 'bg-app-gray text-white' : 'bg-white'}`}
           onClick={() => {
             setGameMode(GM.Local)
           }}>Local
           </button>
-          <button className={`bg-[#555363] border-[#555363] px-2 py-1 rounded mx-1 w-48 border transition hover:scale-105
-          ${gameMode == GM.Online ? 'bg-[#555363] text-white' : 'bg-white'}`}
+          <button className={`border-app-gray px-2 py-1 rounded mx-1 w-48 border transition hover:scale-105
+          ${gameMode == GM.Online ? 'bg-app-gray text-white' : 'bg-white'}`}
           onClick={() => {
             setGameMode(GM.Online)
           }}>Online
@@ -65,11 +65,11 @@ const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
                     <div className={"text-xl"}>
                       Player {playerNum}:
                     </div>
-                    <input className={`border-b-[1px] text-xl ${players[i].trim() == "" ? "border-red-500" : "border-gray-400"} outline-0 text-center w-32`}
+                    <input className={`border-b-[1px] text-xl ${players[i].trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-32`}
                       value={players[i]}
                       onChange={(e) => onPlayerChange(i, e.target.value)}
                     />
-                    <button className={"hover:text-red-600"} onClick={() => {removePlayer(i)}}><RxCross1/></button>
+                    <button className={"hover:text-app-red"} onClick={() => {removePlayer(i)}}><RxCross1/></button>
                   </div>
                 </div>
               );
@@ -77,7 +77,7 @@ const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
             <div className={"flex justify-center items-center h-8 mt-2"}>
               {numPlayers != 4 &&
                     <button
-                      className={"bg-[#879CB9] text-white rounded mx-1 w-24 shadow-xl transition hover:scale-105"}
+                      className={"bg-app-light-gray text-white rounded mx-1 w-24 shadow-xl transition hover:scale-105"}
                       onClick={addPlayer}>Add</button>
               }
             </div>
@@ -88,7 +88,7 @@ const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
         </div>
         <div className={`flex justify-center items-center ${baloo2.className}`}>
           <button
-            className="bg-[#E8CC9D] text-[#555363] text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow" onClick={startGame}>
+            className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow" onClick={startGame}>
             START GAME
           </button>
         </div>
