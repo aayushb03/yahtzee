@@ -22,4 +22,5 @@ export enum GameMode {
 export enum GameStatus {
   AddPlayers = 'AddPlayers',
   InProgress = 'InProgress',
+  EndGame = 'EndGame'
 }

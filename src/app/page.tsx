@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import {GameStatus as GS} from "@/models/enums";
 import {Player} from "@/models/player";
 import { getAllScores, addScore, clearScores } from "@/services/scoreService";
+import EndPageCard from './endPageCard';
 
 export default function Home() {
   const [gameStatus, setGameStatus] = useState<GS>(GS.AddPlayers);
@@ -50,11 +51,25 @@ export default function Home() {
     setGameStatus(GS.AddPlayers);
   }
 
+  /**
+   * Restarts the game.
+   */
+  const restartGame = () => {
+    setPlayers([]);
+    setGameStatus(GS.AddPlayers);
+  }
+
+  const playerScores = players.map(player => ({
+    name: player.name,
+    score: player.scorecard.totalScore,
+  }));
+
   return (
     <div className="flex flex-col h-screen bg-app-red" style={{ minWidth: '1162px' }}>
       <h1 className="text-6xl text-white my-4 w-full text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)]">YAHTZEE</h1>
       {gameStatus == GS.AddPlayers &&  <GameModeCard startYahtzee={startGame}/>}
       {gameStatus == GS.InProgress && <YahtzeeGame changePlayers={changePlayers} players={players}/>}
+      {gameStatus === GS.EndGame && <EndPageCard playersScores={playerScores} onRestart={restartGame} />}
     </div>
   );
 }
