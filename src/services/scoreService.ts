@@ -29,7 +29,7 @@ export async function clearScores() {
   return await response.json();
 }
 
-interface Score {
+export interface Score {
   Game_Num: number;
   Player_Name: string;
   Score: number;
