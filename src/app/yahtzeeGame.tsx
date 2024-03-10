@@ -12,10 +12,11 @@ const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type YahtzeeGameProps = {
   changePlayers: () => void;
+  endGame: () => void;
   players: Player[];
 }
 
-const YahtzeeGame = ({changePlayers, players} : YahtzeeGameProps) => {
+const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
   const [dice, setDice] = useState(new Dice());
   // const [scores, setScores] = useState<Scorecard>(new Scorecard());
   const [scoreEval, setScoreEval] = useState<ScoreEvaluator>(new ScoreEvaluator(dice));
@@ -75,7 +76,10 @@ const YahtzeeGame = ({changePlayers, players} : YahtzeeGameProps) => {
     curPlayers.nextTurn();
     setDice(new Dice());
     setRollsLeft(3);
-    setCurPlayers(new LocalPlayers([...curPlayers.players], false, curPlayers.currentTurn));
+    setCurPlayers(new LocalPlayers([...curPlayers.players], false, curPlayers.currentTurn, curPlayers.overallTurn));
+    if (curPlayers.getIsGameOver()) {
+      endGame();
+    }
   };
 
   /**

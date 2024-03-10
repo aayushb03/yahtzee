@@ -14,17 +14,17 @@ export default function Home() {
   // Temporary code to test the score service.
   useEffect(() => {
     console.log('Testing score service');
-    getAllScores().then((scores) => {
-      console.log(scores);
-    });
-    clearScores().then((response) => {
-      console.log(response);
-    });
-    getAllScores().then((scores) => {
-      console.log(scores);
-    });
-    addScore('test', 200).then(() => {});
-    addScore('test2', 300).then(() => {});
+    // getAllScores().then((scores) => {
+    //   console.log(scores);
+    // });
+    // clearScores().then((response) => {
+    //   console.log(response);
+    // });
+    // getAllScores().then((scores) => {
+    //   console.log(scores);
+    // });
+    // addScore('test', 200).then(() => {});
+    // addScore('test2', 300).then(() => {});
     getAllScores().then((scores) => {
       console.log(scores);
     });
@@ -44,6 +44,13 @@ export default function Home() {
     setGameStatus(GS.InProgress);
   }
 
+  const endGame = () => {
+    setGameStatus(GS.EndGame);
+    for (let player of players) {
+      addScore(player.name, player.scorecard.totalScore).then(() => {});
+    }
+  }
+
   /**
    * Changes the players in the game.
    */
@@ -59,17 +66,12 @@ export default function Home() {
     setGameStatus(GS.AddPlayers);
   }
 
-  const playerScores = players.map(player => ({
-    name: player.name,
-    score: player.scorecard.totalScore,
-  }));
-
   return (
     <div className="flex flex-col h-screen bg-app-red" style={{ minWidth: '1162px' }}>
       <h1 className="text-6xl text-white my-4 w-full text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)]">YAHTZEE</h1>
-      {gameStatus == GS.AddPlayers &&  <GameModeCard startYahtzee={startGame}/>}
-      {gameStatus == GS.InProgress && <YahtzeeGame changePlayers={changePlayers} players={players}/>}
-      {gameStatus === GS.EndGame && <EndPageCard playersScores={playerScores} onRestart={restartGame} />}
+      {gameStatus == GS.AddPlayers &&  <GameModeCard startYahtzee={startGame} currentPlayers={players}/>}
+      {gameStatus == GS.InProgress && <YahtzeeGame changePlayers={changePlayers} players={players} endGame={endGame}/>}
+      {gameStatus === GS.EndGame && <EndPageCard players={players} onRestart={restartGame} />}
     </div>
   );
 }
