@@ -14,14 +14,14 @@ type EndPageCardProps = {
 
 const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
   const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
-  const [recentScores, setRecentScores] = useState<Score[]>([]);
+  const [leaderboardScores, setLeaderboardScores] = useState<Score[]>([]);
 
   useEffect(() => {
     let curPlayers = [...players];
     setCurrentPlayers(curPlayers.sort((a, b) => b.scorecard.totalScore - a.scorecard.totalScore));
     getAllScores().then((scores: Score[]) => { // can change this to get the top 10 scores 
       let sortedScores = scores.sort((a, b) => b.Score - a.Score);
-      setRecentScores(sortedScores.slice(0,10));
+      setLeaderboardScores(sortedScores.slice(0,10));
     });
   }, [players]);
 
@@ -46,21 +46,30 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
             </div>
           ))}
         </div>
-        <div className={"text-2xl text-center"}>
-          Recent Scores
-        </div>
-        <div className={`flex flex-col items-center w-full py-4 ${baloo2.className}`}>
-          {recentScores.map((entry, index) => (
-            <div key ={index} className="text-xl flex w-[80%] border-b">
-                <div className={"text-left w-[50%]"}>
-                {entry.Player_Name}
-              </div>
-              <div className={"text-right w-[50%]"}>
-                {entry.Score}
-              </div>
+        {leaderboardScores?.length !== 0 && (
+          <div>
+            <div className={"text-2xl text-center"}>
+              Leaderboard
             </div>
-          ))}
-        </div>
+            <div className={`flex flex-col items-center w-full py-4 ${baloo2.className}`}>
+              {leaderboardScores.map((entry, index) => (
+                <div
+                  key={index}
+                  className={`text-xl flex w-[80%] border-b ${
+                    currentPlayers.some((player) => player.name === entry.Player_Name) ? 'font-bold' : ''
+                  }`}
+                >
+                  <div className={"text-left w-[50%]"}>
+                    {entry.Player_Name}
+                  </div>
+                  <div className={"text-right w-[50%]"}>
+                    {entry.Score}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         <div className={`flex justify-center items-center ${baloo2.className}`}>
           <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow" onClick={onRestart}>
             Restart Game
