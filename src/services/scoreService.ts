@@ -7,6 +7,11 @@ export async function getAllScores() {
     method: 'GET'
   });
 
+  if (!response.ok) {
+    console.log("Error: ", response.status);
+    return [] as Score[];
+  }
+
   return await response.json() as Score[];
 }
 
@@ -19,6 +24,11 @@ export async function addScore(name: string, score: number) {
     body: JSON.stringify({ name, score })
   });
 
+  if (!response.ok) {
+    console.log("Error: ", response.status);
+    return null;
+  }
+
   return await response.json() as Score;
 }
 
@@ -29,7 +39,7 @@ export async function clearScores() {
   return await response.json();
 }
 
-interface Score {
+export interface Score {
   Game_Num: number;
   Player_Name: string;
   Score: number;

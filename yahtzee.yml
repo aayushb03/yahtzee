@@ -1,0 +1,33 @@
+# ssh -L localhost:53316:localhost:53316 scotts@cs506-team-00.cs.wisc.edu
+# mysql -h localhost -P 53396 --protocol=TCP -u root -p                =>> use password yatzee
+# show databases;
+# use yahtzee;
+# describe Past_Scores; 
+# select * from Past_Scores;
+
+version: '3.8'
+services:
+  db1:
+    image: mysql/mysql-server:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: yahtzee
+      MYSQL_DATABASE: yahtzee
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - wawdat1:/var/lib/mysql
+    ports:
+      - "53316:3306"
+  phpmyadmin1:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    depends_on:
+      - db1
+    environment:
+      PMA_HOST: db1
+      PMA_USER: root
+      PMA_PASSWORD: yahtzee
+    ports:
+      - "50081:80"
+volumes:
+  wawdat1:

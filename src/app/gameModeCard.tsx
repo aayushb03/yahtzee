@@ -1,18 +1,30 @@
 'use client';
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {GameMode as GM} from "@/models/enums";
 import { RxCross1 } from "react-icons/rx";
+import {Player} from "@/models/player";
 import { Baloo_2 } from "next/font/google";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type GameModeCardProps = {
+  currentPlayers: Player[];
   startYahtzee: (players: string[], numPlayers : number) => void;
 }
 
-const GameModeCard = ({ startYahtzee } : GameModeCardProps) => {
+const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   const [gameMode, setGameMode] = useState<GM>(GM.Local)
   const [players, setPlayers] = useState<string[]>(["", "", "", ""])
   const [numPlayers, setNumPlayers] = useState<number>(1)
+
+  useEffect(() => {
+    const newPlayers = ["", "", "", ""]
+    for (let i = 0; i < currentPlayers.length; i++) {
+      if (i >= 4) break;
+      newPlayers[i] = currentPlayers[i].name;
+      setNumPlayers(i + 1);
+    }
+    setPlayers(newPlayers);
+  }, []);
 
   const addPlayer = () => {
     if (numPlayers >= 4) return;
