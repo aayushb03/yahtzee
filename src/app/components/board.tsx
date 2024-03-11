@@ -129,7 +129,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
   )
 
   return (
-    <div className="min-w-[1162px] flex bg-transparent justify-around gap-4">
+    <div className="min-w-[1162px] flex bg-white justify-around gap-4 p-5 rounded-xl shadow text-black">
       <div className="flex flex-1">
         {renderTable(leftTableCategories, leftTableTotalCategories)}
       </div>
