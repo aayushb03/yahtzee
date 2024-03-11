@@ -1,4 +1,3 @@
-import styles from './Board.module.css';
 import { ScoreCategory as SC } from '@/models/enums';
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import {LocalPlayers} from "@/models/localPlayers";
@@ -28,7 +27,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
       potential = true;
       score = potentialScores.scores[category];
     }
-    let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center` : `text-center`;
+    let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center border-x` : `bg-white text-center border-x`;
     cellClass += (diceRolled && potential && currentPlayers.isPlayersTurn(player)) ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
 
     if (!diceRolled && potential) {
@@ -45,7 +44,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
             onScoreSelect(category, score);
           }}
         >
-          {score != undefined ? <span className="text-app-red">{score}</span> : <span className={styles.score}>0</span>}
+          {score != undefined ? <span className="text-app-red">{score}</span> : <span>0</span>}
         </td>
       );
     } else {
@@ -53,7 +52,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
         <td
           className={cellClass}
         >
-          {score != -1 ? <span className="text-black">{score}</span> : <span className={styles.score}></span>}
+          {score != -1 ? <span className="text-black">{score}</span> : <span></span>}
         </td>
       );
     }
@@ -75,13 +74,13 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
       score = player.scorecard.topBonus;
     }
 
-    let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-[#E8CC9D] text-center` : `bg-[#F5F5F5] text-center`;
+    let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center border-x` : `bg-white text-center border-x`;
 
     return (
       <td
         className={cellClass}
       >
-        {score !== undefined ? <span className="text-black">{score}</span> : <span className={styles.score}>0</span>}
+        {score !== undefined ? <span className="text-black">{score}</span> : <span>0</span>}
       </td>
     );
 
@@ -99,19 +98,19 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
    * @returns  The table to render.
    */
   const renderTable = (categories: SC[], totals: string[]) => (
-    <table className={styles.table}>
+    <table className="w-full border-collapse bg-white">
       <thead>
         <tr>
-          <th className={styles.tableHeader}>ROLLS</th>
+          <th className="bg-white p-2 text-left border">ROLLS</th>
           {currentPlayers.players.map(player => (
-            <th className={`${styles.tableHeader} ${styles.playerHeader}`}>{player.name}</th>
+            <th className="bg-white p-2 text-center border">{player.name}</th>
           ))}
         </tr>
       </thead>
       <tbody>
         {categories.map(category => (
           <tr key={category}>
-            <td className={styles.tableCell}>{category}</td>
+            <td className="bg-white p-2 text-left border">{category}</td>
             {currentPlayers.players.map(player => (
               renderScoreCell(player, category)
             ))}
@@ -119,7 +118,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
         ))}
         {totals.map(category => (
           <tr key={category}>
-            <td className={styles.tableCell}>{category}</td>
+            <td className="bg-white p-2 text-left border">{category}</td>
             {currentPlayers.players.map(player => (
               renderTotalScoreCell(player, category)
             ))}
@@ -130,11 +129,11 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
   )
 
   return (
-    <div className={styles.yahtzeeBoard}>
-      <div className={styles.section}>
+    <div className="min-w-[1162px] flex bg-transparent justify-around gap-4">
+      <div className="flex flex-1">
         {renderTable(leftTableCategories, leftTableTotalCategories)}
       </div>
-      <div className={styles.section}>
+      <div className="flex flex-1">
         {renderTable(rightTableCategories, rightTableTotalCategories)}
       </div>
     </div>
