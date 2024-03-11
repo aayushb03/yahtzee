@@ -1,5 +1,5 @@
 # ssh -L localhost:53316:localhost:53316 scotts@cs506-team-00.cs.wisc.edu
-# mysql -h localhost -P 53396 --protocol=TCP -u root -p                =>> use password yatzee
+# mysql -h localhost -P 53316 --protocol=TCP -u root -p                =>> use password yatzee
 # show databases;
 # use yahtzee;
 # describe Past_Scores; 
