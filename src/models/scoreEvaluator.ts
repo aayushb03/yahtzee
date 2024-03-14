@@ -126,7 +126,7 @@ export class ScoreEvaluator implements IScoreEvaluator {
 
   /**
    * Calculates the score for the Yahtzee category.
-   * @returns 50 if all the dice are the same, otherwise 0.
+   * @returns 5 if all the dice are the same, otherwise 0.
    */
   private calculateYahtzee(): number {
     if (this.dice[0] == 0) return 0;
