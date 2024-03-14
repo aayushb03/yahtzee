@@ -57,16 +57,22 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
   
   
   return (
-    <div className="flex justify-center items-center my-4">
-      {/*{playerName && <div className="text-4xl text-white mr-4">{playerName}'s turn: </div>}*/}
+    <div className="flex justify-center items-center my-4 relative" style={{ marginLeft: '50px' }}>
+      {playerName && (
+        <div className="absolute left-0 text-4xl text-white transform -translate-x-full">
+          {playerName}'s turn:
+        </div>
+      )}
       <VerticalProgressBar rollsLeft={rollsLeft} />
       {diceArr.map((die, index) => (
-        <div key={index}
+        <div
+          key={index}
           onClick={() => handleDiceClick(index)}
-          className={`p-4 mx-1 rounded-full cursor:pointer text-2xl text-black ${diceRolled && 'cursor-pointer hover:bg-gray-400'} ${selectedDice[index]==1 ? 'bg-gray-400' : "bg-white"}` }>
-          <div className={"w-4 h-7 text-center"}>
-            {die != 0 && die}
-          </div>
+          className={`p-4 mx-1 rounded-full cursor:pointer text-2xl text-black ${diceRolled && 'cursor-pointer hover:bg-gray-400'} ${
+            selectedDice[index] == 1 ? 'bg-gray-400' : 'bg-white'
+          }`}
+        >
+          <div className="w-4 h-7 text-center">{die != 0 && die}</div>
         </div>
       ))}
       <button
