@@ -4,10 +4,10 @@ import {LocalPlayers} from "@/models/localPlayers";
 import {Player} from "@/models/player";
 
 type BoardProps = {
-  currentPlayers: LocalPlayers;
-  potentialScores: ScoreEvaluator;
+  currentPlayers: LocalPlayers;    // players currently in the game
+  potentialScores: ScoreEvaluator; // Scores that could be had after dice roll 
   onScoreSelect: (category: SC, score: number) => void;
-  diceRolled: boolean;
+  diceRolled: boolean; // if the dice have been rolled a max amount of times (3) or not
 }
 
 const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : BoardProps) => {
@@ -26,27 +26,30 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
 
   /**
    * Renders a cell in the scorecard table.
-   * @param player 
-   * @param category 
+   * @param player as player - each player has two properties: name and socrecard
+   * @param category as one of the categories on the scorecard (ex: ones, twos, etc. )
    * @returns  The cell to render.
    */
   const renderScoreCell = (player : Player, category: SC) => {
     let score = player.scorecard.scores[category];
-    let potential = false;
+    let potential = false; // describes if the player has the potential to play in that category, if already filled in - false
     let isPlayersTurn = currentPlayers.isPlayersTurn(player);
     if (score === -1 && isPlayersTurn) {
       potential = true;
-      score = potentialScores.scores[category];
+      score = potentialScores.scores[category]; // if the player has the ability to play in the cell, the red score lights up in it
     }
+
+    // makes the column of the player yellow and makes the cell darker so player can see what they are about to click
     let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center border-x` : `bg-white text-center border-x`;
     cellClass += (diceRolled && potential && currentPlayers.isPlayersTurn(player)) ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
 
+    // if the dice hasn't been rolled yet, the player's column (whos turn it is) is highlighted yellow
     if (!diceRolled && potential) {
       return (
         <td className={cellClass}></td>
       )
     }
-
+    // if the cell has the potential to be filled, the score upon selecting that cell is displayed in red in that cell
     if (potential) {
       return (
         <td
@@ -59,6 +62,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
         </td>
       );
     } else {
+      // if the cell is selected, the score is displayed in black, otherwise it is left blank
       return (
         <td
           className={cellClass}
@@ -71,8 +75,8 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
 
   /**
    * Renders a cell in the total score table.
-   * @param player 
-   * @param category 
+   * @param player as player - each player has two properties: name and socrecard
+   * @param category as one of the categories on the scorecard (ex: ones, twos, etc. )
    * @returns  The cell to render.
    */
   const renderTotalScoreCell = (player : Player, category: string) => {
@@ -85,8 +89,10 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
       score = player.scorecard.topBonus;
     }
 
+    // if it's the players turn, highlights the whole column yellow
     let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center border-x` : `bg-white text-center border-x`;
 
+    // returns the cell, populated with score if selected and left white otherwise
     return (
       <td
         className={cellClass}
@@ -104,8 +110,8 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
 
   /**
    * Renders the scorecard table.
-   * @param categories 
-   * @param totals 
+   * @param categories - each of the 4 categories of the table (left top, left total, bottom top, bottom total)
+   * @param totals - 4 totals of each subtable 
    * @returns  The table to render.
    */
   const renderTable = (categories: SC[], totals: string[],  sectionTitle: string) => (
@@ -119,6 +125,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
         </tr>
       </thead>
       <tbody>
+        {/* first maps the table category based on each current player, then maps the totals*/}
         {categories.map(category => (
           <tr key={category}>
             <td className="bg-white p-2 text-left border">{renderCategoryName(category, currentPlayers.getCurrentPlayer())}</td>
@@ -140,6 +147,8 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
   )
 
   return (
+    // creates two tables, one with the left side of the tables & total and respectively for the right
+    // outer <div> defines the larger scorecadrd as a whole with the 2 subtables in it
     <div className="min-w-[1162px] flex bg-white justify-around gap-4 p-5 rounded-xl shadow text-black">
       <div className="flex flex-1">
         {renderTable(leftTableCategories, leftTableTotalCategories, "UPPER SECTION")}
