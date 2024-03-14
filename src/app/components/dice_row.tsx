@@ -58,7 +58,7 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
     </div>
   );
   
-  
+  {/* buttons at the bottom of the page - including dice and players name */}
   return (
     <div className="flex justify-center items-center my-4 relative" style={{ marginLeft: '50px' }}>
       {playerName && (

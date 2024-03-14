@@ -117,6 +117,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
   const renderTable = (categories: SC[], totals: string[],  sectionTitle: string) => (
     <table className="w-full border-collapse bg-white">
       <thead>
+        {/* either prints "upper section (left) or lower section (right) in the variable sectionTitle with player name next to it " */}
         <tr>
           <th className="bg-white p-2 text-left border">{sectionTitle}</th>
           {currentPlayers.players.map(player => (
