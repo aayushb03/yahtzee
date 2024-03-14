@@ -86,6 +86,10 @@ export class LocalPlayers implements ILocalPlayers {
     return this.players[this.currentTurn];
   }
 
+  /**
+   * Clearsr all the scores in scoreCard
+   */
+
   clearScores() {
     for (let player of this.players) {
       player.scorecard = new Scorecard();

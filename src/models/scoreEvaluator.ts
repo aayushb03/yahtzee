@@ -70,7 +70,7 @@ export class ScoreEvaluator implements IScoreEvaluator {
   }
 
   /**
-   * Calculates the score for the top section of the scorecard. (Ones, Twos, Threes, Fours, Fives, Sixes)
+   * Calculates the score for EACH top section cell of the scorecard. (Ones, Twos, Threes, Fours, Fives, Sixes)
    * @param value - The number to evaluate.
    * @returns The sum of the dice that match the given number.
    */

@@ -10,6 +10,7 @@ export interface IPlayer {
 
 /**
  * Class that implements the Player interface.
+ * each has a name and scorecard associated with them 
  */
 export class Player implements IPlayer {
   name: string;
