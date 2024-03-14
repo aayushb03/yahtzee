@@ -12,6 +12,17 @@ type BoardProps = {
 
 const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : BoardProps) => {
 
+  /**
+   * Renders the name of a category in the scorecard table.
+   * @param category 
+   * @param player 
+   * @returns  The category name to render.
+   */
+  const renderCategoryName = (category: SC, player: Player) => {
+    const score = player.scorecard.scores[category];
+    const className = score === -1 ? 'text-red-500' : '';
+    return <span className={className}>{SC[category]}</span>;
+  };
 
   /**
    * Renders a cell in the scorecard table.
@@ -103,12 +114,11 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
    * @param totals - 4 totals of each subtable 
    * @returns  The table to render.
    */
-  const renderTable = (categories: SC[], totals: string[]) => (
+  const renderTable = (categories: SC[], totals: string[],  sectionTitle: string) => (
     <table className="w-full border-collapse bg-white">
       <thead>
         <tr>
-          {/* Change this to upper section & lower section instead ? ----------------------------------------------------*/}
-          <th className="bg-white p-2 text-left border">ROLLS</th>
+          <th className="bg-white p-2 text-left border">{sectionTitle}</th>
           {currentPlayers.players.map(player => (
             <th className="bg-white p-2 text-center border">{player.name}</th>
           ))}
@@ -118,7 +128,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
         {/* first maps the table category based on each current player, then maps the totals*/}
         {categories.map(category => (
           <tr key={category}>
-            <td className="bg-white p-2 text-left border">{category}</td>
+            <td className="bg-white p-2 text-left border">{renderCategoryName(category, currentPlayers.getCurrentPlayer())}</td>
             {currentPlayers.players.map(player => (
               renderScoreCell(player, category)
             ))}
@@ -141,10 +151,10 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
     // outer <div> defines the larger scorecadrd as a whole with the 2 subtables in it
     <div className="min-w-[1162px] flex bg-white justify-around gap-4 p-5 rounded-xl shadow text-black">
       <div className="flex flex-1">
-        {renderTable(leftTableCategories, leftTableTotalCategories)}
+        {renderTable(leftTableCategories, leftTableTotalCategories, "UPPER SECTION")}
       </div>
       <div className="flex flex-1">
-        {renderTable(rightTableCategories, rightTableTotalCategories)}
+        {renderTable(rightTableCategories, rightTableTotalCategories, "LOWER SECTION")}
       </div>
     </div>
   );
