@@ -58,14 +58,20 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
     </div>
   );
   
-  {/* buttons at the bottom of the page - including dice and players name */}
+  {/* buttons at the bottom of the page - including dice and players name */} 
   return (
-    <div className="flex justify-center items-center my-4 relative" style={{ marginLeft: '50px' }}>
+    <div>
+
+      {/* players name div*/}
+      <div className="flex justify-center items-center my-4 relative" style={{ margin: '50px' }}>
       {playerName && (
-        <div className="absolute left-0 text-4xl text-white transform -translate-x-full">
+        <div className="absolute text-center text-4xl text-white ">
           {playerName}'s turn:
-        </div>
-      )}
+          </div>
+      )}</div>
+
+      {/* dice & roll button div */}
+    <div className="flex justify-center items-center my-4 relative" style={{ marginLeft: '50px' }}>
       <VerticalProgressBar rollsLeft={rollsLeft} />
       {/* visual of dice rolling */}
       {diceArr.map((die, index) => (
@@ -86,6 +92,7 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
       >
         ROLL
       </button>
+    </div>
     </div>
   );
 }
