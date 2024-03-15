@@ -5,6 +5,7 @@ import {Player} from "@/models/player";
 import { getAllScores, addScore, clearScores} from "@/services/scoreService";
 import { Score } from "@/services/scoreService"; 
 
+// font that we use for titles (not cell text)
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type EndPageCardProps = {
@@ -13,24 +14,35 @@ type EndPageCardProps = {
 }
 
 const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
+  // declares the current players as a list of player objects who each have name and score property
   const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
+
+  // declares leaderboard scores as a list of player object which each have a Game_Num. Player_Name, and Score property
   const [leaderboardScores, setLeaderboardScores] = useState<Score[]>([]);
 
   useEffect(() => {
     let curPlayers = [...players];
+
+    // lists the current players in order depending on their score
     setCurrentPlayers(curPlayers.sort((a, b) => b.scorecard.totalScore - a.scorecard.totalScore));
-    getAllScores().then((scores: Score[]) => { // can change this to get the top 10 scores 
+
+    // gets ALL of the scores from database then getst the top 10 to show on the leaderboard
+    getAllScores().then((scores: Score[]) => { 
       let sortedScores = scores.sort((a, b) => b.Score - a.Score);
       setLeaderboardScores(sortedScores.slice(0,10));
     });
   }, [players]);
 
+  // scorecard 
   return (
     <div className="flex h-full w-full justify-center items-center mb-40">
       <div className="flex flex-col p-4 w-96 rounded-xl bg-white text-black shadow-2xl relative">
         {/*<button className="absolute top-0 right-0 m-2" onClick={onRestart}>*/}
         {/*  <RxCross1 className="text-2xl" />*/}
         {/*</button>*/}
+
+
+        {/* final score part of scorecard */}
         <div className={"text-2xl text-center"}>
           Final Score
         </div>
@@ -46,6 +58,11 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
             </div>
           ))}
         </div>
+
+
+        {/* leaderboard party of scorecard - only displays if connected to the database 
+        *    if player makes it only the leaderboard - their name is highlighted
+        */}
         {leaderboardScores?.length !== 0 && (
           <div>
             <div className={"text-2xl text-center"}>
@@ -70,6 +87,8 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
             </div>
           </div>
         )}
+
+        {/* restart game button at bottom of the scorecard */}
         <div className={`flex justify-center items-center ${baloo2.className}`}>
           <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow" onClick={onRestart}>
             Restart Game
