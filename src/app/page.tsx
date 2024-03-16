@@ -14,7 +14,7 @@ export default function Home() {
 
   // Temporary code to test the score service.
   useEffect(() => {
-    console.log('Testing score service');
+    // console.log('Testing score service');
     // getAllScores().then((scores) => {
     //   console.log(scores);
     // });
@@ -26,9 +26,9 @@ export default function Home() {
     // });
     // addScore('test', 200).then(() => {});
     // addScore('test2', 300).then(() => {});
-    getAllScores().then((scores) => {
-      console.log(scores);
-    });
+    // getAllScores().then((scores) => {
+    //   console.log(scores);
+    // });
   }, []);
 
   /**
