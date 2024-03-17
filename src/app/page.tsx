@@ -32,9 +32,9 @@ export default function Home() {
   }, []);
 
   /**
-   * Starts the game with the given players and number of players.
-   * @param playerNames
-   * @param numPlayers
+   * Starts the game (brings them to play screen) with the given players and number of players.
+   * @param playerNames - string [] with each player name
+   * @param numPlayers - number of players
    */
   const startGame = (playerNames : string[], numPlayers : number) => {
     let newPlayers = [];
@@ -45,6 +45,10 @@ export default function Home() {
     setGameStatus(GS.InProgress);
   }
 
+  /**
+   * called when all players are out of rolls and cells to place scores in. 
+   * Adds the player(s) name and scores into the database and brings them to end of game card
+   */
   const endGame = () => {
     setGameStatus(GS.EndGame);
     for (let player of players) {
@@ -52,12 +56,14 @@ export default function Home() {
     }
   }
 
+
   /**
    * Changes the players in the game.
    */
   const changePlayers = () => {
     setGameStatus(GS.AddPlayers);
   }
+
 
   /**
    * Restarts the game.
@@ -67,6 +73,8 @@ export default function Home() {
     setGameStatus(GS.AddPlayers);
   }
 
+  //navigates to the add players screen, the game play screen, 
+  // or end screen based on what the user selects and how much of the game has been played. 
   return (
     <div className="flex flex-col h-screen bg-app-red" style={{ minWidth: '1162px' }}>
       <Nav/>
