@@ -105,7 +105,7 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
                       onChange={(e) => onPlayerChange(i, e.target.value)}
                       aria-label={`Enter Player ${playerNum} Name`}
                     />
-                    <button className={"hover:text-app-red"} onClick={() => {removePlayer(i)}}><RxCross1/></button>
+                    <button className={"hover:text-app-red"} data-testid={`remove-player-button-${i}`} onClick={() => {removePlayer(i)}}><RxCross1/></button>
                   </div>
                 </div>
               );
