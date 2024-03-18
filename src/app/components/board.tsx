@@ -131,7 +131,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
           <tr key={category}>
             <td className="bg-white p-2 text-left border">{renderCategoryName(category, currentPlayers.getCurrentPlayer())}</td>
             {currentPlayers.players.map(player => (
-              <td className="bg-white p-2 text-center border" key={player.name + category}>{renderScoreCell(player, category)}</td>
+              renderScoreCell(player, category)
             ))}
           </tr>
         ))}
@@ -139,7 +139,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
           <tr key={category}>
             <td className="bg-white p-2 text-left border">{category}</td>
             {currentPlayers.players.map(player => (
-              <td className="bg-white p-2 text-center border" key={player.name + category}>{renderTotalScoreCell(player, category)}</td>
+              renderTotalScoreCell(player, category)
             ))}
           </tr>
         ))}
