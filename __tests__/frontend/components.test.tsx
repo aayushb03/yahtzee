@@ -3,7 +3,8 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import Board from '../../src/app/components/board';
-import { LocalPlayers } from '../../__mocks__/localPlayers';
+import { LocalPlayers } from '../../src/models/localPlayers';
+import { Player } from '../../src/models/player';
 
 // Mocking services
 jest.mock('../../src/services/scoreService', () => ({
@@ -12,9 +13,17 @@ jest.mock('../../src/services/scoreService', () => ({
   clearScores: jest.fn().mockResolvedValue(undefined),
 }));
 
+// mocking LocalPlayers and creating 
+jest.mock('../../src/models/player');
+
+jest.mock('../../src/models/localPlayers', () => ({
+  players: [new Player("Player 1"), new Player("Player 2")],
+  getCurrentPlayer: jest.fn().mockResolvedValue(undefined),
+  isPlayersTurn: jest.fn().mockResolvedValue(undefined),
+}));
+
 describe('board component', () => {
   const onScoreSelectMock = jest.fn();
-  // const currPlayersMock = LocalPlayers.mock.instances.map(instance => instance.players);
 
   console.log(LocalPlayers)
   test('renders upper section of table correctly', () => {
