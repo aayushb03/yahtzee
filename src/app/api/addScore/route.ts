@@ -1,13 +1,13 @@
 import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/../prisma/client";
 
-// attempts to add new score to the database using prisma - used at the end of the game 
-// data is the player(s) name and score(s) at the end of the game or if the autofill button is pressed
-// name and score are both assigned from the value(s) in data
-// throws an error if unsucessfull 
-// past_Scores is the database where all the scores are stored in - formatted as below:
-//  | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
-
+/**  attempts to add new score to the database using prisma - used at the end of the game 
+* data is the player(s) name and score(s) at the end of the game or if the autofill button is pressed
+* name and score are both assigned from the value(s) in data
+* throws an error if unsucessfull 
+* past_Scores is the database where all the scores are stored in - formatted as below:
+*   | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
+*/
 
 export async function POST(request: NextRequest) {
   const data = await request.json();

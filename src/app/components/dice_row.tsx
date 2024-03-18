@@ -63,7 +63,7 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
     <div>
 
       {/* players name div*/}
-      <div className="flex justify-center items-center my-4 relative" style={{ margin: '30px' }}>
+      <div className="flex justify-center items-center m-9 relative">
       {playerName && (
         <div className="absolute text-center text-4xl text-white ">
           {playerName}'s turn:

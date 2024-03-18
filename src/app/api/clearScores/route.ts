@@ -2,12 +2,12 @@ import {NextResponse} from "next/server";
 import prisma from "@/../prisma/client";
 
 
-// uses prisma to access database and completely clear all entities insside the database
-// if throws an error, throws error to console
-// throws an error if unsucessfull 
-// past_Scores is the database where all the scores are stored in - formatted as below:
-//  | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
-
+/**  uses prisma to access database and completely clear all entities insside the database
+* if throws an error, throws error to console
+*  throws an error if unsucessfull 
+*  past_Scores is the database where all the scores are stored in - formatted as below:
+*  | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
+*/
 
 export async function DELETE() {
   try {
