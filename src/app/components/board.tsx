@@ -107,6 +107,8 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
   const leftTableTotalCategories: string[] = ['TopBonus', 'TopTotal'];
   const rightTableCategories: SC[] = [SC.ThreeOfAKind, SC.FourOfAKind, SC.FullHouse, SC.SmallStraight, SC.LargeStraight, SC.Chance, SC.Yahtzee];
   const rightTableTotalCategories: string[] = ['TotalScore'];
+  const maxLength = Math.max(...currentPlayers.players.map(player => player.name.length));
+  const minWidth = `${maxLength * 10}px`; 
 
   /**
    * Renders the scorecard table.
@@ -121,7 +123,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
         <tr>
           <th className="bg-white p-2 text-left border">{sectionTitle}</th>
           {currentPlayers.players.map(player => (
-            <th className="bg-white p-2 text-center border">{player.name}</th>
+            <th className="bg-white p-2 text-center border" style={{ minWidth }}>{player.name}</th>
           ))}
         </tr>
       </thead>

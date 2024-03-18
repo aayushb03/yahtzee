@@ -103,6 +103,7 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
                     <input className={`border-b-[1px] text-xl ${players[i].trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-32`}
                       value={players[i]}
                       onChange={(e) => onPlayerChange(i, e.target.value)}
+                      maxLength={8}
                     />
                     <button className={"hover:text-app-red"} onClick={() => {removePlayer(i)}}><RxCross1/></button>
                   </div>
