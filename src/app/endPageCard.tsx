@@ -18,6 +18,7 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
   const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
   // declares leaderboard scores as a list of player object which each have a Game_Num. Player_Name, and Score property
   const [leaderboardScores, setLeaderboardScores] = useState<Score[]>([]);
+  const [recentGameNum, setRecentGameNum] = useState(0);
 
 
 
@@ -29,6 +30,12 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
     getAllScores().then((scores: Score[]) => { 
       let sortedScores = scores.sort((a, b) => b.Score - a.Score);
       setLeaderboardScores(sortedScores.slice(0,10));
+    });
+    //want to get the most recent game number (the greatest game number is going to be the largest)
+    getAllScores().then((scores: Score[]) => { 
+      let largestNums = scores.sort((a, b) => b.Game_Num - a.Game_Num);
+      let firstLargestNum = largestNums.slice(0,1)
+      setRecentGameNum(firstLargestNum[0].Game_Num);
     });
   }, [players]);
 
@@ -72,7 +79,7 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
                 <div
                   key={index}
                   className={`text-xl flex w-[80%] border-b ${
-                    currentPlayers.some((player) => player.name === entry.Player_Name) ? 'font-bold' : ''
+                    currentPlayers.some((player) => ((player.name === entry.Player_Name) && (recentGameNum == entry.Game_Num))) ? 'font-bold' : ''
                   }`}
                 >
                   <div className={"text-left w-[50%]"}>
