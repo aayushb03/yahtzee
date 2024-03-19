@@ -132,20 +132,24 @@ Schema:
 
 In Yahtzee Database: 
 
+
 | Tables_in_yahtzee | 
-| Past_Scores  | 
+| ------ |
+|Past_Scores|
 
 In Past_Scores: 
 
-| Field  | Type | Null | Key | Default | Extra | 
-| Game_Num  | int | NO | PRI | NULL | auto_increment | 
-| Player_Name  | varchar(45) | YES |  | NULL |  | 
-| Score | int | YES |  | NULL |  | 
+| Field | Type | Null | Key | Default | Extra |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+|Game_Num| int | NO | PRI |        | auto_increment |
+|Player_Name| varchar(45) | YES |        |        |        |
+|Score| int | YES |        |        |        |
 
 Example entry from Past_Scores:
 
-| Game_Num  | Player_Name | Score |
-| 1  | Carmen | 800 |
+| Game_Num |  Player_Name |  Score | 
+| ------ | ------ | ------ |
+| 1 | Carmen | 800 |
 
 
 <!-- ```mermaid
