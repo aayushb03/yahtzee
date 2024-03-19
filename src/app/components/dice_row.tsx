@@ -24,12 +24,17 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
     setDiceArr([...dice.dice]);
   }, [dice]);
 
-  // at the beegining of each turn, the dice are all set to 0
+  /**
+   * at the beginning of each turn, the dice are all set to 0
+   */
   useEffect(() => {
     setSelectedDice([0, 0, 0, 0, 0]);
   }, [diceRolled]);
 
-  // handles the device being clicked, if it is, the number of the dye stays the same even after rolling
+  /**
+   * handles the device being clicked, if it is, the number of th dye stays the same even after rolling
+   * @param index position of the dice clicked
+   */
   const handleDiceClick = (index: number) => {
     if (!diceRolled) return;
     const newSelectedDice = [...selectedDice];
@@ -42,7 +47,9 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
     rollsLeft: number;
   };
   
-  /* vertical progress bar for rolls left */
+  /**
+   * vertical progress bar for rolls left
+   */
   const VerticalProgressBar = ({ rollsLeft }: VerticalProgressBarProps) => (
     <div style={{
       display: 'flex',

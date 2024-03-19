@@ -11,10 +11,9 @@ type GameModeCardProps = {
   startYahtzee: (players: string[], numPlayers : number) => void;
 }
 
-
-// This is the game mode card that shows up BEFORE starting the game
-
-
+/**
+ * Creates a game mode card that shows up BEFORE starting the game 
+ */
 const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
     // keeps track of what is happening in the game
   const [gameMode, setGameMode] = useState<GM>(GM.Local)
@@ -35,13 +34,18 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   }, []);
 
 
-    // handles adding a player the card
+  /**
+   * Handles adding a player to the card
+   */
   const addPlayer = () => {
     if (numPlayers >= 4) return;
     setNumPlayers(numPlayers + 1);
   }
 
-    // handles removing a player fom card
+  /**
+   * Handles removing a player from the card
+   * @param index the position of the player to be removed
+   */
   const removePlayer = (index: number) => {
     if (numPlayers <= 1) return;
     const newPlayers = players.slice(0, index).concat(players.slice(index + 1)).concat([""]);
@@ -49,14 +53,20 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
     setNumPlayers(numPlayers - 1);
   }
 
-    // handles clicking the 'change players' button 
+  /**
+   * handles clicking the 'change players button
+   * @param i index of player to change
+   * @param value the new player 
+   */
   const onPlayerChange = (i: number, value: string) => {
     const newPlayers = [...players];
     newPlayers[i] = value;
     setPlayers(newPlayers);
   }
 
-    // starts the game with the current number of players
+  /**
+   * starts the game with the current number of players
+   */
   const startGame = () => {
     for (let i = 0; i < numPlayers; i++) {
       if (players[i].trim() == "") {

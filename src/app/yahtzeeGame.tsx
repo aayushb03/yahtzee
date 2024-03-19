@@ -103,6 +103,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
     setRollsLeft(3);
   };
 
+  
   const changePlayersAndReset = () => {
     resetGame();
     changePlayers();
