@@ -87,7 +87,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
    */
   const handleAutofill = () => {
     curPlayers.players.forEach(player => {
-      player.scorecard.setTotalScore(500);
+      player.scorecard.setTotalScore(0);
     })
 
     endGame();
