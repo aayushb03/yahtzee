@@ -142,7 +142,7 @@ In Past_Scores:
 | Field | Type | Null | Key | Default | Extra |
 | ------ | ------ | ------ | ------ | ------ | ------ |
 |Game_Num| int | NO | PRI | NULL | auto_increment |
-|Player_Name| varchar(45) | YES | NULL |        |        |
+|Player_Name| varchar(45) | YES |        | NULL |        |
 |Score| int | YES |        | NULL |        |
 
 Example entry from Past_Scores:
