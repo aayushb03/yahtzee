@@ -4,10 +4,13 @@ import {LocalPlayers} from "@/models/localPlayers";
 import {Player} from "@/models/player";
 
 type BoardProps = {
-  currentPlayers: LocalPlayers;    // players currently in the game
-  potentialScores: ScoreEvaluator; // Scores that could be had after dice roll 
+   // players currently in the game
+  currentPlayers: LocalPlayers;  
+  // Scores that could be had after dice roll  
+  potentialScores: ScoreEvaluator; 
   onScoreSelect: (category: SC, score: number) => void;
-  diceRolled: boolean; // if the dice have been rolled a max amount of times (3) or not
+  // if the dice have been rolled a max amount of times (3) or not
+  diceRolled: boolean; 
 }
 
 const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : BoardProps) => {
@@ -32,11 +35,13 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
    */
   const renderScoreCell = (player : Player, category: SC) => {
     let score = player.scorecard.scores[category];
-    let potential = false; // describes if the player has the potential to play in that category, if already filled in - false
+    // describes if the player has the potential to play in that category, if already filled in - false
+    let potential = false; 
     let isPlayersTurn = currentPlayers.isPlayersTurn(player);
     if (score === -1 && isPlayersTurn) {
       potential = true;
-      score = potentialScores.scores[category]; // if the player has the ability to play in the cell, the red score lights up in it
+      // if the player has the ability to play in the cell, the red score lights up in it
+      score = potentialScores.scores[category]; 
     }
 
     // makes the column of the player yellow and makes the cell darker so player can see what they are about to click

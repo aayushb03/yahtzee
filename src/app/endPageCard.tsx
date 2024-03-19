@@ -14,18 +14,18 @@ type EndPageCardProps = {
 }
 
 const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
-     // declares the current players as a list of player objects who each have name and score property
+  // declares the current players as a list of player objects who each have name and score property
   const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
-      // declares leaderboard scores as a list of player object which each have a Game_Num. Player_Name, and Score property
+  // declares leaderboard scores as a list of player object which each have a Game_Num. Player_Name, and Score property
   const [leaderboardScores, setLeaderboardScores] = useState<Score[]>([]);
 
 
 
   useEffect(() => {
     let curPlayers = [...players];
-        // lists the current players in order depending on their score
+    // lists the current players in order depending on their score
     setCurrentPlayers(curPlayers.sort((a, b) => b.scorecard.totalScore - a.scorecard.totalScore));
-        // gets ALL of the scores from database then getst the top 10 to show on the leaderboard
+    // gets ALL of the scores from database then getst the top 10 to show on the leaderboard
     getAllScores().then((scores: Score[]) => { 
       let sortedScores = scores.sort((a, b) => b.Score - a.Score);
       setLeaderboardScores(sortedScores.slice(0,10));
@@ -61,8 +61,7 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
 
 
         {/* leaderboard party of scorecard - only displays if connected to the database 
-        *    if player makes it only the leaderboard - their name is highlighted
-        */}
+            if player makes it only the leaderboard - their name is highlighted */}
         {leaderboardScores?.length !== 0 && (
           <div>
             <div className={"text-2xl text-center"}>
