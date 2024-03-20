@@ -69,7 +69,7 @@ export class Scorecard implements IScorecard {
         LargeStraight: -1,
         Yahtzee: -1,
         Chance: -1,
-        YahtzeeBonus: -1
+        YahtzeeBonus: 0
       };
       this.topTotal = 0;
       this.topBonus = 0;

@@ -38,10 +38,20 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
     // describes if the player has the potential to play in that category, if already filled in - false
     let potential = false; 
     let isPlayersTurn = currentPlayers.isPlayersTurn(player);
-    if (score === -1 && isPlayersTurn) {
-      potential = true;
-      // if the player has the ability to play in the cell, the red score lights up in it
-      score = potentialScores.scores[category]; 
+    if (isPlayersTurn) {
+      // checks to see if yahtzee is filled then allows YahtzeeBonus to be clicked
+      if (category == "YahtzeeBonus" && player.scorecard.scores["Yahtzee"] == 50) {
+        if (potentialScores.scores[category] > 0 && potentialScores.scores[category] <= 300) {
+          potential = true;
+          score = potentialScores.scores[category]; 
+        }
+      }
+      if (score === -1) {
+        potential = true;
+        // if the player has the ability to play in the cell, the red score lights up in it
+        score = potentialScores.scores[category]; 
+      }
+
     }
 
     // makes the column of the player yellow and makes the cell darker so player can see what they are about to click
