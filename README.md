@@ -126,9 +126,7 @@ B <-->|SQL Queries| C
 ```
 
 
-#### Database
-
-Schema: 
+#### Database Schema: 
 
 In Yahtzee Database: 
 
