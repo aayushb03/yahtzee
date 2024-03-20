@@ -103,6 +103,9 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
     setRollsLeft(3);
   };
 
+  /**
+   * Changes the players in the game.
+   */
   const changePlayersAndReset = () => {
     resetGame();
     changePlayers();
