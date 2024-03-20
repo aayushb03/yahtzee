@@ -41,9 +41,10 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
     if (isPlayersTurn) {
       // checks to see if yahtzee is filled then allows YahtzeeBonus to be clicked
       if (category == "YahtzeeBonus" && player.scorecard.scores["Yahtzee"] == 50) {
-        if (potentialScores.scores[category] > 0 && potentialScores.scores[category] <= 300) {
+        if (potentialScores.scores[category] > 0 && player.scorecard.scores["YahtzeeBonus"] <= 300) {
           potential = true;
-          score = potentialScores.scores[category]; 
+          // add to previous YahtzeeBonus
+          score = player.scorecard.scores["YahtzeeBonus"] + potentialScores.scores[category]; 
         }
       }
       if (score === -1) {
