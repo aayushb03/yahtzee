@@ -110,7 +110,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
 
   const leftTableCategories: SC[] = [SC.Ones, SC.Twos, SC.Threes, SC.Fours, SC.Fives, SC.Sixes];
   const leftTableTotalCategories: string[] = ['TopBonus', 'TopTotal'];
-  const rightTableCategories: SC[] = [SC.ThreeOfAKind, SC.FourOfAKind, SC.FullHouse, SC.SmallStraight, SC.LargeStraight, SC.Chance, SC.Yahtzee];
+  const rightTableCategories: SC[] = [SC.ThreeOfAKind, SC.FourOfAKind, SC.FullHouse, SC.SmallStraight, SC.LargeStraight, SC.Chance, SC.Yahtzee, SC.YahtzeeBonus];
   const rightTableTotalCategories: string[] = ['TotalScore'];
   const maxLength = Math.max(...currentPlayers.players.map(player => player.name.length));
   const minWidth = `${maxLength * 10}px`; 

@@ -41,7 +41,8 @@ export class ScoreEvaluator implements IScoreEvaluator {
       SmallStraight: this.calculateStraights(4),
       LargeStraight: this.calculateStraights(5),
       Yahtzee: this.calculateYahtzee(),
-      Chance: this.sum
+      Chance: this.sum,
+      YahtzeeBonus: this.calculateYahtzeeBonus()
     };
   }
 
@@ -132,6 +133,14 @@ export class ScoreEvaluator implements IScoreEvaluator {
     if (this.dice[0] == 0) return 0;
     for (const key in this.counts) {
       if (this.counts[key] === 5) return 50;
+    }
+    return 0;
+  }
+
+  private calculateYahtzeeBonus(): number {
+    if (this.dice[0] == 0) return 0;
+    for (const key in this.counts) {
+      if (this.counts[key] === 5) return 100;
     }
     return 0;
   }

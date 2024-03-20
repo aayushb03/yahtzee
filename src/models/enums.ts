@@ -16,7 +16,8 @@ export enum ScoreCategory {
   SmallStraight = 'SmallStraight',
   LargeStraight = 'LargeStraight',
   Yahtzee = 'Yahtzee',
-  Chance = 'Chance'
+  Chance = 'Chance',
+  YahtzeeBonus = "YahtzeeBonus"
 }
 
 /**  Game mode changes whether player is online or local

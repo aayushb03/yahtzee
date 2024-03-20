@@ -68,7 +68,8 @@ export class Scorecard implements IScorecard {
         SmallStraight: -1,
         LargeStraight: -1,
         Yahtzee: -1,
-        Chance: -1
+        Chance: -1,
+        YahtzeeBonus: -1
       };
       this.topTotal = 0;
       this.topBonus = 0;
@@ -86,6 +87,8 @@ export class Scorecard implements IScorecard {
     if (this.scores[category] != -1) {
       throw new Error('Category already scored');
     }
+    
+    // need to add something for yahtzee bonus here? 
 
     this.scores[category] = score;
     this.totalScore += score;
