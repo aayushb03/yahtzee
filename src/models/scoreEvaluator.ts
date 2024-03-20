@@ -1,6 +1,7 @@
 import { ScoreCategory } from './enums';
 import { Dice } from "@/models/dice";
 
+
 /**
  * Interface representing all calculated scores for each category based on a set of dice for a game of Yahtzee.
  */
@@ -15,6 +16,7 @@ export interface IScoreEvaluator {
  * Class that implements the IScoreEvaluator interface.
  */
 export class ScoreEvaluator implements IScoreEvaluator {
+  // private readonly category: ScoreCategory;
   scores: { [key in ScoreCategory]: number };
   private readonly dice: [number, number, number, number, number];
   private readonly counts : { [key: number]: number }; // The counts of each number on the dice. (Helper property)
@@ -41,7 +43,8 @@ export class ScoreEvaluator implements IScoreEvaluator {
       SmallStraight: this.calculateStraights(4),
       LargeStraight: this.calculateStraights(5),
       Yahtzee: this.calculateYahtzee(),
-      Chance: this.sum
+      Chance: this.sum,
+      YahtzeeBonus: this.calculateYahtzeeBonus()
     };
   }
 
@@ -132,6 +135,17 @@ export class ScoreEvaluator implements IScoreEvaluator {
     if (this.dice[0] == 0) return 0;
     for (const key in this.counts) {
       if (this.counts[key] === 5) return 50;
+    }
+    return 0;
+  }
+
+  /**
+   * Calculates the score for the Yahtzee Bonus category.
+   * @returns 100 if all the dice are the same, otherwise 0.
+   */
+  private calculateYahtzeeBonus(): number {
+    for (const key in this.counts) {
+      if (this.counts[key] === 5) return 100;
     }
     return 0;
   }

@@ -128,6 +128,30 @@ B <-->|SQL Queries| C
 
 #### Database
 
+Schema: 
+
+In Yahtzee Database: 
+
+
+| Tables_in_yahtzee | 
+| ------ |
+|Past_Scores|
+
+In Past_Scores: 
+
+| Field | Type | Null | Key | Default | Extra |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+|Game_Num| int | NO | PRI | NULL | auto_increment |
+|Player_Name| varchar(45) | YES |        | NULL |        |
+|Score| int | YES |        | NULL |        |
+
+Example entry from Past_Scores:
+
+| Game_Num |  Player_Name |  Score | 
+| ------ | ------ | ------ |
+| 1 | Carmen | 800 |
+
+
 <!-- ```mermaid
 ---
 title: Sample Database ERD for an Order System

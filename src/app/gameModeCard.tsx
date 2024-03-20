@@ -14,12 +14,7 @@ type GameModeCardProps = {
 
 // This is the game mode card that shows up BEFORE starting the game
 
-/**
- * This is the game mode card that shows up BEFORE starting the game
- * @param startYahtzee
- * @param currentPlayers
- * @returns JSX.Element
- */
+
 const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
     // keeps track of what is happening in the game
   const [gameMode, setGameMode] = useState<GM>(GM.Local)
@@ -28,9 +23,6 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
     // keeps track of the number of players (MAX 4)
   const [numPlayers, setNumPlayers] = useState<number>(1)
 
-  /**
-   * when page is loaded, always going to declare the players names in the newPlayers [] and add to numPlayers
-   */
   useEffect(() => {
     // when page is loaded, always going to declare the players names in the newPlayers [] and add to numPlayers
     const newPlayers = ["", "", "", ""]
@@ -44,20 +36,12 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
 
 
     // handles adding a player the card
-  /**
-   * handles adding a player to the card
-   * @returns void
-   * */
   const addPlayer = () => {
     if (numPlayers >= 4) return;
     setNumPlayers(numPlayers + 1);
   }
 
     // handles removing a player fom card
-  /**
-   * handles removing a player from the card
-   * @returns void
-   * */
   const removePlayer = (index: number) => {
     if (numPlayers <= 1) return;
     const newPlayers = players.slice(0, index).concat(players.slice(index + 1)).concat([""]);
@@ -66,10 +50,6 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   }
 
     // handles clicking the 'change players' button 
-  /**
-   * handles clicking the 'change players' button
-   * @returns void
-   * */
   const onPlayerChange = (i: number, value: string) => {
     const newPlayers = [...players];
     newPlayers[i] = value;
@@ -77,10 +57,6 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   }
 
     // starts the game with the current number of players
-  /**
-   *  starts the game with the current number of players
-   * @returns void
-   */
   const startGame = () => {
     for (let i = 0; i < numPlayers; i++) {
       if (players[i].trim() == "") {

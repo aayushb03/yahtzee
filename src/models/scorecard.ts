@@ -3,15 +3,20 @@ import { ScoreCategory } from './enums';
 /**
  * Interface representing the current scorecard for one player in a game of Yahtzee.
  */
+
 export interface IScorecard {
+  
   /**
    * The current scores for each category in the ScoreCategory Enum. Access the scores using the ScoreCategory as the
    * key. If a category has not been scored yet, it will be -1.
    */
   scores: { [key in ScoreCategory]: number };
-  topTotal: number; // The total of the top section.
-  topBonus: number; // The bonus for scoring 63 or more in the top section.
-  totalScore: number; // The total of all scores
+  // The total of the top section.
+  topTotal: number;
+  // The bonus for scoring 63 or more in the top section. 
+  topBonus: number; 
+  // The total of all scores
+  totalScore: number; 
 
   /**
    * Adds a score to the scorecard for the given category. If the category has already been scored, an error will be
@@ -63,7 +68,8 @@ export class Scorecard implements IScorecard {
         SmallStraight: -1,
         LargeStraight: -1,
         Yahtzee: -1,
-        Chance: -1
+        Chance: -1,
+        YahtzeeBonus: 0
       };
       this.topTotal = 0;
       this.topBonus = 0;
@@ -81,6 +87,8 @@ export class Scorecard implements IScorecard {
     if (this.scores[category] != -1) {
       throw new Error('Category already scored');
     }
+    
+    // need to add something for yahtzee bonus here? 
 
     this.scores[category] = score;
     this.totalScore += score;

@@ -45,6 +45,10 @@ export default function Home() {
     setGameStatus(GS.InProgress);
   }
 
+  /**
+   * sets the game status to EndGame
+   * then adds the total score of each player to their scorecard
+   */
   const endGame = () => {
     setGameStatus(GS.EndGame);
     for (let player of players) {

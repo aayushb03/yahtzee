@@ -2,27 +2,39 @@ import {Dice} from "@/models/dice";
 import React, {useEffect, useState} from "react";
 
 type DiceRowProps = {
-  dice: Dice; // enum that returns 5 randomly generated numbers
-  rollDice: (selectedDice: number[]) => void; // generates the numbers for each of the dice
-  diceRolled: boolean; // if the dice have been rolled or not
-  playerName: string; // player who's turn it is 
-  rollsLeft?: number; // the rolls left in the turn 
+  // enum that returns 5 randomly generated numbers
+  dice: Dice; 
+  // generates the numbers for each of the dice
+  rollDice: (selectedDice: number[]) => void; 
+  // if the dice have been rolled or not
+  diceRolled: boolean; 
+   // player who's turn it is 
+  playerName: string;
+  // the rolls left in the turn 
+  rollsLeft?: number; 
 }
 
 const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: DiceRowProps) => {
-  const [diceArr, setDiceArr] = useState([0, 0, 0, 0, 0]); // keeps track of each dice value
-  const [selectedDice, setSelectedDice] = useState([0, 0, 0, 0, 0]); // keeps track of dice to freeze
+  // keeps track of each dice value
+  const [diceArr, setDiceArr] = useState([0, 0, 0, 0, 0]); 
+  // keeps track of dice to freeze
+  const [selectedDice, setSelectedDice] = useState([0, 0, 0, 0, 0]); 
 
   useEffect(() => {
     setDiceArr([...dice.dice]);
   }, [dice]);
 
-  // at the beegining of each turn, the dice are all set to 0
+  /**
+   * at the beginning of each turn, the dice are all set to 0
+   */
   useEffect(() => {
     setSelectedDice([0, 0, 0, 0, 0]);
   }, [diceRolled]);
 
-  // handles the device being clicked, if it is, the number of the dye stays the same even after rolling
+  /**
+   * handles the device being clicked, if it is, the number of th dye stays the same even after rolling
+   * @param index position of the dice clicked
+   */
   const handleDiceClick = (index: number) => {
     if (!diceRolled) return;
     const newSelectedDice = [...selectedDice];
@@ -30,12 +42,14 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
     setSelectedDice(newSelectedDice);
   }
 
-  // the progress bar visually shows the players have 3 rolls, each time "Roll" is selected, the progress bar goes down 1/3
+  /* the progress bar visually shows the players have 3 rolls, each time "Roll" is selected, the progress bar goes down 1/3 */
   type VerticalProgressBarProps = {
     rollsLeft: number;
   };
   
-  /* vertical progress bar for rolls left */
+  /**
+   * vertical progress bar for rolls left
+   */
   const VerticalProgressBar = ({ rollsLeft }: VerticalProgressBarProps) => (
     <div style={{
       display: 'flex',
@@ -63,7 +77,7 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
     <div>
 
       {/* players name div*/}
-      <div className="flex justify-center items-center my-4 relative" style={{ margin: '50px' }}>
+      <div className="flex justify-center items-center my-4 relative" style={{ margin: '30px' }}>
       {playerName && (
         <div className="absolute text-center text-4xl text-white ">
           {playerName}'s turn:
@@ -88,7 +102,9 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
       {/* the ROLL button */}
       <button
         className="bg-[#E8CC9D] text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105"
-        onClick={() => rollDice(selectedDice)}
+        onClick={() => {
+          rollDice(selectedDice);
+        }}
       >
         ROLL
       </button>
