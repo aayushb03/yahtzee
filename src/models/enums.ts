@@ -10,14 +10,14 @@ export enum ScoreCategory {
   Fours = 'Fours',
   Fives = 'Fives',
   Sixes = 'Sixes',
-  ThreeOfAKind = 'ThreeOfAKind',
-  FourOfAKind = 'FourOfAKind',
-  FullHouse = 'FullHouse',
-  SmallStraight = 'SmallStraight',
-  LargeStraight = 'LargeStraight',
+  ThreeOfAKind = 'Three Of A Kind',
+  FourOfAKind = 'Four Of A Kind',
+  FullHouse = 'Full House',
+  SmallStraight = 'Small Straight',
+  LargeStraight = 'Large Straight',
   Yahtzee = 'Yahtzee',
   Chance = 'Chance',
-  YahtzeeBonus = "YahtzeeBonus"
+  // YahtzeeBonus = "YahtzeeBonus"
 }
 
 /**  Game mode changes whether player is online or local

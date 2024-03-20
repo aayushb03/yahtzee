@@ -31,20 +31,19 @@ export class ScoreEvaluator implements IScoreEvaluator {
     this.counts = this.getCounts();
     this.sum = this.getSum();
     this.scores = {
-      Ones: this.calculateTopScores(1),
-      Twos: this.calculateTopScores(2),
-      Threes: this.calculateTopScores(3),
-      Fours: this.calculateTopScores(4),
-      Fives: this.calculateTopScores(5),
-      Sixes: this.calculateTopScores(6),
-      ThreeOfAKind: this.calculateNOfAKind(3),
-      FourOfAKind: this.calculateNOfAKind(4),
-      FullHouse: this.calculateFullHouse(),
-      SmallStraight: this.calculateStraights(4),
-      LargeStraight: this.calculateStraights(5),
-      Yahtzee: this.calculateYahtzee(),
-      Chance: this.sum,
-      YahtzeeBonus: this.calculateYahtzeeBonus()
+      'Ones': this.calculateTopScores(1),
+      'Twos': this.calculateTopScores(2),
+      'Threes': this.calculateTopScores(3),
+      'Fours': this.calculateTopScores(4),
+      'Fives': this.calculateTopScores(5),
+      'Sixes': this.calculateTopScores(6),
+      'Three Of A Kind': this.calculateNOfAKind(3),
+      'Four Of A Kind': this.calculateNOfAKind(4),
+      'Full House': this.calculateFullHouse(),
+      'Small Straight': this.calculateStraights(4),
+      'Large Straight': this.calculateStraights(5),
+      'Yahtzee': this.calculateYahtzee(),
+      'Chance': this.sum,
     };
   }
 
@@ -139,14 +138,14 @@ export class ScoreEvaluator implements IScoreEvaluator {
     return 0;
   }
 
-  /**
-   * Calculates the score for the Yahtzee Bonus category.
-   * @returns 100 if all the dice are the same, otherwise 0.
-   */
-  private calculateYahtzeeBonus(): number {
-    for (const key in this.counts) {
-      if (this.counts[key] === 5) return 100;
-    }
-    return 0;
-  }
+  // /**
+  //  * Calculates the score for the Yahtzee Bonus category.
+  //  * @returns 100 if all the dice are the same, otherwise 0.
+  //  */
+  // private calculateYahtzeeBonus(): number {
+  //   for (const key in this.counts) {
+  //     if (this.counts[key] === 5) return 100;
+  //   }
+  //   return 0;
+  // }
 }

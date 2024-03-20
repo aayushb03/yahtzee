@@ -23,8 +23,14 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
    */
   const renderCategoryName = (category: SC, player: Player) => {
     const score = player.scorecard.scores[category];
-    const className = score === -1 ? 'text-red-500' : '';
-    return <span className={className}>{SC[category]}</span>;
+    if (category != SC.Yahtzee) {
+      const className = score === -1 ? 'text-red-500' : '';
+      return <span className={className}>{category}</span>;
+    } else {
+      const className = score != 0 && score != 350 ? 'text-red-500' : '';
+      const bonus = score >= 50 && score < 350 ? ` (Bonuses left: ${((350-score)/100)})` : "";
+      return <span className={className}>{`${category}${bonus}`}</span>;
+    }
   };
 
   /**
@@ -40,11 +46,11 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
     let isPlayersTurn = currentPlayers.isPlayersTurn(player);
     if (isPlayersTurn) {
       // checks to see if yahtzee is filled then allows YahtzeeBonus to be clicked
-      if (category == "YahtzeeBonus" && player.scorecard.scores["Yahtzee"] == 50) {
-        if (potentialScores.scores[category] > 0 && player.scorecard.scores["YahtzeeBonus"] <= 300) {
+      if (category == "Yahtzee" && player.scorecard.scores["Yahtzee"] >= 50) {
+        if (potentialScores.scores[category] > 0 && player.scorecard.scores["Yahtzee"] < 350) {
           potential = true;
           // add to previous YahtzeeBonus
-          score = player.scorecard.scores["YahtzeeBonus"] + potentialScores.scores[category]; 
+          score = player.scorecard.scores["Yahtzee"] + 100;
         }
       }
       if (score === -1) {
@@ -59,7 +65,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
     let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center border-x` : `bg-white text-center border-x`;
     cellClass += (diceRolled && potential && currentPlayers.isPlayersTurn(player)) ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
 
-    // if the dice hasn't been rolled yet, the player's column (whos turn it is) is highlighted yellow
+    // if the dice hasn't been rolled yet, the player's column (who's turn it is) is highlighted yellow
     if (!diceRolled && potential) {
       return (
         <td className={cellClass}></td>
@@ -121,7 +127,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
 
   const leftTableCategories: SC[] = [SC.Ones, SC.Twos, SC.Threes, SC.Fours, SC.Fives, SC.Sixes];
   const leftTableTotalCategories: string[] = ['TopBonus', 'TopTotal'];
-  const rightTableCategories: SC[] = [SC.ThreeOfAKind, SC.FourOfAKind, SC.FullHouse, SC.SmallStraight, SC.LargeStraight, SC.Chance, SC.Yahtzee, SC.YahtzeeBonus];
+  const rightTableCategories: SC[] = [SC.ThreeOfAKind, SC.FourOfAKind, SC.FullHouse, SC.SmallStraight, SC.LargeStraight, SC.Chance, SC.Yahtzee];
   const rightTableTotalCategories: string[] = ['TotalScore'];
   const maxLength = Math.max(...currentPlayers.players.map(player => player.name.length));
   const minWidth = `${maxLength * 10}px`; 
