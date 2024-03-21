@@ -1,0 +1,48 @@
+/* DiceAnimations.module.css 更新 */
+
+.diceContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .dice {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #879CB9;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    background-color: #FFFFFF; /* 默认背景色为白色 */
+  }
+  
+  .diceSelected {
+    background-color: #D3D3D3; /* 选中时的背景色为灰色 */
+  }
+  
+  .dieValue {
+    font-size: 20px; /* 根据需要调整 */
+    color: #000000; /* 文字颜色 */
+  }
+  
+  @keyframes rollDice {
+    0% {
+      transform: rotateX(0) rotateY(0);
+    }
+    50% {
+      transform: rotateX(180deg) rotateY(180deg);
+    }
+    100% {
+      transform: rotateX(360deg) rotateY(360deg);
+    }
+  }
+  
+  .diceRolling {
+    animation: rollDice 3s infinite;
+    opacity: 0.8;
+  }
+  

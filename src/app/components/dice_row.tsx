@@ -1,5 +1,6 @@
 import {Dice} from "@/models/dice";
 import React, {useEffect, useState} from "react";
+import styles from './DiceAnimations.module.css'
 
 type DiceRowProps = {
   // enum that returns 5 randomly generated numbers
@@ -19,9 +20,12 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
   const [diceArr, setDiceArr] = useState([0, 0, 0, 0, 0]); 
   // keeps track of dice to freeze
   const [selectedDice, setSelectedDice] = useState([0, 0, 0, 0, 0]); 
+  const [isRolling, setIsRolling] = useState(false);
 
   useEffect(() => {
-    setDiceArr([...dice.dice]);
+    if (!isRolling) {
+      setDiceArr([...dice.dice]);
+    }
   }, [dice]);
 
   /**
@@ -36,11 +40,23 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
    * @param index position of the dice clicked
    */
   const handleDiceClick = (index: number) => {
-    if (!diceRolled) return;
+    if (!diceRolled || isRolling) return;
     const newSelectedDice = [...selectedDice];
     newSelectedDice[index] = newSelectedDice[index] == 0 ? 1 : 0;
     setSelectedDice(newSelectedDice);
   }
+
+  const handleRollClick = () => {
+    // 在开始滚动动画前，随机改变骰子的数字，创建翻转效果的假象
+    setIsRolling(true);
+    const randomDiceArr = Array.from({ length: 5 }, () => Math.floor(Math.random() * 6) + 1);
+    setDiceArr(randomDiceArr);
+    
+    setTimeout(() => {
+      rollDice(selectedDice);
+      setIsRolling(false); // 1秒后停止动画，显示真实的骰子数值
+    }, 3000); // 假设动画持续时间为1秒
+  };
 
   /* the progress bar visually shows the players have 3 rolls, each time "Roll" is selected, the progress bar goes down 1/3 */
   type VerticalProgressBarProps = {
@@ -88,26 +104,33 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
     <div className="flex justify-center items-center my-4 relative" style={{ marginLeft: '50px' }}>
       <VerticalProgressBar rollsLeft={rollsLeft} />
       {/* visual of dice rolling */}
-      {diceArr.map((die, index) => (
-        <div
-          key={index}
-          onClick={() => handleDiceClick(index)}
-          className={`p-4 mx-1 rounded-full cursor:pointer text-2xl text-black ${diceRolled && 'cursor-pointer hover:bg-gray-400'} ${
-            selectedDice[index] == 1 ? 'bg-gray-400' : 'bg-white'
-          }`}
+        {diceArr.map((die, index) => (
+          <div
+            key={index}
+            onClick={() => handleDiceClick(index)}
+            className={`${styles.dice} ${selectedDice[index] === 1 ? styles.diceSelected : ''} ${isRolling ? styles.diceRolling : ''}`}
+          >
+            {/* 骰子在滚动动画期间不显示数字，只有当isRolling为false时才显示 */}
+            {!isRolling && (
+              <div className={`${styles.dieValue} w-4 h-7 text-center`}>{die}</div>
+            )}
+          </div>
+        ))}
+        {/* 更新ROLL按钮的逻辑，以便在点击时触发滚动动画 */}
+        <button
+          className="bg-[#E8CC9D] text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105"
+          disabled={isRolling} // 当动画进行时禁用按钮
+          onClick={() => {
+            setIsRolling(true);
+            setTimeout(() => {
+              const newSelectedDice = selectedDice.map((selected, i) => selected === 1 ? diceArr[i] : 0);
+              rollDice(newSelectedDice);
+              setIsRolling(false); // 动画结束，显示最终骰子数值
+            }, 3000); // 假设动画持续时间为1秒
+          }}
         >
-          <div className="w-4 h-7 text-center">{die != 0 && die}</div>
-        </div>
-      ))}
-      {/* the ROLL button */}
-      <button
-        className="bg-[#E8CC9D] text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105"
-        onClick={() => {
-          rollDice(selectedDice);
-        }}
-      >
-        ROLL
-      </button>
+          ROLL
+        </button>
     </div>
     </div>
   );
