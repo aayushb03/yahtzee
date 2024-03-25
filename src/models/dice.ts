@@ -40,6 +40,7 @@ export class Dice implements IDice {
   rollDice(): void {
     for (let i = 0; i < this.dice.length; i++) {
       this.dice[i] = Math.floor(Math.random() * 6) + 1;
+      // this.dice[indices[i]] = 5;
     }
   }
 
@@ -53,6 +54,7 @@ export class Dice implements IDice {
         throw new Error('Invalid index');
       }
       this.dice[indices[i]] = Math.floor(Math.random() * 6) + 1;
+      // this.dice[indices[i]] = 5;
     }
   }
 }

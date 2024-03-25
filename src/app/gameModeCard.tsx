@@ -103,9 +103,9 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
                     <input className={`border-b-[1px] text-xl ${players[i].trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-32`}
                       value={players[i]}
                       onChange={(e) => onPlayerChange(i, e.target.value)}
-                      aria-label={`Enter Player ${playerNum} Name`}
+                      maxLength={8}
                     />
-                    <button className={"hover:text-app-red"} data-testid={`remove-player-button-${i}`} onClick={() => {removePlayer(i)}}><RxCross1/></button>
+                    <button className={"hover:text-app-red"} onClick={() => {removePlayer(i)}}><RxCross1/></button>
                   </div>
                 </div>
               );

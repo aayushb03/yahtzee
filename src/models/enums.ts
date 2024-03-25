@@ -1,6 +1,6 @@
 
-/*
-  Score Category stores each cell of the score sheet represented by their name
+/** 
+*  Score Category stores each cell of the score sheet represented by their name
 */
 
 export enum ScoreCategory {
@@ -10,16 +10,17 @@ export enum ScoreCategory {
   Fours = 'Fours',
   Fives = 'Fives',
   Sixes = 'Sixes',
-  ThreeOfAKind = 'ThreeOfAKind',
-  FourOfAKind = 'FourOfAKind',
-  FullHouse = 'FullHouse',
-  SmallStraight = 'SmallStraight',
-  LargeStraight = 'LargeStraight',
+  ThreeOfAKind = 'Three Of A Kind',
+  FourOfAKind = 'Four Of A Kind',
+  FullHouse = 'Full House',
+  SmallStraight = 'Small Straight',
+  LargeStraight = 'Large Straight',
   Yahtzee = 'Yahtzee',
-  Chance = 'Chance'
+  Chance = 'Chance',
+  // YahtzeeBonus = "YahtzeeBonus"
 }
 
-/* Game mode changes whether player is online or local
+/**  Game mode changes whether player is online or local
 *       feature is used on homepage and when entering players in and users can select online or local
 */
 
@@ -28,12 +29,10 @@ export enum GameMode {
   Online = 'Online'
 }
 
-/* Keeps track of the state of the game 
-
-addPlayers - represents mainly the begining of the game - can be pressed in middle of game
-inProgress - game has commenced
-endGame - players have filled in all of the categoris on their scorecard and are brought to the end page
-
+/**  Keeps track of the state of the game
+* addPlayers - represents mainly the begining of the game - can be pressed in middle of game
+* inProgress - game has commenced
+* endGame - players have filled in all of the categoris on their scorecard and are brought to the end page
 */
 export enum GameStatus {
   AddPlayers = 'AddPlayers',

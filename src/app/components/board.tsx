@@ -4,10 +4,13 @@ import {LocalPlayers} from "@/models/localPlayers";
 import {Player} from "@/models/player";
 
 type BoardProps = {
-  currentPlayers: LocalPlayers;    // players currently in the game
-  potentialScores: ScoreEvaluator; // Scores that could be had after dice roll 
+   // players currently in the game
+  currentPlayers: LocalPlayers;  
+  // Scores that could be had after dice roll  
+  potentialScores: ScoreEvaluator; 
   onScoreSelect: (category: SC, score: number) => void;
-  diceRolled: boolean; // if the dice have been rolled a max amount of times (3) or not
+  // if the dice have been rolled a max amount of times (3) or not
+  diceRolled: boolean; 
 }
 
 const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : BoardProps) => {
@@ -20,8 +23,14 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
    */
   const renderCategoryName = (category: SC, player: Player) => {
     const score = player.scorecard.scores[category];
-    const className = score === -1 ? 'text-red-500' : '';
-    return <span className={className}>{SC[category]}</span>;
+    if (category != SC.Yahtzee) {
+      const className = score === -1 ? 'text-red-500' : '';
+      return <span className={className}>{category}</span>;
+    } else {
+      const className = score != 0 && score != 350 ? 'text-red-500' : '';
+      const bonus = score >= 50 && score < 350 ? ` (Bonuses left: ${((350-score)/100)})` : "";
+      return <span className={className}>{`${category}${bonus}`}</span>;
+    }
   };
 
   /**
@@ -32,18 +41,31 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
    */
   const renderScoreCell = (player : Player, category: SC) => {
     let score = player.scorecard.scores[category];
-    let potential = false; // describes if the player has the potential to play in that category, if already filled in - false
+    // describes if the player has the potential to play in that category, if already filled in - false
+    let potential = false; 
     let isPlayersTurn = currentPlayers.isPlayersTurn(player);
-    if (score === -1 && isPlayersTurn) {
-      potential = true;
-      score = potentialScores.scores[category]; // if the player has the ability to play in the cell, the red score lights up in it
+    if (isPlayersTurn) {
+      // checks to see if yahtzee is filled then allows YahtzeeBonus to be clicked
+      if (category == "Yahtzee" && player.scorecard.scores["Yahtzee"] >= 50) {
+        if (potentialScores.scores[category] > 0 && player.scorecard.scores["Yahtzee"] < 350) {
+          potential = true;
+          // add to previous YahtzeeBonus
+          score = player.scorecard.scores["Yahtzee"] + 100;
+        }
+      }
+      if (score === -1) {
+        potential = true;
+        // if the player has the ability to play in the cell, the red score lights up in it
+        score = potentialScores.scores[category]; 
+      }
+
     }
 
     // makes the column of the player yellow and makes the cell darker so player can see what they are about to click
     let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center border-x` : `bg-white text-center border-x`;
     cellClass += (diceRolled && potential && currentPlayers.isPlayersTurn(player)) ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
 
-    // if the dice hasn't been rolled yet, the player's column (whos turn it is) is highlighted yellow
+    // if the dice hasn't been rolled yet, the player's column (who's turn it is) is highlighted yellow
     if (!diceRolled && potential) {
       return (
         <td className={cellClass}></td>
@@ -107,6 +129,8 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
   const leftTableTotalCategories: string[] = ['TopBonus', 'TopTotal'];
   const rightTableCategories: SC[] = [SC.ThreeOfAKind, SC.FourOfAKind, SC.FullHouse, SC.SmallStraight, SC.LargeStraight, SC.Chance, SC.Yahtzee];
   const rightTableTotalCategories: string[] = ['TotalScore'];
+  const maxLength = Math.max(...currentPlayers.players.map(player => player.name.length));
+  const minWidth = `${maxLength * 10}px`; 
 
   /**
    * Renders the scorecard table.
@@ -121,7 +145,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
         <tr>
           <th className="bg-white p-2 text-left border">{sectionTitle}</th>
           {currentPlayers.players.map(player => (
-            <th className="bg-white p-2 text-center border" key={player.name}>{player.name}</th>
+            <th className="bg-white p-2 text-center border" style={{ minWidth }}>{player.name}</th>
           ))}
         </tr>
       </thead>
