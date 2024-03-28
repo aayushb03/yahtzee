@@ -1,77 +1,153 @@
 import { ScoreEvaluator } from '@/models/scoreEvaluator';
 import { ScoreCategory } from '@/models/enums';
-import { Dice } from '@/models/dice';
 
 describe('ScoreEvaluator', () => {
-  let scoreEvaluator1: ScoreEvaluator;
-  let scoreEvaluator2: ScoreEvaluator;
-  let scoreEvaluator3: ScoreEvaluator;
-  let scoreEvaluator4: ScoreEvaluator;
-  let scoreEvaluator5: ScoreEvaluator;
-  let scoreEvaluator6: ScoreEvaluator;
-  let scoreEvaluator7: ScoreEvaluator;
-  let scoreEvaluator8: ScoreEvaluator;
-
-  beforeEach(() => {
-    // Creating a set of dice for testing
-    const dice1: Dice = { dice: [1, 1, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}};
-    const dice2: Dice = { dice: [1, 2, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}};
-    const dice3: Dice = { dice: [1, 3, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}};
-    const dice4: Dice = { dice: [1, 4, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}};
-    const dice5: Dice = { dice: [1, 2, 3, 4, 4], rollDice() {}, rollDiceByIndex() {}};
-    const dice6: Dice = { dice: [6, 6, 6, 6, 6], rollDice() {}, rollDiceByIndex() {}};
-    const dice7: Dice = { dice: [1, 6, 6, 2, 6], rollDice() {}, rollDiceByIndex() {}};
-    const dice8: Dice = { dice: [1, 3, 1, 3, 1], rollDice() {}, rollDiceByIndex() {}};
-    scoreEvaluator1 = new ScoreEvaluator(dice1);
-    scoreEvaluator2 = new ScoreEvaluator(dice2);
-    scoreEvaluator3 = new ScoreEvaluator(dice3);
-    scoreEvaluator4 = new ScoreEvaluator(dice4);
-    scoreEvaluator5 = new ScoreEvaluator(dice5);
-    scoreEvaluator6 = new ScoreEvaluator(dice6);
-    scoreEvaluator7 = new ScoreEvaluator(dice7);
-    scoreEvaluator8 = new ScoreEvaluator(dice8);
-  });
+  let scoreEvaluator;
 
   it('should calculate top scores correctly', () => {
-    expect(scoreEvaluator1.scores[ScoreCategory.Ones]).toEqual(2);
-    expect(scoreEvaluator2.scores[ScoreCategory.Twos]).toEqual(2);
-    expect(scoreEvaluator3.scores[ScoreCategory.Threes]).toEqual(6);
-    expect(scoreEvaluator4.scores[ScoreCategory.Fours]).toEqual(8);
-    expect(scoreEvaluator5.scores[ScoreCategory.Fives]).toEqual(0);
-    expect(scoreEvaluator6.scores[ScoreCategory.Sixes]).toEqual(30);
+    // set 1
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 1, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Ones]).toEqual(2);
+    expect(scoreEvaluator.scores[ScoreCategory.Twos]).toEqual(0);
+    expect(scoreEvaluator.scores[ScoreCategory.Threes]).toEqual(3);
+    expect(scoreEvaluator.scores[ScoreCategory.Fours]).toEqual(4);
+    expect(scoreEvaluator.scores[ScoreCategory.Fives]).toEqual(5);
+    expect(scoreEvaluator.scores[ScoreCategory.Sixes]).toEqual(0);
+
+    // set 2
+    scoreEvaluator = new ScoreEvaluator({ dice: [2, 1, 2, 2, 6], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Ones]).toEqual(1);
+    expect(scoreEvaluator.scores[ScoreCategory.Twos]).toEqual(6);
+    expect(scoreEvaluator.scores[ScoreCategory.Threes]).toEqual(0);
+    expect(scoreEvaluator.scores[ScoreCategory.Fours]).toEqual(0);
+    expect(scoreEvaluator.scores[ScoreCategory.Fives]).toEqual(0);
+    expect(scoreEvaluator.scores[ScoreCategory.Sixes]).toEqual(6);
+
+    // set 3
+    scoreEvaluator = new ScoreEvaluator({ dice: [4, 4, 2, 6, 6], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Ones]).toEqual(0);
+    expect(scoreEvaluator.scores[ScoreCategory.Twos]).toEqual(2);
+    expect(scoreEvaluator.scores[ScoreCategory.Threes]).toEqual(0);
+    expect(scoreEvaluator.scores[ScoreCategory.Fours]).toEqual(8);
+    expect(scoreEvaluator.scores[ScoreCategory.Fives]).toEqual(0);
+    expect(scoreEvaluator.scores[ScoreCategory.Sixes]).toEqual(12);
   });
 
   it('should calculate three of a kind correctly', () => {
-    expect(scoreEvaluator1.scores[ScoreCategory.ThreeOfAKind]).toEqual(0);
-    expect(scoreEvaluator7.scores[ScoreCategory.ThreeOfAKind]).toEqual(21);
+    // three of a kind exists
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 1, 1, 2, 3], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.ThreeOfAKind]).toEqual(8);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 6, 2, 2], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.ThreeOfAKind]).toEqual(13);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 4, 4, 5, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.ThreeOfAKind]).toEqual(18);
+
+    // three of a kind does not exist
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 1, 2, 3], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.ThreeOfAKind]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 6, 2, 5], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.ThreeOfAKind]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 4, 3, 5, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.ThreeOfAKind]).toEqual(0);
   });
 
   it('should calculate four of a kind correctly', () => {
-    expect(scoreEvaluator6.scores[ScoreCategory.FourOfAKind]).toEqual(30);
-    expect(scoreEvaluator7.scores[ScoreCategory.FourOfAKind]).toEqual(0);
+    // four of a kind exists
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 1, 1, 2, 1], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FourOfAKind]).toEqual(6);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 3, 3, 3, 3], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FourOfAKind]).toEqual(13);
+    scoreEvaluator = new ScoreEvaluator({ dice: [6, 4, 6, 6, 6], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FourOfAKind]).toEqual(28);
+
+    // four of a kind does not exist
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 1, 2, 1], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FourOfAKind]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 4, 2, 5], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FourOfAKind]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 3, 5, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FourOfAKind]).toEqual(0);
   });
 
   it('should calculate full house correctly', () => {
-    expect(scoreEvaluator8.scores[ScoreCategory.FullHouse]).toEqual(25);
-    expect(scoreEvaluator1.scores[ScoreCategory.FullHouse]).toEqual(0);
+    // full house exists
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 1, 2, 1], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FullHouse]).toEqual(25);
+    scoreEvaluator = new ScoreEvaluator({ dice: [6, 6, 3, 3, 6], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FullHouse]).toEqual(25);
+    scoreEvaluator = new ScoreEvaluator({ dice: [5, 5, 5, 1, 1], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FullHouse]).toEqual(25);
+
+    // full house does not exist
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 1, 4, 1], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FullHouse]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 1, 4, 2, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FullHouse]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 3, 1, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.FullHouse]).toEqual(0);
   });
 
   it('should calculate small straight correctly', () => {
-    expect(scoreEvaluator5.scores[ScoreCategory.SmallStraight]).toEqual(30);
-    expect(scoreEvaluator6.scores[ScoreCategory.SmallStraight]).toEqual(0);
+    // small straight exists
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 3, 4, 3], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.SmallStraight]).toEqual(30);
+    scoreEvaluator = new ScoreEvaluator({ dice: [3, 6, 4, 1, 5], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.SmallStraight]).toEqual(30);
+    scoreEvaluator = new ScoreEvaluator({ dice: [5, 4, 3, 1, 2], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.SmallStraight]).toEqual(30);
+
+    // small straight does not exist
+    scoreEvaluator = new ScoreEvaluator({ dice: [5, 6, 3, 1, 2], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.SmallStraight]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 1, 4, 1, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.SmallStraight]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 3, 1, 2], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.SmallStraight]).toEqual(0);
   });
 
   it('should calculate large straight correctly', () => {
-    expect(scoreEvaluator2.scores[ScoreCategory.LargeStraight]).toEqual(40);
-    expect(scoreEvaluator5.scores[ScoreCategory.LargeStraight]).toEqual(0);
+    // large straight exists
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.LargeStraight]).toEqual(40);
+    scoreEvaluator = new ScoreEvaluator({ dice: [5, 3, 2, 1, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.LargeStraight]).toEqual(40);
+    scoreEvaluator = new ScoreEvaluator({ dice: [6, 3, 2, 5, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.LargeStraight]).toEqual(40);
+
+    // large straight does not exist
+    scoreEvaluator = new ScoreEvaluator({ dice: [5, 6, 3, 1, 2], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.LargeStraight]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 3, 1, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.LargeStraight]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 3, 1, 5], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.LargeStraight]).toEqual(0);
   });
 
   it('should calculate yahtzee correctly', () => {
-    expect(scoreEvaluator6.scores[ScoreCategory.Yahtzee]).toEqual(50);
-    expect(scoreEvaluator7.scores[ScoreCategory.Yahtzee]).toEqual(0);
+    // yahtzee exists
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 1, 1, 1, 1], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Yahtzee]).toEqual(50);
+    scoreEvaluator = new ScoreEvaluator({ dice: [3, 3, 3, 3, 3], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Yahtzee]).toEqual(50);
+    scoreEvaluator = new ScoreEvaluator({ dice: [6, 6, 6, 6, 6], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Yahtzee]).toEqual(50);
+
+    // yahtzee does not exist
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 1, 2, 2, 2], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Yahtzee]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [6, 6, 6, 6, 4], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Yahtzee]).toEqual(0);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 2, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Yahtzee]).toEqual(0);
   });
 
   it('should calculate chance correctly', () => {
-    expect(scoreEvaluator2.scores[ScoreCategory.Chance]).toEqual(15); // 1+2+3+4+5
+    // should always sum dice correctly
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 5, 2, 2, 2], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Chance]).toEqual(12);
+    scoreEvaluator = new ScoreEvaluator({ dice: [1, 1, 1, 1, 1], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Chance]).toEqual(5);
+    scoreEvaluator = new ScoreEvaluator({ dice: [6, 6, 6, 6, 6], rollDice() {}, rollDiceByIndex() {}});
+    expect(scoreEvaluator.scores[ScoreCategory.Chance]).toEqual(30);
   });
 });
