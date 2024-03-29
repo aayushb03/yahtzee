@@ -41,7 +41,7 @@ export class AIPlayer extends Player {
    */
   bestTurn(scoreEvaluator : ScoreEvaluator) {
     let maxCategory = SC.Chance;
-    let maxScore = 0;
+    let maxScore = -1;
     for (const key in SC) {
       const enumKey: SC = SC[key as keyof typeof SC];
       if (this.scorecard.scores[enumKey] == -1) {
