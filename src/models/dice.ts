@@ -46,15 +46,14 @@ export class Dice implements IDice {
 
   /**
    * Rolls the dice at the given indices.
-   * @param indices - The indices of the dice to roll.
+   * @param indices - boolean array with indices of 1 and 0 representing the dice to roll (1 meaning do not roll)
    */
   rollDiceByIndex(indices: number[]): void {
-    for (let i = 0; i < indices.length; i++) {
-      if (indices[i] < 0 || indices[i] > 4) {
-        throw new Error('Invalid index');
+    for (let i = 0; i < 5; i++) {
+      if (indices[i] == 0) {
+        this.dice[i] = Math.floor(Math.random() * 6) + 1;
+        // this.dice[indices[i]] = 5;
       }
-      this.dice[indices[i]] = Math.floor(Math.random() * 6) + 1;
-      // this.dice[indices[i]] = 5;
     }
   }
 }

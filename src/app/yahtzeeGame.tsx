@@ -5,7 +5,7 @@ import DiceRow from "@/app/components/dice_row";
 import { Dice } from "@/models/dice";
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import { ScoreCategory } from "@/models/enums";
-import {Player} from "@/models/player";
+import {AIPlayer, Player} from "@/models/player";
 import {LocalPlayers} from "@/models/localPlayers";
 import { Baloo_2 } from "next/font/google";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
@@ -18,7 +18,6 @@ type YahtzeeGameProps = {
 
 const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
   const [dice, setDice] = useState(new Dice());
-  // const [scores, setScores] = useState<Scorecard>(new Scorecard());
   const [scoreEval, setScoreEval] = useState<ScoreEvaluator>(new ScoreEvaluator(dice));
   const [rollsLeft, setRollsLeft] = useState(3);
   const [curPlayers, setCurPlayers] = useState<LocalPlayers>(new LocalPlayers([]));
@@ -28,7 +27,6 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
    * Resets the game to the initial state.
    */
   useEffect(() => {
-    setDice(new Dice());
     // setScores(new Scorecard());
     setRollsLeft(3);
     setCurPlayers(new LocalPlayers([...players], true));
@@ -39,8 +37,16 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
    * Updates the score evaluator when the dice change.
    */
   useEffect(() => {
-    setScoreEval(new ScoreEvaluator(dice));
+    let newScoreEval = new ScoreEvaluator(dice)
+    setScoreEval(newScoreEval);
   }, [dice]);
+
+  useEffect(() => {
+    if (curPlayers.players.length == 0) return;
+    if (curPlayers.getCurrentPlayer() instanceof AIPlayer) {
+      aiTurn(curPlayers.getCurrentPlayer() as AIPlayer)
+    }
+  }, [curPlayers]);
 
   /**
    * Rolls the dice.
@@ -49,13 +55,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
   const rollDice = (selectedDice? : number[]) => {
     if (rollsLeft > 0) {
       if (selectedDice) {
-        const indices = [];
-        for (let i = 0; i < selectedDice.length; i++) {
-          if (selectedDice[i] == 0) {
-            indices.push(i);
-          }
-        }
-        dice.rollDiceByIndex(indices);
+        dice.rollDiceByIndex(selectedDice);
       } else {
         dice.rollDice();
       }
@@ -74,7 +74,6 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
   const handleScoreSelect = (category: ScoreCategory, score: number) => {
     curPlayers.getCurrentPlayer().scorecard.addScore(category, score);
     curPlayers.nextTurn();
-    setDice(new Dice());
     setRollsLeft(3);
     setCurPlayers(new LocalPlayers([...curPlayers.players], false, curPlayers.currentTurn, curPlayers.overallTurn));
     if (curPlayers.getIsGameOver()) {
@@ -97,15 +96,27 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
    * Resets the game to the initial state.
    */
   const resetGame = () => {
-    setDice(new Dice());
     curPlayers.clearScores();
     setCurPlayers(new LocalPlayers([...players], true));
     setRollsLeft(3);
   };
 
+  /**
+   * Resets the game and sends user back to change players screen
+   */
   const changePlayersAndReset = () => {
     resetGame();
     changePlayers();
+  }
+
+  const aiTurn = (ai : AIPlayer) => {
+    setTimeout(() => {
+      rollDice();
+      setTimeout(() => {
+        let input = ai.bestTurn(new ScoreEvaluator(dice))
+        handleScoreSelect(input.maxCategory, input.maxScore);
+      }, 2000);
+    }, 1000);
   }
 
   if (!gameLoaded) {

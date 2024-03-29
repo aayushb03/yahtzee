@@ -87,6 +87,11 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
           </button>
         </div>
 
+        {/*TODO: Delete when adding ai logic is implemented*/}
+        <div className={`${baloo2.className} text-center pt-2 text-xs`}>
+          To add AI player, name the player "AI" (temporary)
+        </div>
+
         {/* this is div in the middle part of the gamecard with the player names if the game mode LOCAL is selected*/}
         <div className={`flex flex-col h-48 items-center w-full py-2 ${baloo2.className}`}>
           {gameMode == GM.Local && <div className={"pt-2"}>

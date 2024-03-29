@@ -50,14 +50,8 @@ export class LocalPlayers implements ILocalPlayers {
    */
   constructor(players: Player[], randomizeTurns? : boolean, currentTurn? : number, overallTurn? : number) {
     this.players = [...players];
-    this.currentTurn = 0;
-    this.overallTurn = 0;
-    if (currentTurn) {
-      this.currentTurn = currentTurn;
-    }
-    if (overallTurn) {
-      this.overallTurn = overallTurn;
-    }
+    this.currentTurn = currentTurn ? currentTurn : 0;
+    this.overallTurn = overallTurn ? overallTurn : 0;
     if (randomizeTurns) {
       this.randomizeTurns();
     }
@@ -87,9 +81,8 @@ export class LocalPlayers implements ILocalPlayers {
   }
 
   /**
-   * Clearsr all the scores in scoreCard
+   * Clear all the scores in scoreCard
    */
-
   clearScores() {
     for (let player of this.players) {
       player.scorecard = new Scorecard();

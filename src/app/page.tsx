@@ -3,7 +3,7 @@ import GameModeCard from './gameModeCard'
 import YahtzeeGame from './yahtzeeGame'
 import React, {useEffect, useState} from "react";
 import {GameStatus as GS} from "@/models/enums";
-import {Player} from "@/models/player";
+import {AIPlayer, Player} from "@/models/player";
 import { getAllScores, addScore, clearScores } from "@/services/scoreService";
 import EndPageCard from './endPageCard';
 import Nav from "@/app/components/nav";
@@ -39,7 +39,12 @@ export default function Home() {
   const startGame = (playerNames : string[], numPlayers : number) => {
     let newPlayers = [];
     for (let i = 0; i < numPlayers; i++) {
-      newPlayers.push(new Player(playerNames[i]));
+      // TODO: Temporary way to add AI (Update logic eventually)
+      if (playerNames[i] == "AI") {
+        newPlayers.push(new AIPlayer(playerNames[i]));
+      } else {
+        newPlayers.push(new Player(playerNames[i]));
+      }
     }
     setPlayers(newPlayers);
     setGameStatus(GS.InProgress);
