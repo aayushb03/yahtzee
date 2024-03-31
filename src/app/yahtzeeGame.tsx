@@ -5,7 +5,7 @@ import DiceRow from "@/app/components/dice_row";
 import { Dice } from "@/models/dice";
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import { ScoreCategory } from "@/models/enums";
-import {AIPlayer, Player} from "@/models/player";
+import { Player } from "@/models/player";
 import {LocalPlayers} from "@/models/localPlayers";
 import { Baloo_2 } from "next/font/google";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
@@ -43,8 +43,8 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
 
   useEffect(() => {
     if (curPlayers.players.length == 0) return;
-    if (curPlayers.getCurrentPlayer() instanceof AIPlayer) {
-      aiTurn(curPlayers.getCurrentPlayer() as AIPlayer)
+    if (curPlayers.getCurrentPlayer().ai) {
+      aiTurn(curPlayers.getCurrentPlayer())
     }
   }, [curPlayers]);
 
@@ -109,13 +109,9 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
     changePlayers();
   }
 
-  const aiTurn = (ai : AIPlayer) => {
+  const aiTurn = (ai : Player) => {
     setTimeout(() => {
       rollDice();
-      setTimeout(() => {
-        let input = ai.bestTurn(new ScoreEvaluator(dice))
-        handleScoreSelect(input.maxCategory, input.maxScore);
-      }, 2000);
     }, 1000);
   }
 

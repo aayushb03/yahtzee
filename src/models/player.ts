@@ -1,6 +1,4 @@
 import { Scorecard } from "@/models/scorecard";
-import {ScoreEvaluator} from "@/models/scoreEvaluator";
-import {ScoreCategory as SC} from "@/models/enums";
 
 /**
  * Interface for a player in the game.
@@ -8,6 +6,7 @@ import {ScoreCategory as SC} from "@/models/enums";
 export interface IPlayer {
   name: string;
   scorecard: Scorecard;
+  ai: boolean;
 }
 
 /**
@@ -17,41 +16,17 @@ export interface IPlayer {
 export class Player implements IPlayer {
   name: string;
   scorecard: Scorecard;
+  ai: boolean;
 
   /**
    * Creates a player with the given name and scorecard.
    * @param name - The name of the player.
+   * @param ai - Whether the player is an AI.
    * @param scorecard - The scorecard of the player.
    */
-  constructor(name: string, scorecard?: Scorecard) {
+  constructor(name: string, ai?: boolean, scorecard?: Scorecard) {
     this.name = name;
     this.scorecard = scorecard? scorecard : new Scorecard();
-  }
-}
-
-export class AIPlayer extends Player {
-  constructor(name: string, scorecard?: Scorecard) {
-    super(name, scorecard);
-  }
-
-  /**
-   * selects the max possible score category to fill the scorecard
-   * @param scoreEvaluator
-   * @returns the Category and Score to add to scorecard
-   */
-  bestTurn(scoreEvaluator : ScoreEvaluator) {
-    let maxCategory = SC.Chance;
-    let maxScore = -1;
-    for (const key in SC) {
-      const enumKey: SC = SC[key as keyof typeof SC];
-      if (this.scorecard.scores[enumKey] == -1) {
-        // console.log(enumKey, scoreEvaluator.scores[enumKey])
-        if (scoreEvaluator.scores[enumKey] > maxScore) {
-          maxCategory = enumKey;
-          maxScore = scoreEvaluator.scores[enumKey];
-        }
-      }
-    }
-    return {maxCategory, maxScore}
+    this.ai = ai ? ai : false;
   }
 }

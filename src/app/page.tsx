@@ -3,8 +3,8 @@ import GameModeCard from './gameModeCard'
 import YahtzeeGame from './yahtzeeGame'
 import React, {useEffect, useState} from "react";
 import {GameStatus as GS} from "@/models/enums";
-import {AIPlayer, Player} from "@/models/player";
-import { getAllScores, addScore, clearScores } from "@/services/scoreService";
+import {Player} from "@/models/player";
+import {addScore, getAllScores} from "@/services/scoreService";
 import EndPageCard from './endPageCard';
 import Nav from "@/app/components/nav";
 
@@ -15,17 +15,6 @@ export default function Home() {
   // Temporary code to test the score service.
   useEffect(() => {
     console.log('Testing score service');
-    // getAllScores().then((scores) => {
-    //   console.log(scores);
-    // });
-    // clearScores().then((response) => {
-    //   console.log(response);
-    // });
-    // getAllScores().then((scores) => {
-    //   console.log(scores);
-    // });
-    // addScore('test', 200).then(() => {});
-    // addScore('test2', 300).then(() => {});
     getAllScores().then((scores) => {
       console.log(scores);
     });
@@ -41,7 +30,7 @@ export default function Home() {
     for (let i = 0; i < numPlayers; i++) {
       // TODO: Temporary way to add AI (Update logic eventually)
       if (playerNames[i] == "AI") {
-        newPlayers.push(new AIPlayer(playerNames[i]));
+        newPlayers.push(new Player(playerNames[i], true));
       } else {
         newPlayers.push(new Player(playerNames[i]));
       }
