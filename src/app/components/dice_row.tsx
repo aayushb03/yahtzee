@@ -85,7 +85,7 @@ const DiceRow = ({ dice, rollDice, diceRolled, playerName, rollsLeft = 3 }: Dice
       )}</div>
 
       {/* dice & roll button div */}
-    <div className="flex justify-center items-center my-4 relative" style={{ marginLeft: '50px' }}>
+    <div data-testid="dice-container" className="flex justify-center items-center my-4 relative" style={{ marginLeft: '50px' }}>
       <VerticalProgressBar rollsLeft={rollsLeft} />
       {/* visual of dice rolling */}
       {diceArr.map((die, index) => (

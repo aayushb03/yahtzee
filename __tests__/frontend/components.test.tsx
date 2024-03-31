@@ -1,69 +1,14 @@
-// import '@testing-library/jest-dom';
-
-// import React from 'react';
-// import { render, fireEvent, act, waitFor } from '@testing-library/react';
-// import Board from '../../src/app/components/board';
-// import { LocalPlayers } from '../../src/models/localPlayers';
-// import { Player } from '../../src/models/player';
-// import { ScoreEvaluator } from '@/models/scoreEvaluator';
-
-// // Mocking services
-// jest.mock('../../src/services/scoreService', () => ({
-//   getAllScores: jest.fn().mockResolvedValue([]),
-//   addScore: jest.fn().mockResolvedValue(undefined),
-//   clearScores: jest.fn().mockResolvedValue(undefined),
-// }));
-
-// // mocking LocalPlayers and creating 
-// jest.mock('../../src/models/player', () => {
-//   return {
-//     Player: jest.fn().mockImplementation(name => ({ name }))
-//   };
-// });
-
-// jest.mock('../../src/models/localPlayers', () => ({
-//   __esModule: true, // Ensure it's treated as an ES module
-//   LocalPlayers: {
-//     players: [new Player('Player 1'), new Player('Player 2')],
-//     getCurrentPlayer: jest.fn().mockResolvedValue(undefined),
-//     isPlayersTurn: jest.fn().mockResolvedValue(undefined),
-//   },
-// }));
-
-// jest.mock('../../src/models/scoreEvaluator');
-
-// describe('board component', () => {
-//   test('renders upper section of table correctly', () => {
-//     const { getByText } = render(
-//     <Board 
-//       currentPlayers={LocalPlayers.players}
-//       potentialScores={[]}
-//       onScoreSelect={() => {}}
-//       diceRolled={false}
-//     />);
-//     expect(getByText('UPPER SECTION')).toBeInTheDocument();
-//   });
-
-//   test('renders lower section of table correctly', () => {
-//       const { getByText } = render(
-//       <Board 
-//         currentPlayers={LocalPlayers.players}
-//         potentialScores={[]}
-//         onScoreSelect={() => {}}
-//         diceRolled={false}
-//       />);
-//     expect(getByText('LOWER SECTION')).toBeInTheDocument();
-//   });
-// });
-
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import Board from '../../src/app/components/board';
+import DiceRow from '../../src/app/components/dice_row';
 import { LocalPlayers } from '@/models/localPlayers';
 import { Player } from '@/models/player';
 import { ScoreEvaluator } from '@/models/scoreEvaluator';
 import { ScoreCategory as SC } from '@/models/enums';
+import { Dice } from '@/models/dice';
 
+// Board Mocks
 // Mock player data
 const mockPlayer1 = new Player('Player 1');
 const mockPlayer2 = new Player('Player 2');
@@ -76,6 +21,13 @@ const mockPotentialScores = new ScoreEvaluator({ dice: [1, 1, 3, 4, 5], rollDice
 
 // Mock onScoreSelect function
 const mockOnScoreSelect = jest.fn();
+
+// DiceRow mocks
+// mock dice
+const mockDice = new Dice();
+
+// mock roll dice
+const rollDice = jest.fn();
 
 describe('Board component', () => {
   beforeEach(() => {
@@ -110,4 +62,57 @@ describe('Board component', () => {
     // Verify the presence of lower section title
     expect(getByText('LOWER SECTION')).toBeInTheDocument();
   });
+});
+
+test('renders dice row with roll button and is clickable', () => {
+  const { getByText } = render(
+    <DiceRow 
+      dice={mockDice}
+      rollDice={rollDice}
+      diceRolled={false}
+      playerName={""}
+    />
+  );
+
+  expect(getByText('ROLL')).toBeInTheDocument();
+
+  fireEvent.click(getByText('ROLL'));
+
+  expect(rollDice).toHaveBeenCalled();
+})
+
+test('renders dice row with 5 dice', () => {
+  const { getByTestId } = render(
+    <DiceRow 
+      dice={mockDice}
+      rollDice={rollDice}
+      diceRolled={false}
+      playerName={""}
+    />
+  );
+
+  const diceContainer = getByTestId('dice-container');
+
+  expect(diceContainer.querySelectorAll('.rounded-full').length).toBe(5);
+});
+
+test('dice are selectable and unselectable', () => {
+  const { getByTestId } = render(
+    <DiceRow 
+      dice={mockDice}
+      rollDice={rollDice}
+      diceRolled={true}
+      playerName={""}
+    />
+  );
+
+  const dice = getByTestId('dice-container').querySelectorAll('.rounded-full');
+
+  fireEvent.click(dice[0]);
+
+  expect(dice[0]).toHaveClass('bg-gray-400');
+
+  fireEvent.click(dice[0]);
+
+  expect(dice[0]).toHaveClass('bg-white');
 });
