@@ -55,20 +55,6 @@ const DiceRow = ({
     setSelectedDice(newSelectedDice);
   };
 
-  const handleRollClick = () => {
-    setIsRolling(true);
-    const randomDiceArr = Array.from(
-      { length: 5 },
-      () => Math.floor(Math.random() * 6) + 1
-    );
-    setDiceArr(randomDiceArr);
-
-    setTimeout(() => {
-      rollDice(selectedDice);
-      setIsRolling(false);
-    }, 3000);
-  };
-
   /* the progress bar visually shows the players have 3 rolls, each time "Roll" is selected, the progress bar goes down 1/3 */
   type VerticalProgressBarProps = {
     rollsLeft: number;
@@ -135,13 +121,14 @@ const DiceRow = ({
             onClick={() => handleDiceClick(index)}
             className={`${styles.dice} ${
               selectedDice[index] === 1 ? styles.diceSelected : ""
-            } ${isRolling ? styles.diceRolling : ""}`}
+            } ${isRolling && selectedDice[index] === 0 ? styles.diceRolling : ""}`}
           >
-            {!isRolling && (
+            {selectedDice[index] === 1 || !isRolling ? (
               <div className={`${styles.dieValue} w-4 h-7 text-center`}>
                 {die}
               </div>
-            )}
+            ) : null}
+            
             <div className={styles.front}></div>
             <div className={styles.back}></div>
             <div className={styles.left}></div>
@@ -152,7 +139,7 @@ const DiceRow = ({
         ))}
         <button
           className="bg-[#E8CC9D] text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105"
-          disabled={isRolling || rollsLeft === 0} 
+          disabled={isRolling || rollsLeft === 0 ||  selectedDice.every(val => val === 1)} 
           onClick={() => {
             setIsRolling(true);
             setTimeout(() => {
