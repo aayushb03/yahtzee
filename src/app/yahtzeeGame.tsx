@@ -23,6 +23,9 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
   const [rollsLeft, setRollsLeft] = useState(3);
   const [curPlayers, setCurPlayers] = useState<LocalPlayers>(new LocalPlayers([]));
   const [gameLoaded, setGameLoaded] = useState(false);
+  const [isAiTurn, setIsAiTurn] = useState(false);
+  const [aiSelectedDice, setAiSelectedDice] = useState([0, 0, 0, 0, 0]);
+  const [aiSelectedCategory, setAiSelectedCategory] = useState<string>("");
 
   /**
    * Resets the game to the initial state.
@@ -50,9 +53,12 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
 
     // start the ai's turn
     if (curPlayers.getCurrentPlayer().ai) {
+      setIsAiTurn(true);
       setTimeout(() => {
         rollDice();
       }, 1000);
+    } else {
+      setIsAiTurn(false);
     }
   }, [curPlayers]);
 
@@ -126,12 +132,22 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
         const categoryToAdd = result.categoryToAdd;
         const scoreToAdd = result.scoreToAdd;
         if (categoryToAdd == "") {
-          rollDice(diceToKeep);
           console.log(diceToKeep);
+          setTimeout(() => {
+            setAiSelectedDice(diceToKeep);
+            setTimeout(() => {
+              rollDice(diceToKeep);
+            }, 1500);
+          }, 1500);
         } else {
-          handleScoreSelect(categoryToAdd as ScoreCategory, scoreToAdd);
           console.log(categoryToAdd);
           console.log(scoreToAdd);
+          setTimeout(() => {
+            setAiSelectedCategory(categoryToAdd);
+            setTimeout(() => {
+              handleScoreSelect(categoryToAdd as ScoreCategory, scoreToAdd);
+            }, 1500);
+          }, 2000);
         }
       }
     });
@@ -154,11 +170,13 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
           currentPlayers={curPlayers}
           onScoreSelect={handleScoreSelect}
           potentialScores={scoreEval}
-          diceRolled={rollsLeft < 3}
+          rollsLeft={rollsLeft}
+          aiSelectedCategory={aiSelectedCategory}
+          isAiTurn={isAiTurn}
         />
       </div>
 
-      <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={curPlayers.getCurrentPlayer().name} rollsLeft={rollsLeft} />
+      <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={curPlayers.getCurrentPlayer().name} rollsLeft={rollsLeft} aiSelectedDice={aiSelectedDice} isAiTurn={isAiTurn} />
   </div>);
 };
 

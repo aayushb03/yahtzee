@@ -2,6 +2,7 @@ import { ScoreCategory as SC } from '@/models/enums';
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import {LocalPlayers} from "@/models/localPlayers";
 import {Player} from "@/models/player";
+import {useEffect, useState} from "react";
 
 type BoardProps = {
    // players currently in the game
@@ -10,10 +11,31 @@ type BoardProps = {
   potentialScores: ScoreEvaluator; 
   onScoreSelect: (category: SC, score: number) => void;
   // if the dice have been rolled a max amount of times (3) or not
-  diceRolled: boolean; 
+  rollsLeft: number;
+
+  aiSelectedCategory: string;
+  isAiTurn: boolean;
 }
 
-const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : BoardProps) => {
+const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSelectedCategory, isAiTurn } : BoardProps) => {
+  const [showPotential, setShowPotential] = useState(false)
+  const [aiDecision, setAiDecision] = useState("");
+
+  useEffect(() => {
+    setShowPotential(false);
+    setAiDecision("");
+    if (rollsLeft < 3) {
+      setTimeout(() => {
+        setShowPotential(true);
+      }, 2200);
+    }
+  }, [rollsLeft]);
+
+  useEffect(() => {
+    if (isAiTurn) {
+      setAiDecision(aiSelectedCategory);
+    }
+  }, [aiSelectedCategory]);
 
   /**
    * Renders the name of a category in the scorecard table.
@@ -63,10 +85,11 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
 
     // makes the column of the player yellow and makes the cell darker so player can see what they are about to click
     let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center border-x` : `bg-white text-center border-x`;
-    cellClass += (diceRolled && potential && currentPlayers.isPlayersTurn(player)) ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
+    cellClass += (showPotential && potential && currentPlayers.isPlayersTurn(player) && !isAiTurn) ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
+    cellClass += (isAiTurn && currentPlayers.isPlayersTurn(player) && aiDecision === category) ? ' bg-[#d4c2a3]' : '';
 
     // if the dice hasn't been rolled yet, the player's column (who's turn it is) is highlighted yellow
-    if (!diceRolled && potential) {
+    if (!showPotential && potential) {
       return (
         <td className={cellClass}></td>
       )
@@ -77,7 +100,9 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
         <td
           className={cellClass}
           onClick={() => {
-            onScoreSelect(category, score);
+            if (!isAiTurn) {
+              onScoreSelect(category, score);
+            }
           }}
         >
           {score != undefined ? <span className="text-app-red">{score}</span> : <span>0</span>}
@@ -135,7 +160,8 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, diceRolled } : 
   /**
    * Renders the scorecard table.
    * @param categories - each of the 4 categories of the table (left top, left total, bottom top, bottom total)
-   * @param totals - 4 totals of each subtable 
+   * @param totals - 4 totals of each subtable
+   * @param sectionTitle
    * @returns  The table to render.
    */
   const renderTable = (categories: SC[], totals: string[],  sectionTitle: string) => (
