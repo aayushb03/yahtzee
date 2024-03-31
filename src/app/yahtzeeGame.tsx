@@ -86,7 +86,11 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
    * @param score 
    */
   const handleScoreSelect = (category: ScoreCategory, score: number) => {
-    curPlayers.getCurrentPlayer().scorecard.addScore(category, score);
+    const currentPlayer = curPlayers.getCurrentPlayer();
+    if (currentPlayer.scorecard.scores[ScoreCategory.Yahtzee] >= 50 && currentPlayer.scorecard.yahtzeeBonus < 300 && scoreEval.scores[ScoreCategory.Yahtzee] == 50) {
+      currentPlayer.scorecard.addYahtzeeBonus();
+    }
+    currentPlayer.scorecard.addScore(category, score);
     curPlayers.nextTurn();
     setRollsLeft(3);
     setCurPlayers(new LocalPlayers([...curPlayers.players], false, curPlayers.currentTurn, curPlayers.overallTurn));
@@ -132,7 +136,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
         const categoryToAdd = result.categoryToAdd;
         const scoreToAdd = result.scoreToAdd;
         if (categoryToAdd == "") {
-          console.log(diceToKeep);
+          // console.log(diceToKeep);
           setTimeout(() => {
             setAiSelectedDice(diceToKeep);
             setTimeout(() => {
@@ -140,8 +144,8 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
             }, 1500);
           }, 1500);
         } else {
-          console.log(categoryToAdd);
-          console.log(scoreToAdd);
+          // console.log(categoryToAdd);
+          // console.log(scoreToAdd);
           setTimeout(() => {
             setAiSelectedCategory(categoryToAdd);
             setTimeout(() => {

@@ -45,14 +45,8 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
    */
   const renderCategoryName = (category: SC, player: Player) => {
     const score = player.scorecard.scores[category];
-    if (category != SC.Yahtzee) {
-      const className = score === -1 ? 'text-red-500' : '';
-      return <span className={className}>{category}</span>;
-    } else {
-      const className = score != 0 && score != 350 ? 'text-red-500' : '';
-      const bonus = score >= 50 && score < 350 ? ` (Bonuses left: ${((350-score)/100)})` : "";
-      return <span className={className}>{`${category}${bonus}`}</span>;
-    }
+    const className = score === -1 ? 'text-red-500' : '';
+    return <span className={className}>{category}</span>;
   };
 
   /**
@@ -67,14 +61,6 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
     let potential = false; 
     let isPlayersTurn = currentPlayers.isPlayersTurn(player);
     if (isPlayersTurn) {
-      // checks to see if yahtzee is filled then allows YahtzeeBonus to be clicked
-      if (category == "Yahtzee" && player.scorecard.scores["Yahtzee"] >= 50) {
-        if (potentialScores.scores[category] > 0 && player.scorecard.scores["Yahtzee"] < 350) {
-          potential = true;
-          // add to previous YahtzeeBonus
-          score = player.scorecard.scores["Yahtzee"] + 100;
-        }
-      }
       if (score === -1) {
         potential = true;
         // if the player has the ability to play in the cell, the red score lights up in it
@@ -84,9 +70,25 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
     }
 
     // makes the column of the player yellow and makes the cell darker so player can see what they are about to click
-    let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center border-x` : `bg-white text-center border-x`;
-    cellClass += (showPotential && potential && currentPlayers.isPlayersTurn(player) && !isAiTurn) ? ' cursor-pointer hover:bg-[#d4c2a3]' : '';
-    cellClass += (isAiTurn && currentPlayers.isPlayersTurn(player) && aiDecision === category) ? ' bg-[#d4c2a3]' : '';
+    let cellClass;
+    if (currentPlayers.isPlayersTurn(player)) {
+      cellClass = 'text-center border-x';
+      if (!isAiTurn) {
+        cellClass += ' bg-app-yellow ';
+        if (showPotential && potential) {
+          cellClass += ' cursor-pointer hover:bg-[#d4c2a3]';
+        }
+      } else {
+        if (aiDecision == category) {
+          cellClass += ' bg-[#d4c2a3]';
+          console.log(cellClass);
+        } else {
+          cellClass += ' bg-app-yellow';
+        }
+      }
+    } else {
+      cellClass = 'bg-white text-center border-x';
+    }
 
     // if the dice hasn't been rolled yet, the player's column (who's turn it is) is highlighted yellow
     if (!showPotential && potential) {
@@ -127,11 +129,13 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
    * @returns  The cell to render.
    */
   const renderTotalScoreCell = (player : Player, category: string) => {
-    let score = 0;
+    let score;
     if (category === 'TopTotal') {
       score = player.scorecard.topTotal;
     } else if (category === 'TotalScore') {
       score = player.scorecard.totalScore;
+    } else if (category === 'Yahtzee Bonus') {
+      score = player.scorecard.yahtzeeBonus;
     } else {
       score = player.scorecard.topBonus;
     }
@@ -139,12 +143,21 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
     // if it's the players turn, highlights the whole column yellow
     let cellClass = currentPlayers.isPlayersTurn(player) ? `bg-app-yellow text-center border-x` : `bg-white text-center border-x`;
 
+    if (showPotential && category === 'Yahtzee Bonus' && currentPlayers.isPlayersTurn(player)) {
+      if (player.scorecard.scores[SC.Yahtzee] >= 50 && player.scorecard.yahtzeeBonus < 300 && potentialScores.scores[SC.Yahtzee] == 50) {
+        cellClass += ' text-app-red';
+        score += 100;
+      } else {
+        cellClass += ' text-black';
+      }
+    }
+
     // returns the cell, populated with score if selected and left white otherwise
     return (
       <td
         className={cellClass}
       >
-        {score !== undefined ? <span className="text-black">{score}</span> : <span>0</span>}
+        {score !== undefined ? <span>{score}</span> : <span>0</span>}
       </td>
     );
 
@@ -153,7 +166,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
   const leftTableCategories: SC[] = [SC.Ones, SC.Twos, SC.Threes, SC.Fours, SC.Fives, SC.Sixes];
   const leftTableTotalCategories: string[] = ['TopBonus', 'TopTotal'];
   const rightTableCategories: SC[] = [SC.ThreeOfAKind, SC.FourOfAKind, SC.FullHouse, SC.SmallStraight, SC.LargeStraight, SC.Chance, SC.Yahtzee];
-  const rightTableTotalCategories: string[] = ['TotalScore'];
+  const rightTableTotalCategories: string[] = ['Yahtzee Bonus', 'TotalScore'];
   const maxLength = Math.max(...currentPlayers.players.map(player => player.name.length));
   const minWidth = `${maxLength * 10}px`; 
 
@@ -169,9 +182,9 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
       <thead>
         {/* either prints "upper section (left) or lower section (right) in the variable sectionTitle with player name next to it " */}
         <tr>
-          <th className="bg-white p-2 text-left border">{sectionTitle}</th>
+          <th className="bg-white p-[7px] text-left border">{sectionTitle}</th>
           {currentPlayers.players.map(player => (
-            <th className="bg-white p-2 text-center border" style={{ minWidth }}>{player.name}</th>
+            <th className="bg-white p-[7px] text-center border" style={{ minWidth }}>{player.name}</th>
           ))}
         </tr>
       </thead>
@@ -179,7 +192,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
         {/* first maps the table category based on each current player, then maps the totals*/}
         {categories.map(category => (
           <tr key={category}>
-            <td className="bg-white p-2 text-left border">{renderCategoryName(category, currentPlayers.getCurrentPlayer())}</td>
+            <td className="bg-white p-[7px] text-left border">{renderCategoryName(category, currentPlayers.getCurrentPlayer())}</td>
             {currentPlayers.players.map(player => (
               renderScoreCell(player, category)
             ))}
@@ -187,7 +200,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
         ))}
         {totals.map(category => (
           <tr key={category}>
-            <td className="bg-white p-2 text-left border">{category}</td>
+            <td className="bg-white p-[7px] text-left border">{category}</td>
             {currentPlayers.players.map(player => (
               renderTotalScoreCell(player, category)
             ))}
@@ -200,7 +213,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
   return (
     // creates two tables, one with the left side of the tables & total and respectively for the right
     // outer <div> defines the larger scorecadrd as a whole with the 2 subtables in it
-    <div className="min-w-[1162px] flex bg-white justify-around gap-4 p-5 rounded-xl shadow text-black">
+    <div className="min-w-[1162px] flex bg-white justify-around gap-4 p-3 rounded-xl shadow text-black">
       <div className="flex flex-1">
         {renderTable(leftTableCategories, leftTableTotalCategories, "UPPER SECTION")}
       </div>

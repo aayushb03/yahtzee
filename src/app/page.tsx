@@ -28,8 +28,7 @@ export default function Home() {
   const startGame = (playerNames : string[], numPlayers : number) => {
     let newPlayers = [];
     for (let i = 0; i < numPlayers; i++) {
-      // TODO: Temporary way to add AI (Update logic eventually)
-      if (playerNames[i] == "AI") {
+      if (playerNames[i].includes(" (AI)")) {
         newPlayers.push(new Player(playerNames[i], true));
       } else {
         newPlayers.push(new Player(playerNames[i]));

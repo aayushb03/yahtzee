@@ -4,6 +4,11 @@ import {GameMode as GM} from "@/models/enums";
 import { RxCross1 } from "react-icons/rx";
 import {Player} from "@/models/player";
 import { Baloo_2 } from "next/font/google";
+import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
+
+const config: Config = {
+  dictionaries: [names]
+}
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type GameModeCardProps = {
@@ -39,6 +44,13 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   const addPlayer = () => {
     if (numPlayers >= 4) return;
     setNumPlayers(numPlayers + 1);
+  }
+
+  const addAI = () => {
+    if (numPlayers >= 4) return;
+    setNumPlayers(numPlayers + 1);
+    const aiName: string = uniqueNamesGenerator(config);
+    onPlayerChange(numPlayers, aiName + " (AI)")
   }
 
     // handles removing a player fom card
@@ -87,15 +99,11 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
           </button>
         </div>
 
-        {/*TODO: Delete when adding ai logic is implemented*/}
-        <div className={`${baloo2.className} text-center pt-2 text-xs`}>
-          To add AI player, name the player "AI" (temporary)
-        </div>
-
         {/* this is div in the middle part of the gamecard with the player names if the game mode LOCAL is selected*/}
         <div className={`flex flex-col h-48 items-center w-full py-2 ${baloo2.className}`}>
           {gameMode == GM.Local && <div className={"pt-2"}>
             {[...Array(numPlayers)].map((_, i) => {
+              const isAi = players[i].includes(" (AI)");
               const playerNum = i + 1;
               return (
                 <div key={i}>
@@ -104,9 +112,10 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
                       Player {playerNum}:
                     </div>
 
-                    {/* handles chagnging players by clicking the "x" button */}
-                    <input className={`border-b-[1px] text-xl ${players[i].trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-32`}
+                    {/* handles changing players by clicking the "x" button */}
+                    <input className={`border-b-[1px] text-xl ${players[i].trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-32 bg-transparent ${isAi && "text-app-gray"}`}
                       value={players[i]}
+                      disabled={isAi}
                       onChange={(e) => onPlayerChange(i, e.target.value)}
                       maxLength={8}
                     />
@@ -116,13 +125,22 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
               );
             })}
 
-            {/* the add button below the player names  */}
-            <div className={"flex justify-center items-center h-8 mt-2"}>
-              {numPlayers != 4 &&
+            <div className={"flex w-full justify-center items-center"}>
+              {/* the add button below the player names  */}
+              <div className={"flex justify-center items-center h-8 mt-2"}>
+                {numPlayers != 4 &&
+                      <button
+                        className={"bg-app-light-gray text-white rounded mx-1 w-24 shadow-xl transition hover:scale-105"}
+                        onClick={addPlayer}>Add Player</button>
+                }
+              </div>
+              <div className={"flex justify-center items-center h-8 mt-2"}>
+                {numPlayers != 4 &&
                     <button
-                      className={"bg-app-light-gray text-white rounded mx-1 w-24 shadow-xl transition hover:scale-105"}
-                      onClick={addPlayer}>Add</button>
-              }
+                        className={"bg-app-light-gray text-white rounded mx-1 w-24 shadow-xl transition hover:scale-105"}
+                        onClick={addAI}>Add AI</button>
+                }
+              </div>
             </div>
           </div>}
 

@@ -15,11 +15,6 @@ export async function getBestOption(scores : { [key in ScoreCategory]: number },
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  // print inputs
-  console.log(scores);
-  console.log(rollsLeft);
-  console.log(dice);
-
   // Navigate to the webpage
   await page.goto('https://www-set.win.tue.nl/~wstomv/misc/yahtzee/osyp.php');
   if (!page) {
@@ -48,6 +43,7 @@ export async function getBestOption(scores : { [key in ScoreCategory]: number },
   await page.click(submitSelector);
 
   // Extract the instruction
+  await page.$(instructionSelector);
   const instruction = await page.evaluate((instructionSelector) => {
     const element = document.querySelector(instructionSelector);
     return element && element.textContent ? element.textContent.trim() : null;

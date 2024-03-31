@@ -41,7 +41,7 @@ export class Dice implements IDice {
   rollDice(): void {
     for (let i = 0; i < this.dice.length; i++) {
       this.dice[i] = Math.floor(Math.random() * 6) + 1;
-      // this.dice[indices[i]] = 5;
+      // this.dice[i] = 5;
     }
   }
 
@@ -53,7 +53,7 @@ export class Dice implements IDice {
     for (let i = 0; i < 5; i++) {
       if (indices[i] == 0) {
         this.dice[i] = Math.floor(Math.random() * 6) + 1;
-        // this.dice[indices[i]] = 5;
+        // this.dice[i] = 5;
       }
     }
   }

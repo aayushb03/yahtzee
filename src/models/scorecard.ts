@@ -16,7 +16,9 @@ export interface IScorecard {
   // The bonus for scoring 63 or more in the top section. 
   topBonus: number; 
   // The total of all scores
-  totalScore: number; 
+  totalScore: number;
+  // The yahtzee bonus
+  yahtzeeBonus: number;
 
   /**
    * Adds a score to the scorecard for the given category. If the category has already been scored, an error will be
@@ -43,6 +45,7 @@ export class Scorecard implements IScorecard {
   topTotal: number;
   topBonus: number;
   totalScore: number;
+  yahtzeeBonus: number;
 
   /**
    * Creates a scorecard with the given scores.
@@ -54,6 +57,7 @@ export class Scorecard implements IScorecard {
       this.topTotal = scoreCard.topTotal;
       this.topBonus = scoreCard.topBonus;
       this.totalScore = scoreCard.totalScore;
+      this.yahtzeeBonus = scoreCard.yahtzeeBonus;
     } else {
       this.scores = {
         'Ones': -1,
@@ -73,6 +77,7 @@ export class Scorecard implements IScorecard {
       this.topTotal = 0;
       this.topBonus = 0;
       this.totalScore = 0;
+      this.yahtzeeBonus = 0;
     }
 
   }
@@ -102,6 +107,15 @@ export class Scorecard implements IScorecard {
     }
   }
 
+  addYahtzeeBonus(): void {
+    this.yahtzeeBonus += 100;
+    this.totalScore += 100;
+  }
+
+  /**
+   * For testing purposes, sets the total score.
+   * @param score
+   */
   setTotalScore(score: number): void {
     this.totalScore = score;
   }
