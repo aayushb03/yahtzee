@@ -103,6 +103,7 @@ const DiceRow = ({
       ))}
     </div>
   );
+  
 
   {
     /* buttons at the bottom of the page - including dice and players name */
