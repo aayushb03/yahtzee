@@ -31,6 +31,7 @@ export class Dice implements IDice {
       this.dice = [...dice.dice];
     } else {
       this.dice = [0, 0, 0, 0, 0];
+      this.rollDice();
     }
   }
 

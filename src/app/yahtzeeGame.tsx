@@ -8,6 +8,7 @@ import { ScoreCategory } from "@/models/enums";
 import { Player } from "@/models/player";
 import {LocalPlayers} from "@/models/localPlayers";
 import { Baloo_2 } from "next/font/google";
+import {getBestOption} from "@/services/aiHelperService";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type YahtzeeGameProps = {
@@ -39,12 +40,19 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
   useEffect(() => {
     let newScoreEval = new ScoreEvaluator(dice)
     setScoreEval(newScoreEval);
+    if (curPlayers.getCurrentPlayer() && curPlayers.getCurrentPlayer().ai) {
+      aiDecision();
+    }
   }, [dice]);
 
   useEffect(() => {
     if (curPlayers.players.length == 0) return;
+
+    // start the ai's turn
     if (curPlayers.getCurrentPlayer().ai) {
-      aiTurn(curPlayers.getCurrentPlayer())
+      setTimeout(() => {
+        rollDice();
+      }, 1000);
     }
   }, [curPlayers]);
 
@@ -109,10 +117,24 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
     changePlayers();
   }
 
-  const aiTurn = (ai : Player) => {
-    setTimeout(() => {
-      rollDice();
-    }, 1000);
+  const aiDecision = () => {
+    const scores = curPlayers.getCurrentPlayer().scorecard.scores;
+    const diceArr = dice.dice;
+    getBestOption(scores, rollsLeft, diceArr).then((result) => {
+      if (result) {
+        const diceToKeep = result.diceToKeep;
+        const categoryToAdd = result.categoryToAdd;
+        const scoreToAdd = result.scoreToAdd;
+        if (categoryToAdd == "") {
+          rollDice(diceToKeep);
+          console.log(diceToKeep);
+        } else {
+          handleScoreSelect(categoryToAdd as ScoreCategory, scoreToAdd);
+          console.log(categoryToAdd);
+          console.log(scoreToAdd);
+        }
+      }
+    });
   }
 
   if (!gameLoaded) {
