@@ -60,7 +60,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
             position: "absolute",
             top: "10px",
             right: "10px",
-            color: "black", 
+            color: "red", 
           }}
         >
           Close
