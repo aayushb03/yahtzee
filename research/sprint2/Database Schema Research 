@@ -1,0 +1,31 @@
+https://learncodeshare.net/2015/05/01/configure-host-access-to-an-oracle-database-on-a-virtualbox-vm/
+
+https://stackoverflow.com/questions/10769344/create-mysql-database-with-sql-file
+
+
+
+commands in this type of structure not working: 
+    mysqldump yahtzee > file.sql
+    mysqldump -u root -p yahtzee --no-data yahtzee > schema.sql
+    mysqldump -u root@172.21.0.1 -p yahtzee --no-data yahtzee > schema.sql
+   using mysql -h localhost -P 53316 --protocol=TCP -u root -p
+    - getting error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysqldump yahtzee > file.sql' at line 1
+
+
+
+
+
+current status: 
+    - in the readme as a table
+    - tried tunneling into VM using ssh -L localhost:53316:localhost:53316 carmen@cs506-team-22.cs.wisc.edu and running commands - still doens't work 
+
+
+    - issues: 
+        - connecting to the VM 
+        -   using my SQL workbench ? 
+                - in doing this, can't get around the SSH key into the machine 
+
+
+GOAL: 
+    - create a .sql file describing schema of database 
+    - creating a local database for testing purposes
