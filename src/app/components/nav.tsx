@@ -25,7 +25,7 @@ const Nav = () => {
       {/* This Modal should appear when isHelpModalOpen is true */}
       <Modal isOpen={isHelpModalOpen} onClose={() => setHelpModalOpen(false)}>
         <p>Modal content goes here. This should be visible when the modal is open.</p>
-        {/* You can put more complex JSX or other components here */}
+        {/* xxxxxx texts goes here  */}
       </Modal>
     </>
   );
