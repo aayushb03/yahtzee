@@ -1,7 +1,9 @@
 'use server';
 
-import puppeteer from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer';
 import {ScoreCategory, ScoreCategory as SC} from "@/models/enums";
+
+let browser: Browser;
 
 /**
  * Gets the best option for the AI player.
@@ -11,15 +13,16 @@ import {ScoreCategory, ScoreCategory as SC} from "@/models/enums";
  * @returns The dice that should be selected and the category to be scored with the score, if applicable
  */
 export async function getBestOption(scores : { [key in ScoreCategory]: number }, rollsLeft : number, dice : number[]) {
-  // Launch a headless browser
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-
-  // Navigate to the webpage
-  await page.goto('https://www-set.win.tue.nl/~wstomv/misc/yahtzee/osyp.php');
-  if (!page) {
-    return null;
+  // Initialize the browser
+  if (!browser) {
+    browser = await puppeteer.launch();
+    console.log('Initialized browser')
   }
+
+  // initialize and navigate to page
+  const page = await browser.newPage();
+  await page.goto('https://www-set.win.tue.nl/~wstomv/misc/yahtzee/osyp.php');
+
 
   // Fill out scorecard
   for (let key in SC) {
@@ -43,7 +46,15 @@ export async function getBestOption(scores : { [key in ScoreCategory]: number },
   await page.click(submitSelector);
 
   // Extract the instruction
-  await page.$(instructionSelector);
+  let instructionSelector;
+  try {
+    await page.waitForSelector(instructionSelector1, { timeout: 3000 });
+    instructionSelector = instructionSelector1;
+  } catch (e) {
+    await page.waitForSelector(instructionSelector2, { timeout: 3000 });
+    instructionSelector = instructionSelector2;
+  }
+
   const instruction = await page.evaluate((instructionSelector) => {
     const element = document.querySelector(instructionSelector);
     return element && element.textContent ? element.textContent.trim() : null;
@@ -71,8 +82,7 @@ export async function getBestOption(scores : { [key in ScoreCategory]: number },
   // Take a screenshot for testing purposes
   // await page.screenshot({ path: 'current.png' });
 
-  // Close the browser
-  await browser.close();
+  await page.close();
 
   return {diceToKeep, categoryToAdd, scoreToAdd};
 }
@@ -147,11 +157,14 @@ const submitSelector = 'body > table > tbody > tr:nth-child(1) > td:nth-child(2)
   'table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(2) > input[type=Submit]:nth-child(2)';
 
 /**
- * Selector for the instruction.
+ * Selector for the first instruction.
  */
-const instructionSelector = 'body > table > tbody > tr:nth-child(1) > td:nth-child(2) > ' +
-  'form > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr > td > table > tbody ' +
-  '> tr:nth-child(2) > td:nth-child(2)'
+const instructionSelector1 = 'body > table > tbody > tr:nth-child(1) > td:nth-child(2) > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)'
+
+/**
+ * Selector for the second instruction.
+ */
+const instructionSelector2 = 'body > table > tbody > tr:nth-child(1) > td:nth-child(2) > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2)'
 
 /**
  * Returns the selector for the dice to keep.

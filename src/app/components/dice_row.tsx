@@ -138,7 +138,9 @@ const DiceRow = ({
         {diceArr.map((die, index) => (
           <div
             key={index}
-            onClick={() => handleDiceClick(index)}
+            onClick={() => {
+              if (!isAiTurn) handleDiceClick(index);
+            }}
             className={`${styles.dice} ${
               selectedDice[index] === 1 ? styles.diceSelected : ""
             } ${isRolling && selectedDice[index] === 0 ? styles.diceRolling : ""}`}
@@ -158,7 +160,7 @@ const DiceRow = ({
           </div>
         ))}
         <button
-          className="bg-[#E8CC9D] text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105"
+          className="bg-app-yellow text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105 shadow-2xl"
           disabled={isRolling || rollsLeft === 0 ||  selectedDice.every(val => val === 1) || isAiTurn}
           onClick={() => {
             const newSelectedDice = selectedDice.map((selected, i) =>
