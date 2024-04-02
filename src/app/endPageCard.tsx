@@ -73,7 +73,7 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
 
         {/* leaderboard party of scorecard - only displays if connected to the database 
             if player makes it only the leaderboard - their name is highlighted */}
-        {leaderboardScores?.length !== 0 && (
+        {leaderboardScores?.length !== 0 ? (
           <div>
             <div className={"text-2xl text-center"}>
               Leaderboard
@@ -95,8 +95,12 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          </div> 
+            ): (
+              <div className={"text-2xl text-center px-4 py-4"}>
+                <p>Error! You are not connected to the database, your scores will NOT be recorded</p> 
+              </div>
+            )} 
 
         {/* restart game button at bottom of the scorecard */}
         <div className={`flex justify-center items-center ${baloo2.className}`}>
