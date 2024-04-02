@@ -49,7 +49,10 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   const addAI = () => {
     if (numPlayers >= 4) return;
     setNumPlayers(numPlayers + 1);
-    const aiName: string = uniqueNamesGenerator(config);
+    let aiName: string = uniqueNamesGenerator(config);
+    while (aiName.length > 5) {
+      aiName = uniqueNamesGenerator(config);
+    }
     onPlayerChange(numPlayers, aiName + " (AI)")
   }
 
