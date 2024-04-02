@@ -4,7 +4,7 @@ import YahtzeeGame from './yahtzeeGame'
 import React, {useEffect, useState} from "react";
 import {GameStatus as GS} from "@/models/enums";
 import {Player} from "@/models/player";
-import { getAllScores, addScore, clearScores } from "@/services/scoreService";
+import {addScore, getAllScores} from "@/services/scoreService";
 import EndPageCard from './endPageCard';
 import Nav from "@/app/components/nav";
 
@@ -15,17 +15,6 @@ export default function Home() {
   // Temporary code to test the score service.
   useEffect(() => {
     console.log('Testing score service');
-    // getAllScores().then((scores) => {
-    //   console.log(scores);
-    // });
-    // clearScores().then((response) => {
-    //   console.log(response);
-    // });
-    // getAllScores().then((scores) => {
-    //   console.log(scores);
-    // });
-    // addScore('test', 200).then(() => {});
-    // addScore('test2', 300).then(() => {});
     getAllScores().then((scores) => {
       console.log(scores);
     });
@@ -39,7 +28,11 @@ export default function Home() {
   const startGame = (playerNames : string[], numPlayers : number) => {
     let newPlayers = [];
     for (let i = 0; i < numPlayers; i++) {
-      newPlayers.push(new Player(playerNames[i]));
+      if (playerNames[i].includes(" (AI)")) {
+        newPlayers.push(new Player(playerNames[i], true));
+      } else {
+        newPlayers.push(new Player(playerNames[i]));
+      }
     }
     setPlayers(newPlayers);
     setGameStatus(GS.InProgress);
@@ -47,12 +40,14 @@ export default function Home() {
 
   /**
    * sets the game status to EndGame
-   * then adds the total score of each player to their scorecard
+   * then adds the total score of each player to their scorecard if not AI player
    */
   const endGame = () => {
     setGameStatus(GS.EndGame);
     for (let player of players) {
-      addScore(player.name, player.scorecard.totalScore).then(() => {});
+      if(!player.ai){
+        addScore(player.name, player.scorecard.totalScore).then(() => {});
+      }
     }
   }
 

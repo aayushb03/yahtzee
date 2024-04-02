@@ -6,6 +6,7 @@ import { Scorecard } from "@/models/scorecard";
 export interface IPlayer {
   name: string;
   scorecard: Scorecard;
+  ai: boolean;
 }
 
 /**
@@ -15,14 +16,17 @@ export interface IPlayer {
 export class Player implements IPlayer {
   name: string;
   scorecard: Scorecard;
+  ai: boolean;
 
   /**
    * Creates a player with the given name and scorecard.
    * @param name - The name of the player.
+   * @param ai - Whether the player is an AI.
    * @param scorecard - The scorecard of the player.
    */
-  constructor(name: string, scorecard?: Scorecard) {
+  constructor(name: string, ai?: boolean, scorecard?: Scorecard) {
     this.name = name;
     this.scorecard = scorecard? scorecard : new Scorecard();
+    this.ai = ai ? ai : false;
   }
 }

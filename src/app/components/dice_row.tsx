@@ -12,7 +12,11 @@ type DiceRowProps = {
   // player who's turn it is
   playerName: string;
   // the rolls left in the turn
-  rollsLeft?: number;
+  rollsLeft: number;
+  // keeps track of each selected dice
+  aiSelectedDice: number[];
+  // if it is the AI's turn
+  isAiTurn: boolean;
 };
 
 const DiceRow = ({
@@ -20,7 +24,9 @@ const DiceRow = ({
   rollDice,
   diceRolled,
   playerName,
-  rollsLeft = 3,
+  rollsLeft,
+  aiSelectedDice,
+  isAiTurn,
 }: DiceRowProps) => {
   // keeps track of each dice value
   const [diceArr, setDiceArr] = useState([1, 1, 1, 1, 1]);
@@ -29,16 +35,23 @@ const DiceRow = ({
   const [isRolling, setIsRolling] = useState(false);
 
   useEffect(() => {
-    if (!isRolling) {
-      const initialDiceArr = dice.dice.every((val) => val === 0)
-        ? [1, 1, 1, 1, 1]
-        : [...dice.dice];
-      setDiceArr(initialDiceArr);
+    setDiceArr(dice.dice)
+  }, [dice]);
+
+  useEffect(() => {
+    if (diceRolled) {
+      rollAnimation();
     }
-  }, [dice, isRolling]);
+  }, [diceArr]);
+
+  useEffect(() => {
+    if (isAiTurn) {
+      setSelectedDice(aiSelectedDice);
+    }
+  } , [aiSelectedDice]);
 
   /**
-   * at the beginning of each turn, the dice are all set to 0
+   * at the beginning of each turn, all the  dice are unselected
    */
   useEffect(() => {
     setSelectedDice([0, 0, 0, 0, 0]);
@@ -59,6 +72,13 @@ const DiceRow = ({
   type VerticalProgressBarProps = {
     rollsLeft: number;
   };
+
+  const rollAnimation = () => {
+    setIsRolling(true);
+    setTimeout(() => {
+      setIsRolling(false);
+    }, 2200);
+  }
 
   /**
    * vertical progress bar for rolls left
@@ -118,7 +138,9 @@ const DiceRow = ({
         {diceArr.map((die, index) => (
           <div
             key={index}
-            onClick={() => handleDiceClick(index)}
+            onClick={() => {
+              if (!isAiTurn) handleDiceClick(index);
+            }}
             className={`${styles.dice} ${
               selectedDice[index] === 1 ? styles.diceSelected : ""
             } ${isRolling && selectedDice[index] === 0 ? styles.diceRolling : ""}`}
@@ -138,17 +160,13 @@ const DiceRow = ({
           </div>
         ))}
         <button
-          className="bg-[#E8CC9D] text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105"
-          disabled={isRolling || rollsLeft === 0 ||  selectedDice.every(val => val === 1)} 
+          className="bg-app-yellow text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105 shadow-2xl"
+          disabled={isRolling || rollsLeft === 0 ||  selectedDice.every(val => val === 1) || isAiTurn}
           onClick={() => {
-            setIsRolling(true);
-            setTimeout(() => {
-              const newSelectedDice = selectedDice.map((selected, i) =>
-                selected === 1 ? diceArr[i] : 0
-              );
-              rollDice(newSelectedDice);
-              setIsRolling(false); 
-            }, 3000); 
+            const newSelectedDice = selectedDice.map((selected, i) =>
+              selected === 1 ? diceArr[i] : 0
+            );
+            rollDice(newSelectedDice);
           }}
         >
           ROLL
