@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
-import { RxCross1 } from "react-icons/rx";
 import { Baloo_2 } from "next/font/google";
 import {Player} from "@/models/player";
-import { getAllScores, addScore, clearScores} from "@/services/scoreService";
+import { getAllScores} from "@/services/scoreService";
 import { Score } from "@/services/scoreService"; 
 
 // font that we use for titles (not cell text)
@@ -97,8 +96,8 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
             </div>
           </div> 
             ): (
-              <div className={"text-2xl text-center px-4 py-4"}>
-                <p>Error! You are not connected to the database, your scores will NOT be recorded</p> 
+              <div className={`${baloo2.className} text-center text-app-red px-4 pb-4`}>
+                <p><span className={"font-bold"}>Error: </span>Unable to connect to database, scores will not be recorded!</p>
               </div>
             )} 
 
