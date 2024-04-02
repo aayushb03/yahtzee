@@ -9,7 +9,7 @@ type BoardProps = {
   currentPlayers: LocalPlayers;  
   // Scores that could be had after dice roll  
   potentialScores: ScoreEvaluator; 
-  onScoreSelect: (category: SC, score: number) => void;
+  onScoreSelect: (category: SC, score: number, potentialScores: ScoreEvaluator) => void;
   // if the dice have been rolled a max amount of times (3) or not
   rollsLeft: number;
 
@@ -81,7 +81,6 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
       } else {
         if (aiDecision == category) {
           cellClass += ' bg-[#d4c2a3]';
-          console.log(cellClass);
         } else {
           cellClass += ' bg-app-yellow';
         }
@@ -103,7 +102,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
           className={cellClass}
           onClick={() => {
             if (!isAiTurn) {
-              onScoreSelect(category, score);
+              onScoreSelect(category, score, potentialScores);
             }
           }}
         >

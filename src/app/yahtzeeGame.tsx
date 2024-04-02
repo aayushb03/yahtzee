@@ -83,11 +83,12 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
   /**
    * Handles the selection of a score category.
    * @param category 
-   * @param score 
+   * @param score
+   * @param potentialScores
    */
-  const handleScoreSelect = (category: ScoreCategory, score: number) => {
+  const handleScoreSelect = (category: ScoreCategory, score: number, potentialScores: ScoreEvaluator) => {
     const currentPlayer = curPlayers.getCurrentPlayer();
-    if (currentPlayer.scorecard.scores[ScoreCategory.Yahtzee] >= 50 && currentPlayer.scorecard.yahtzeeBonus < 300 && scoreEval.scores[ScoreCategory.Yahtzee] == 50) {
+    if (currentPlayer.scorecard.scores[ScoreCategory.Yahtzee] >= 50 && currentPlayer.scorecard.yahtzeeBonus < 300 && potentialScores.scores[ScoreCategory.Yahtzee] == 50) {
       currentPlayer.scorecard.addYahtzeeBonus();
     }
     currentPlayer.scorecard.addScore(category, score);
@@ -149,7 +150,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
           setTimeout(() => {
             setAiSelectedCategory(categoryToAdd);
             setTimeout(() => {
-              handleScoreSelect(categoryToAdd as ScoreCategory, scoreToAdd);
+              handleScoreSelect(categoryToAdd as ScoreCategory, scoreToAdd, new ScoreEvaluator(dice));
             }, 1500);
           }, 2000);
         }
