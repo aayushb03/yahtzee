@@ -40,12 +40,14 @@ export default function Home() {
 
   /**
    * sets the game status to EndGame
-   * then adds the total score of each player to their scorecard
+   * then adds the total score of each player to their scorecard if not AI player
    */
   const endGame = () => {
     setGameStatus(GS.EndGame);
     for (let player of players) {
-      addScore(player.name, player.scorecard.totalScore).then(() => {});
+      if(!player.ai){
+        addScore(player.name, player.scorecard.totalScore).then(() => {});
+      }
     }
   }
 
