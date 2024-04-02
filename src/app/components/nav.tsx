@@ -1,21 +1,59 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {IoIosHelpCircleOutline, IoIosSettings, IoIosStats, IoIosLogIn} from "react-icons/io";
 import Modal from "./modal";
+import {Player} from "@/models/player";
+import { getAllScores} from "@/services/scoreService";
+import { Score } from "@/services/scoreService"; 
+import { Baloo_2 } from "next/font/google";
+import {GameStatus as GS} from "@/models/enums";
+import changePlayersAndReset from '@/app/yahtzeeGame'
+
+  // font that we use for titles (not cell text)
+const baloo2 = Baloo_2({ subsets: ["latin"] });
+
 
 const Nav = () => {
+  const iconClasses = "transition transform hover:-translate-y-1 cursor-pointer";
+
+  const [gameStatus, setGameStatus] = useState<GS>(GS.AddPlayers);
+  const [players, setPlayers] = useState<Player[]>([]);
+
+  // helpers to see if modals are open or not
   const [isHelpModalOpen, setHelpModalOpen] = useState(false);
   const [statsOpen, setStatsOpen] = useState(false);
-  const iconClasses = "transition transform hover:-translate-y-1 cursor-pointer";
-  
+
+  // declares the current players as a list of player objects who each have name and score property
+  const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
+  // array of Scores to hold all leaderboard scores
+  const [leaderboardScores, setLeaderboardScores] = useState<Score[]>([]);
+
+  /**
+   * makes sure that setLeaderboard scores gets the data from the database as soon as the button status of statsOpen is changed
+   */
+  useEffect(() => {
+    getAllScores().then((scores: Score[]) => { 
+      let sortedScores = scores.sort((a, b) => b.Score - a.Score);
+      console.log(sortedScores)
+      setLeaderboardScores(sortedScores.slice(0,10));
+    });
+  }, [statsOpen]);
+
+
+  /**
+   * When logout button or logo is clicked, navigates to homescreen
+   */
   const navToHomeScreen = () =>{
-      
+
   }
+
 
   return (
     <>
       <nav className="flex w-full bg-app-red justify-center items-center">
         <div className="w-[22%]"/>
-        <h1 className="text-6xl text-white my-1 w-[50%] text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)]">YAHTZEE</h1>
+
+        {/* When YAHTZEE logo is clicked, navigates back to starting screen */}
+        <h1 className="text-6xl text-white my-1 w-[50%] text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)]" onClick={navToHomeScreen}>YAHTZEE</h1>
         <div className="w-[22%] flex justify-end text-3xl text-white gap-4">
 
           {/* When this button is clicked, isHelpModalOpen becomes true, which should show the Modal */}
@@ -25,10 +63,12 @@ const Nav = () => {
 
           {/*<IoIosSettings className={iconClasses}/>*/}
 
+          {/* When this button is clicked, setStatsOpen becomes true, which should show the Modal */}
           <button onClick={() => setStatsOpen(true)} className={iconClasses}>
             <IoIosStats className={iconClasses}/>
           </button>
 
+           {/* When this button is clicked, page navigates back to homescreen */}
           <button onClick={() => navToHomeScreen} className={iconClasses}>
             <IoIosLogIn className={iconClasses}/>
           </button>
@@ -60,10 +100,27 @@ const Nav = () => {
 
       {/* This Modal should appear when statsOpen is true */}
       <Modal isOpen={statsOpen} onClose={() => setStatsOpen(false)}>
-        <p>Modal content goes here. This should be visible when the modal is open.</p>
-        {/* xxxxxx texts goes here  */}
+        <div>
+              <div className={"text-2xl text-center"}>
+                Leaderboard
+              </div>
+                <div className={`flex flex-col items-center w-full py-4 ${baloo2.className}`}>
+                  {leaderboardScores.map((entry, index) => (
+                    <div
+                      key={index}
+                      className={`text-xl flex w-[80%] border-b`}
+                    >
+                      <div className={"text-left w-[50%]"}>
+                        {entry.Player_Name}
+                      </div>
+                      <div className={"text-right w-[50%]"}>
+                        {entry.Score}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+          </div>
       </Modal>
-
     </>
   );
 };

@@ -79,4 +79,4 @@ export default function Home() {
       {gameStatus === GS.EndGame && <EndPageCard players={players} onRestart={restartGame} />}
     </div>
   );
-}
+} 
