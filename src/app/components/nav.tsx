@@ -38,19 +38,24 @@ const Nav = () => {
 
       {/* This Modal should appear when isHelpModalOpen is true */}
       <Modal isOpen={isHelpModalOpen} onClose={() => setHelpModalOpen(false)}>
-        <p><u><b>Basic rule of Yahtzee:</b></u></p>
-        <p>Objective: Score points by rolling 5 dice to make certain combinations</p>
-        <p>Turns: Players takes turns rolling the dice 3 times each turn</p>
-        <p>Scoring: Choose from the following categories to score points</p>
-        <ul>
-          <li>Ones, Twos, Threes, Fours, Fives, Sixes</li>
-          <li>Three of a kind, Four of a kind</li>
-          <li>Full House</li>
-          <li>Small Straight, Large Straight</li>
-          <li>Yahtzee</li>
-          <li>Chance</li>
+        <p className="text-3xl"><u>Basic rules of Yahtzee:</u></p>
+        <p><span style={{ fontSize: '1.5em' }}>Objective: </span> Score points by rolling 5 dice to make certain combinations</p>
+        <p><span style={{ fontSize: '1.5em' }}>Turns: </span>Players takes turns rolling the dice 3 times each turn</p>
+        <p><span style={{ fontSize: '1.5em' }}>Scoring: </span> Choose from the following categories to score points</p>
+        <ul style={{ paddingLeft: '20px' }} className="gap-4">
+          <li style={{ display: 'block', color: 'black' }}>Ones, Twos, Threes, Fours, Fives, Sixes</li>
+          <li style={{ display: 'block', color: 'black' }}>Three of a kind, Four of a kind</li>
+          <li style={{ display: 'block', color: 'black' }}>Full House</li>
+          <li style={{ display: 'block', color: 'black' }}>Small Straight, Large Straight</li>
+          <li style={{ display: 'block', color: 'black' }}>Yahtzee</li>
+          <li style={{ display: 'block', color: 'black' }}>Chance</li>
         </ul>
-        <p>Winner: the winner is the person with the most points after everyones board is filled up</p>
+        <p><span style={{ fontSize: '1.5em' }}>Winner: </span> After everyone has seelcted a score for each category, whoever has the most points is the winner</p>
+        <hr style={{ border: '0', borderTop: '2px solid black', width: '50%', margin: '20px auto' }} />
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ fontSize: '20px' }}>For more detailed rules, please click the link below: </p>
+          <a href="https://www.hasbro.com/common/instruct/yahtzee.pdf" target="_blank" rel="noopener noreferrer" style={{ fontSize: '24px', display: 'block', margin: '10px auto', color: 'blue', textDecoration: 'underline' }}>Yahtzee Instructions PDF</a>
+        </div>
       </Modal>
 
       {/* This Modal should appear when statsOpen is true */}
