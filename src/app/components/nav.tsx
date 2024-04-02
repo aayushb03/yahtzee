@@ -6,6 +6,10 @@ const Nav = () => {
   const [isHelpModalOpen, setHelpModalOpen] = useState(false);
   const [statsOpen, setStatsOpen] = useState(false);
   const iconClasses = "transition transform hover:-translate-y-1 cursor-pointer";
+  
+  const navToHomeScreen = () =>{
+      
+  }
 
   return (
     <>
@@ -20,12 +24,12 @@ const Nav = () => {
           </button>
 
           {/*<IoIosSettings className={iconClasses}/>*/}
-          
+
           <button onClick={() => setHelpModalOpen(true)} className={iconClasses}>
             <IoIosStats className={iconClasses}/>
           </button>
 
-          <button onClick={() => setHelpModalOpen(true)} className={iconClasses}>
+          <button onClick={() => navToHomeScreen} className={iconClasses}>
             <IoIosLogIn className={iconClasses}/>
           </button>
       
@@ -38,11 +42,12 @@ const Nav = () => {
         {/* xxxxxx texts goes here  */}
       </Modal>
 
-      {/* This Modal should appear when isHelpModalOpen is true */}
+      {/* This Modal should appear when statsOpen is true */}
       <Modal isOpen={statsOpen} onClose={() => setStatsOpen(false)}>
         <p>Modal content goes here. This should be visible when the modal is open.</p>
         {/* xxxxxx texts goes here  */}
       </Modal>
+
     </>
   );
 };
