@@ -25,7 +25,7 @@ const Nav = () => {
 
           {/*<IoIosSettings className={iconClasses}/>*/}
 
-          <button onClick={() => setHelpModalOpen(true)} className={iconClasses}>
+          <button onClick={() => setStatsOpen(true)} className={iconClasses}>
             <IoIosStats className={iconClasses}/>
           </button>
 
