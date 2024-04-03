@@ -1,4 +1,4 @@
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/../prisma/client";
 
 /**
@@ -10,12 +10,14 @@ import prisma from "@/../prisma/client";
  * @returns status 200 if successful, throws an error if not
  */
 
-export async function DELETE() {
-  try {
-    await prisma.past_Scores.deleteMany();
-    return NextResponse.json({ message: 'Scores deleted' }, { status: 200 });
-  } catch (error) {
-    console.error('Error deleting scores:', error);
-    return NextResponse.json({ error: 'Error deleting scores' }, { status: 500 });
+export async function handler(request: NextRequest, response: NextResponse) {
+  if (request.method === 'DELETE') {
+    try {
+      await prisma.past_Scores.deleteMany();
+      return NextResponse.json({ message: 'Scores deleted' }, { status: 200 });
+    } catch (error) {
+      console.error('Error deleting scores:', error);
+      return NextResponse.json({ error: 'Error deleting scores' }, { status: 500 });
+    }
   }
 }

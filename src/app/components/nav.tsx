@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {IoIosHelpCircleOutline, IoIosSettings, IoIosStats, IoIosLogIn} from "react-icons/io";
+import {IoIosHelpCircleOutline, IoIosStats, IoIosLogIn} from "react-icons/io";
 import Modal from "./modal";
 
 const Nav = () => {

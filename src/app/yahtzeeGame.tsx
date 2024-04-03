@@ -7,6 +7,7 @@ import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import { ScoreCategory } from "@/models/enums";
 import { Player } from "@/models/player";
 import {LocalPlayers} from "@/models/localPlayers";
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import { Baloo_2 } from "next/font/google";
 import {getBestOption} from "@/services/aiHelperService";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
@@ -41,7 +42,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
    * Updates the score evaluator when the dice change.
    */
   useEffect(() => {
-    let newScoreEval = new ScoreEvaluator(dice)
+    const newScoreEval = new ScoreEvaluator(dice)
     setScoreEval(newScoreEval);
     if (curPlayers.getCurrentPlayer() && curPlayers.getCurrentPlayer().ai) {
       aiDecision();
@@ -182,7 +183,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
       </div>
 
       <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={curPlayers.getCurrentPlayer().name} rollsLeft={rollsLeft} aiSelectedDice={aiSelectedDice} isAiTurn={isAiTurn} />
-  </div>);
+    </div>);
 };
 
 export default YahtzeeGame;

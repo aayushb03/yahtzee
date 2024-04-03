@@ -6,6 +6,7 @@ const url = 'http://localhost:3000/api';
  *  retrieves ALL scores from the database (Past_Scores) and stores them in an Score[] - each has properties Game_Num, Player_Name, and Score
  *  returns an empty [] if error is thrown
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export async function getAllScores() {
   const response = await fetch(`${url}/getAllScores`, {
     method: 'GET'
@@ -13,10 +14,10 @@ export async function getAllScores() {
 
   if (!response.ok) {
     console.log("Error: ", response.status);
-    return [] as Score[];
+    return [] as IScore[];
   }
 
-  return await response.json() as Score[];
+  return await response.json() as IScore[];
 }
 
 /** 
@@ -25,6 +26,7 @@ export async function getAllScores() {
 *   @param score - player's score to add to the database in format of a number
 *   returns null if error is thrown
  **/
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export async function addScore(name: string, score: number) {
   const response = await fetch(`${url}/addScore`, {
     method: 'POST',
@@ -39,23 +41,24 @@ export async function addScore(name: string, score: number) {
     return null;
   }
 
-  return await response.json() as Score;
+  return await response.json() as IScore;
 }
 
 /**
  *  Deletes all scores in the database (Past_Scores)
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export async function clearScores() {
   const response = await fetch(`${url}/clearScores`, {
     method: 'DELETE'
   });
-  return await response.json();
+  return response.json();
 }
 
 /* 
  * Describes Score interface - has the same properties as the database (Game_Num, Player_Name, and Score)
  */
-export interface Score {
+export interface IScore {
   Game_Num: number;
   Player_Name: string;
   Score: number;

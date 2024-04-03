@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {GameMode as GM} from "@/models/enums";
 import { RxCross1 } from "react-icons/rx";
 import {Player} from "@/models/player";
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import { Baloo_2 } from "next/font/google";
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
 
@@ -21,11 +22,11 @@ type GameModeCardProps = {
 
 
 const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
-    // keeps track of what is happening in the game
+  // keeps track of what is happening in the game
   const [gameMode, setGameMode] = useState<GM>(GM.Local)
-    // keeps track of players names in a string [] (MAX 4)
+  // keeps track of players names in a string [] (MAX 4)
   const [players, setPlayers] = useState<string[]>(["", "", "", ""])
-    // keeps track of the number of players (MAX 4)
+  // keeps track of the number of players (MAX 4)
   const [numPlayers, setNumPlayers] = useState<number>(1)
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   }, []);
 
 
-    // handles adding a player the card
+  // handles adding a player the card
   const addPlayer = () => {
     if (numPlayers >= 4) return;
     setNumPlayers(numPlayers + 1);
@@ -56,7 +57,7 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
     onPlayerChange(numPlayers, aiName + " (AI)")
   }
 
-    // handles removing a player fom card
+  // handles removing a player fom card
   const removePlayer = (index: number) => {
     if (numPlayers <= 1) return;
     const newPlayers = players.slice(0, index).concat(players.slice(index + 1)).concat([""]);
@@ -64,14 +65,14 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
     setNumPlayers(numPlayers - 1);
   }
 
-    // handles clicking the 'change players' button 
+  // handles clicking the 'change players' button 
   const onPlayerChange = (i: number, value: string) => {
     const newPlayers = [...players];
     newPlayers[i] = value;
     setPlayers(newPlayers);
   }
 
-    // starts the game with the current number of players
+  // starts the game with the current number of players
   const startGame = () => {
     for (let i = 0; i < numPlayers; i++) {
       if (players[i].trim() == "") {
@@ -140,8 +141,8 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
               <div className={"flex justify-center items-center h-8 mt-2"}>
                 {numPlayers != 4 &&
                     <button
-                        className={"bg-app-light-gray text-white rounded mx-1 w-24 shadow-xl transition hover:scale-105"}
-                        onClick={addAI}>Add AI</button>
+                      className={"bg-app-light-gray text-white rounded mx-1 w-24 shadow-xl transition hover:scale-105"}
+                      onClick={addAI}>Add AI</button>
                 }
               </div>
             </div>

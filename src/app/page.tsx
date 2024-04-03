@@ -26,7 +26,7 @@ export default function Home() {
    * @param numPlayers
    */
   const startGame = (playerNames : string[], numPlayers : number) => {
-    let newPlayers = [];
+    const newPlayers = [];
     for (let i = 0; i < numPlayers; i++) {
       if (playerNames[i].includes(" (AI)")) {
         newPlayers.push(new Player(playerNames[i], true));
@@ -44,7 +44,7 @@ export default function Home() {
    */
   const endGame = () => {
     setGameStatus(GS.EndGame);
-    for (let player of players) {
+    for (const player of players) {
       if(!player.ai){
         addScore(player.name, player.scorecard.totalScore).then(() => {});
       }

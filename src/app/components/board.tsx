@@ -59,7 +59,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
     let score = player.scorecard.scores[category];
     // describes if the player has the potential to play in that category, if already filled in - false
     let potential = false; 
-    let isPlayersTurn = currentPlayers.isPlayersTurn(player);
+    const isPlayersTurn = currentPlayers.isPlayersTurn(player);
     if (isPlayersTurn) {
       if (score === -1) {
         potential = true;
