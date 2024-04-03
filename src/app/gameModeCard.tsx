@@ -112,18 +112,19 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
               return (
                 <div key={i}>
                   <div className="flex justify-center items-center h-8 w-full gap-4">
-                    <div className={"text-xl"}>
+                    <label htmlFor={`playerInput-${i}`} className="text-xl">
                       Player {playerNum}:
-                    </div>
+                    </label>
 
                     {/* handles changing players by clicking the "x" button */}
                     <input className={`border-b-[1px] text-xl ${players[i].trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-32 bg-transparent ${isAi && "text-app-gray"}`}
+                      id={`playerInput-${i}`}
                       value={players[i]}
                       disabled={isAi}
                       onChange={(e) => onPlayerChange(i, e.target.value)}
                       maxLength={8}
                     />
-                    <button className={"hover:text-app-red"} onClick={() => {removePlayer(i)}}><RxCross1/></button>
+                    <button data-testid={`remove-player-button-${i}`} className={"hover:text-app-red"} onClick={() => {removePlayer(i)}}><RxCross1/></button>
                   </div>
                 </div>
               );

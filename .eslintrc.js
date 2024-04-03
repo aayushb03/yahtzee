@@ -10,9 +10,6 @@ module.exports = {
     // Formatting
     indent: ['error', 2],
     camelcase: ['error', { properties: 'always' }],
-    // Limit lines to 80 characters (if needed)
-    // Adjust the value based on your project requirements
-    // 'max-len': ['error', { code: 80 }],
         
     // Interfaces
     "@typescript-eslint/naming-convention": [

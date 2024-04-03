@@ -165,12 +165,14 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
 
   return (
     <div className="flex flex-col items-center">
+          {/* nav bar at the top of the in play screen with New Game, Change Players, and autofill scores */}
       <div className={`flex justify-center my-4 ${baloo2.className}`}>
         <button className="bg-app-gray text-xl text-white px-2 py-1 rounded mx-2 w-48 transition hover:scale-105 shadow-2xl" onClick={resetGame}>New Game</button>
         <button className="bg-app-gray text-xl text-white px-2 py-1 rounded mx-2 w-48 transition hover:scale-105 shadow-2xl" onClick={changePlayersAndReset}>Change Players</button>
         <button className="bg-app-gray text-xl text-white px-2 py-1 rounded mx-2 w-48 transition hover:scale-105 shadow-2xl" onClick={handleAutofill}>Autofill Scores</button>
       </div>
 
+      {/** renders the gameboard */}
       <div className={baloo2.className}>
         <Board
           currentPlayers={curPlayers}
