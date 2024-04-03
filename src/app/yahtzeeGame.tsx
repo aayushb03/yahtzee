@@ -183,7 +183,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
         />
       </div>
 
-      <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={curPlayers.getCurrentPlayer().name} rollsLeft={rollsLeft} />
+      <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={curPlayers.getCurrentPlayer().name} rollsLeft={rollsLeft} isAiTurn={isAiTurn} aiSelectedDice={aiSelectedDice}/>
   </div>);
 };
 
