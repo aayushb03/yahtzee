@@ -6,7 +6,7 @@ import { getAllScores} from "@/services/scoreService";
 import { Score } from "@/services/scoreService"; 
 import { Baloo_2 } from "next/font/google";
 import {GameStatus as GS, GameStatus} from "@/models/enums";
-import GameModeCard from '@/app/gameModeCard'
+
 
   // font that we use for titles (not cell text)
 const baloo2 = Baloo_2({ subsets: ["latin"] });
@@ -15,12 +15,7 @@ type NavProps = {
   setGameStatus: (status: GameStatus) => void;
 }
 
-type GameModeCardProps = {
-  currentPlayers: Player[];
-  startYahtzee: (players: string[], numPlayers : number) => void;
-}
-
-const Nav = ({setGameStatus} : NavProps, {startYahtzee} : GameModeCardProps) => {
+const Nav = ({setGameStatus} : NavProps) => {
   const iconClasses = "transition transform hover:-translate-y-1 cursor-pointer";
 
   const [players, setPlayers] = useState<Player[]>([]);
@@ -45,16 +40,12 @@ const Nav = ({setGameStatus} : NavProps, {startYahtzee} : GameModeCardProps) => 
     });
   }, [statsOpen]);
 
-
-  const [players1, setPlayers1] = useState<string[]>(["", "", "", ""])
   /**
    * When logout button or logo is clicked, navigates to homescreen
    */
   const navToHomeScreen = () =>{
    // setPlayers([]);
     setGameStatus(GS.AddPlayers);
-    <GameModeCard startYahtzee={startYahtzee} currentPlayers={([])}/>
-
   }
 
 
