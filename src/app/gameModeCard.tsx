@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {GameMode as GM} from "@/models/enums";
 import { RxCross1 } from "react-icons/rx";
 import {Player} from "@/models/player";
-// eslint-disable-next-line @typescript-eslint/naming-convention
+// eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
 

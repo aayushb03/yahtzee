@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-// eslint-disable-next-line @typescript-eslint/naming-convention
+// eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
 import {Player} from "@/models/player";
 import { getAllScores} from "@/services/scoreService";
@@ -96,11 +96,11 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
               ))}
             </div>
           </div> 
-          ): (
-            <div className={`${baloo2.className} text-center text-app-red px-4 pb-4`}>
-              <p><span className={"font-bold"}>Error: </span>Unable to connect to database, scores will not be recorded!</p>
-            </div>
-          )} 
+        ): (
+          <div className={`${baloo2.className} text-center text-app-red px-4 pb-4`}>
+            <p><span className={"font-bold"}>Error: </span>Unable to connect to database, scores will not be recorded!</p>
+          </div>
+        )} 
 
         {/* restart game button at bottom of the scorecard */}
         <div className={`flex justify-center items-center ${baloo2.className}`}>

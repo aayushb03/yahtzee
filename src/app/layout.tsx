@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-// eslint-disable-next-line @typescript-eslint/naming-convention
+// eslint-disable-next-line
 import { Irish_Grover } from "next/font/google";
 import "./globals.css";
 

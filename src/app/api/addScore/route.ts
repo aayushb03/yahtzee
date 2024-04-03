@@ -10,7 +10,6 @@ import prisma from "@/../prisma/client";
  * past_Scores is the database where all the scores are stored in - formatted as below:
  * | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
  */
-// eslint-disable-next-line
 export async function handler(request: NextRequest) {
   if (request.method === 'POST') {
     const data = await request.json();
@@ -19,7 +18,7 @@ export async function handler(request: NextRequest) {
     try {
       const newScore = await prisma.past_Scores.create({
         data: {
-          // eslint-disable-next-line @typescript-eslint/naming-convention
+          // eslint-disable-next-line
           Player_Name: name,
           Score: score,
         },

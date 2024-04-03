@@ -9,7 +9,6 @@ import prisma from "@/../prisma/client";
  * | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
  * @returns status 200 if successful, throws an error if not
  */
-
 export async function handler(request: NextRequest, response: NextResponse) {
   if (request.method === 'DELETE') {
     try {

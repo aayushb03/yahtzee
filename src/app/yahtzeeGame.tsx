@@ -7,7 +7,7 @@ import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import { ScoreCategory } from "@/models/enums";
 import { Player } from "@/models/player";
 import {LocalPlayers} from "@/models/localPlayers";
-// eslint-disable-next-line @typescript-eslint/naming-convention
+// eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
 import {getBestOption} from "@/services/aiHelperService";
 const baloo2 = Baloo_2({ subsets: ["latin"] });

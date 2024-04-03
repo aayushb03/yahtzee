@@ -7,8 +7,7 @@ import prisma from "@/../prisma/client";
  * | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
  * @returns status 200 if succesful, throws an error if not
  */
-
-export async function handler(request: NextRequest, response: NextResponse) {
+export async function handler(request: NextRequest) {
   if (request.method === 'get') {
     try {
       const scores = await prisma.past_Scores.findMany();
