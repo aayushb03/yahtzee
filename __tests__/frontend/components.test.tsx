@@ -41,7 +41,9 @@ describe('Board component', () => {
         currentPlayers={mockLocalPlayers}
         potentialScores={mockPotentialScores}
         onScoreSelect={mockOnScoreSelect}
-        diceRolled={false}
+        rollsLeft={3}
+        aiSelectedCategory={''}
+        isAiTurn={false}
       />
     );
 
@@ -55,7 +57,9 @@ describe('Board component', () => {
         currentPlayers={mockLocalPlayers}
         potentialScores={mockPotentialScores}
         onScoreSelect={mockOnScoreSelect}
-        diceRolled={false}
+        rollsLeft={3}
+        aiSelectedCategory={''}
+        isAiTurn={false}
       />
     );
 
@@ -71,6 +75,9 @@ test('renders dice row with roll button and is clickable', () => {
       rollDice={rollDice}
       diceRolled={false}
       playerName={""}
+      rollsLeft={3}
+      aiSelectedDice={[]}
+      isAiTurn={false}
     />
   );
 
@@ -88,6 +95,9 @@ test('renders dice row with 5 dice', () => {
       rollDice={rollDice}
       diceRolled={false}
       playerName={""}
+      rollsLeft={3}
+      aiSelectedDice={[]}
+      isAiTurn={false}
     />
   );
 
@@ -101,8 +111,11 @@ test('dice are selectable and unselectable', async () => {
     <DiceRow 
       dice={mockDice}
       rollDice={rollDice}
-      diceRolled={true}
+      diceRolled={false}
       playerName={""}
+      rollsLeft={3}
+      aiSelectedDice={[]}
+      isAiTurn={false}
     />
   );
   
@@ -119,5 +132,7 @@ test('dice are selectable and unselectable', async () => {
       expect(dice[0]).toHaveClass('dice diceSelected');
     }, 100); // Adjust the delay time as needed
   });  
+
+  // TODO: test that you can't roll if no more rolls
 
 });

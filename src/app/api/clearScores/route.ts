@@ -9,14 +9,12 @@ import prisma from "@/../prisma/client";
  * | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
  * @returns status 200 if successful, throws an error if not
  */
-export async function handler(request: NextRequest, response: NextResponse) {
-  if (request.method === 'DELETE') {
-    try {
-      await prisma.past_Scores.deleteMany();
-      return NextResponse.json({ message: 'Scores deleted' }, { status: 200 });
-    } catch (error) {
-      console.error('Error deleting scores:', error);
-      return NextResponse.json({ error: 'Error deleting scores' }, { status: 500 });
-    }
+export async function DELETE() {
+  try {
+    await prisma.past_Scores.deleteMany();
+    return NextResponse.json({ message: 'Scores deleted' }, { status: 200 });
+  } catch (error) {
+    console.error('Error deleting scores:', error);
+    return NextResponse.json({ error: 'Error deleting scores' }, { status: 500 });
   }
 }
