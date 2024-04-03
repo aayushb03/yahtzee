@@ -107,7 +107,8 @@ const Nav = () => {
                 Leaderboard
               </div>
                 <div className={`flex flex-col items-center w-full py-4 ${baloo2.className}`}>
-                  {leaderboardScores.map((entry, index) => (
+                  {leaderboardScores.length!=0? 
+                  leaderboardScores.map((entry, index) => (
                     <div
                       key={index}
                       className={`text-xl flex w-[80%] border-b`}
@@ -119,7 +120,10 @@ const Nav = () => {
                         {entry.Score}
                       </div>
                     </div>
-                  ))}
+                  )): 
+                  <div className={`${baloo2.className} text-center text-app-red px-4 pb-4`}>
+                    <p><span className={"font-bold"}>Error: </span>Unable to connect to database, scores will not be recorded!</p>
+                  </div> }
                 </div>
           </div>
       </Modal>
