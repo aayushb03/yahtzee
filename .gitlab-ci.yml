@@ -1,0 +1,75 @@
+# reference: https://docs.gitlab.com/ee/ci/quick_start/
+
+#####################################
+############### Setup ###############
+#####################################
+stages:
+  - lint
+  - unit_test
+  - build
+  - release
+
+variables:
+  RELEASE_TAG: release-$CI_PIPELINE_IID
+
+#####################################
+############## Linting ##############
+#####################################
+lint_frontend:
+  stage: lint
+  image: node:latest
+  before_script:
+    - npm install eslint --save-dev
+  script:
+    - npx eslint . --ext .js,.jsx,.ts,.tsx
+  tags:
+    - dind
+
+#####################################
+############## Testing ##############
+#####################################
+#####################################
+############## Testing ##############
+#####################################
+unit_test_frontend:
+  stage: unit_test
+  image: node:latest
+  before_script:
+    - npm install
+  script:
+    - npm run test
+  tags:
+    - dind
+
+#####################################
+########## Build & Release ##########
+#####################################
+build_and_release:
+  stage: build
+  image: node:latest
+  before_script:
+    - npm install
+  script:
+    - npm run build
+    - echo "Build successful"
+  artifacts:
+    paths:
+      - build/
+  tags:
+    - dind
+
+release:
+  stage: release
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG .
+    - docker tag $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG $CI_REGISTRY_PROJ/frontend:latest
+    - docker push $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG
+    - docker push $CI_REGISTRY_IMAGE/frontend:latest
+  tags:
+    - dind
+  only:
+    - main
