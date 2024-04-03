@@ -28,14 +28,11 @@ lint_frontend:
 #####################################
 ############## Testing ##############
 #####################################
-#####################################
-############## Testing ##############
-#####################################
 unit_test_frontend:
   stage: unit_test
   image: node:latest
   before_script:
-    - npm install
+    - npm install --save-dev ts-jest @types/jest
   script:
     - npm run test
   tags:
