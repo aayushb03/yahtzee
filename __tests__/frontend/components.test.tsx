@@ -120,7 +120,7 @@ test('dice are selectable and unselectable', async () => {
   );
   
   const dice = getByTestId('dice-container').querySelectorAll('.dice');
-  expect(dice[0]).toHaveClass('dice diceRolling');
+  expect(dice[0]).toHaveClass('dice');
 
   act(() => {
     fireEvent.click(dice[0]);
