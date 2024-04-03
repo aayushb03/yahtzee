@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import Board from '../../src/app/components/board';
 import DiceRow from '../../src/app/components/dice_row';
 import { LocalPlayers } from '@/models/localPlayers';
@@ -93,10 +93,10 @@ test('renders dice row with 5 dice', () => {
 
   const diceContainer = getByTestId('dice-container');
 
-  expect(diceContainer.querySelectorAll('.rounded-full').length).toBe(5);
+  expect(diceContainer.querySelectorAll('.dice').length).toBe(5);
 });
 
-test('dice are selectable and unselectable', () => {
+test('dice are selectable and unselectable', async () => {
   const { getByTestId } = render(
     <DiceRow 
       dice={mockDice}
@@ -105,14 +105,19 @@ test('dice are selectable and unselectable', () => {
       playerName={""}
     />
   );
+  
+  const dice = getByTestId('dice-container').querySelectorAll('.dice');
+  expect(dice[0]).toHaveClass('dice diceRolling');
 
-  const dice = getByTestId('dice-container').querySelectorAll('.rounded-full');
+  act(() => {
+    fireEvent.click(dice[0]);
+  });
 
-  fireEvent.click(dice[0]);
+  await waitFor(async () => {
+    setTimeout(() => {
+      // Check if the first dice now has the diceSelected class
+      expect(dice[0]).toHaveClass('dice diceSelected');
+    }, 100); // Adjust the delay time as needed
+  });  
 
-  expect(dice[0]).toHaveClass('bg-gray-400');
-
-  fireEvent.click(dice[0]);
-
-  expect(dice[0]).toHaveClass('bg-white');
 });

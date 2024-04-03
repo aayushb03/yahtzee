@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 import React from 'react';
-import { render, fireEvent, act, waitFor, findByLabelText } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import Home from '../../src/app/page'
 import GameModeCard from '@/app/gameModeCard';
 
@@ -22,7 +22,7 @@ describe('Home component', () => {
     const { getByText, getByLabelText } = render(<Home />);
     act(() => {
       fireEvent.change(getByLabelText('Player 1:'), { target: { value: 'Player 1' } });
-      fireEvent.click(getByText('Add'));
+      fireEvent.click(getByText('Add Player'));
     });
 
     await waitFor(async () => {
@@ -38,7 +38,7 @@ describe('Home component', () => {
 
     act(() => {
       fireEvent.change(getByLabelText('Player 1:'), { target: { value: 'Player 1' } });
-      fireEvent.click(getByText('Add'));
+      fireEvent.click(getByText('Add Player'));
     });
     act(() => {
       fireEvent.click(getByTestId('remove-player-button-0'));
