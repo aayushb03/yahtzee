@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import { Baloo_2 } from "next/font/google";
 import {Player} from "@/models/player";
 import { getAllScores} from "@/services/scoreService";
-import { Score } from "@/services/scoreService"; 
+import { IScore } from "@/services/scoreService"; 
 
 // font that we use for titles (not cell text)
 const baloo2 = Baloo_2({ subsets: ["latin"] });
@@ -27,12 +27,12 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
     // lists the current players in order depending on their score
     setCurrentPlayers(curPlayers.sort((a, b) => b.scorecard.totalScore - a.scorecard.totalScore));
     // gets ALL of the scores from database then getst the top 10 to show on the leaderboard
-    getAllScores().then((scores: Score[]) => { 
+    getAllScores().then((scores: IScore[]) => { 
       const sortedScores = scores.sort((a, b) => b.Score - a.Score);
       setLeaderboardScores(sortedScores.slice(0,10));
     });
     //want to get the most recent game number (the greatest game number is going to be the largest)
-    getAllScores().then((scores: Score[]) => { 
+    getAllScores().then((scores: IScore[]) => { 
       const largestNums = scores.sort((a, b) => b.Game_Num - a.Game_Num);
       const firstLargestNums = largestNums.slice(0,curPlayers.length)
       const gameNumList=[] 
