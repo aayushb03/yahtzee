@@ -9,8 +9,6 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest"
-    "lint:fix": "eslint . --fix",
-    "test": "jest"
   },
   "dependencies": {
     "@prisma/client": "^5.11.0",

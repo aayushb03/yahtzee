@@ -8,7 +8,7 @@ import prisma from "@/../prisma/client";
  * @returns status 200 if succesful, throws an error if not
  */
 export async function handler(request: NextRequest) {
-  if (request.method === 'get') {
+  if (request.method === 'GET') {
     try {
       const scores = await prisma.past_Scores.findMany();
       return NextResponse.json(scores, { status: 200 });
