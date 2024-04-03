@@ -17,7 +17,7 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
   // declares the current players as a list of player objects who each have name and score property
   const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
   // declares leaderboard scores as a list of player object which each have a Game_Num. Player_Name, and Score property
-  const [leaderboardScores, setLeaderboardScores] = useState<Score[]>([]);
+  const [leaderboardScores, setLeaderboardScores] = useState<IScore[]>([]);
   const [recentGameNums, setRecentGameNums] = useState([0]);
 
 
