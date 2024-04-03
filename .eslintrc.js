@@ -34,7 +34,7 @@ module.exports = {
         
     // Functions
     'prefer-arrow-callback': 'error',
-    'func-style': ['warn', 'expression'],
+    // 'func-style': ['error', 'expression'],
         
     // Promises and Async/Await
     'prefer-promise-reject-errors': 'error',
