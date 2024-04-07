@@ -79,10 +79,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen bg-app-red" style={{ minWidth: '1162px' }}>
-      <Nav/>
+      <Nav setGameStatus={setGameStatus}/>
       {gameStatus == GS.AddPlayers &&  <GameModeCard startYahtzee={startGame} currentPlayers={players}/>}
       {gameStatus == GS.InProgress && <YahtzeeGame changePlayers={changePlayers} players={players} endGame={endGame}/>}
       {gameStatus === GS.EndGame && <EndPageCard players={players} onRestart={restartGame} />}
     </div>
   );
-}
+} 

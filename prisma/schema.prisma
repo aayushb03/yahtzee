@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:yahtzee@localhost:53316/yahtzee"
+  url      = env("DATABASE_URL")
 }
 
 model Past_Scores {
