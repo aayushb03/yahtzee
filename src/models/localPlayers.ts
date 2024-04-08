@@ -84,7 +84,7 @@ export class LocalPlayers implements ILocalPlayers {
    * Clear all the scores in scoreCard
    */
   clearScores() {
-    for (let player of this.players) {
+    for (const player of this.players) {
       player.scorecard = new Scorecard();
     }
     this.overallTurn = 0;
@@ -106,5 +106,5 @@ export class LocalPlayers implements ILocalPlayers {
       const j = Math.floor(Math.random() * (i + 1));
       [this.players[i], this.players[j]] = [this.players[j], this.players[i]];
     }
-  };
+  }
 }

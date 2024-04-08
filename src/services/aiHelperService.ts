@@ -12,7 +12,7 @@ let browser: Browser;
  * @param rollsLeft - The number of rolls left.
  * @returns The dice that should be selected and the category to be scored with the score, if applicable
  */
-export async function getBestOption(scores : { [key in ScoreCategory]: number }, rollsLeft : number, dice : number[]) {
+export async function getBestOption(scores: { [key in ScoreCategory]: number }, rollsLeft: number, dice: number[]) {
   // Initialize the browser
   if (!browser) {
     browser = await puppeteer.launch();
@@ -25,7 +25,7 @@ export async function getBestOption(scores : { [key in ScoreCategory]: number },
 
 
   // Fill out scorecard
-  for (let key in SC) {
+  for (const key in SC) {
     const enumKey: SC = SC[key as keyof typeof SC];
     const score = scores[enumKey];
     if (score != -1) {
@@ -61,7 +61,7 @@ export async function getBestOption(scores : { [key in ScoreCategory]: number },
   }, instructionSelector);
 
   // Initialize return values
-  let diceToKeep = [1, 1, 1, 1, 1];
+  const diceToKeep = [1, 1, 1, 1, 1];
   let categoryToAdd = "";
   let scoreToAdd = 0;
   if (instruction?.includes("Score")) {

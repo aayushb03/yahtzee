@@ -13,10 +13,10 @@ export async function getAllScores() {
 
   if (!response.ok) {
     console.log("Error: ", response.status);
-    return [] as Score[];
+    return [] as IScore[];
   }
 
-  return await response.json() as Score[];
+  return await response.json() as IScore[];
 }
 
 /** 
@@ -39,7 +39,7 @@ export async function addScore(name: string, score: number) {
     return null;
   }
 
-  return await response.json() as Score;
+  return await response.json() as IScore;
 }
 
 /**
@@ -49,13 +49,13 @@ export async function clearScores() {
   const response = await fetch(`${url}/clearScores`, {
     method: 'DELETE'
   });
-  return await response.json();
+  return response.json();
 }
 
 /* 
  * Describes Score interface - has the same properties as the database (Game_Num, Player_Name, and Score)
  */
-export interface Score {
+export interface IScore {
   Game_Num: number;
   Player_Name: string;
   Score: number;

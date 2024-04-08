@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 
-interface ModalProps {
+interface IModalProps {
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode; 
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
   useEffect(() => {
     const handleBackdropClick = (event: MouseEvent) => {
       // Check if the click is on the backdrop (and not the modal content)
