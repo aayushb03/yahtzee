@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
+// eslint-disable-next-line
+import { Baloo_2 } from "next/font/google";
+// eslint-disable-next-line
+const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 interface IModalProps {
   isOpen: boolean;
   onClose: () => void;
-  children?: React.ReactNode; 
+  children?: React.ReactNode;
 }
 
 const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
@@ -45,22 +49,22 @@ const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
       <div
         style={{
           backgroundColor: "white",
-          padding: "40px", 
+          padding: "40px",
           borderRadius: "8px",
           position: "relative",
-          minWidth: "600px", 
-          minHeight: "300px", 
+          minWidth: "600px",
+          minHeight: "300px",
           color: "black", // Ensure text color is black
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         }}
       >
         <button
+          className={`${baloo2.className} text-app-red`}
           onClick={onClose}
           style={{
             position: "absolute",
             top: "10px",
-            right: "10px",
-            color: "red", 
+            right: "10px"
           }}
         >
           Close
