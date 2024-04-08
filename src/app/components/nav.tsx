@@ -9,6 +9,7 @@ import Modal from "./modal";
 import { Player } from "@/models/player";
 import { getAllScores } from "@/services/scoreService";
 import { IScore } from "@/services/scoreService";
+// eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
 import { GameStatus as GS, GameStatus } from "@/models/enums";
 
