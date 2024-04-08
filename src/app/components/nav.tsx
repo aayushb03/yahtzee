@@ -72,6 +72,7 @@ const Nav = ({ setGameStatus }: NavProps) => {
           <button
             onClick={() => setHelpModalOpen(true)}
             className={iconClasses}
+            data-testid="help-button"
           >
             <IoIosHelpCircleOutline />
           </button>
@@ -79,12 +80,20 @@ const Nav = ({ setGameStatus }: NavProps) => {
           {/*<IoIosSettings className={iconClasses}/>*/}
 
           {/* When this button is clicked, setStatsOpen becomes true, which should show the Modal */}
-          <button onClick={() => setStatsOpen(true)} className={iconClasses}>
+          <button 
+            onClick={() => setStatsOpen(true)} 
+            className={iconClasses}
+            data-testid="leaderboard-button"
+          >
             <IoIosStats className={iconClasses} />
           </button>
 
           {/* When this button is clicked, page navigates back to homescreen */}
-          <button onClick={() => navToHomeScreen()} className={iconClasses}>
+          <button 
+            onClick={() => navToHomeScreen()} 
+            className={iconClasses}
+            data-testid="leave-button"
+          >
             <IoIosLogIn className={iconClasses} />
           </button>
         </div>
