@@ -1,28 +1,32 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import Board from './components/board'
+"use client";
+import React, { useEffect, useState } from "react";
+import Board from "./components/board";
 import DiceRow from "@/app/components/dice_row";
 import { Dice } from "@/models/dice";
 import { ScoreEvaluator } from "@/models/scoreEvaluator";
 import { ScoreCategory } from "@/models/enums";
 import { Player } from "@/models/player";
-import {LocalPlayers} from "@/models/localPlayers";
+import { LocalPlayers } from "@/models/localPlayers";
 // eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
-import {getBestOption} from "@/services/aiHelperService";
+import { getBestOption } from "@/services/aiHelperService";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type YahtzeeGameProps = {
   changePlayers: () => void;
   endGame: () => void;
   players: Player[];
-}
+};
 
-const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
+const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
   const [dice, setDice] = useState(new Dice());
-  const [scoreEval, setScoreEval] = useState<ScoreEvaluator>(new ScoreEvaluator(dice));
+  const [scoreEval, setScoreEval] = useState<ScoreEvaluator>(
+    new ScoreEvaluator(dice)
+  );
   const [rollsLeft, setRollsLeft] = useState(3);
-  const [curPlayers, setCurPlayers] = useState<LocalPlayers>(new LocalPlayers([]));
+  const [curPlayers, setCurPlayers] = useState<LocalPlayers>(
+    new LocalPlayers([])
+  );
   const [gameLoaded, setGameLoaded] = useState(false);
   const [isAiTurn, setIsAiTurn] = useState(false);
   const [aiSelectedDice, setAiSelectedDice] = useState([0, 0, 0, 0, 0]);
@@ -38,11 +42,11 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
     setGameLoaded(true);
   }, []);
 
-  /** 
+  /**
    * Updates the score evaluator when the dice change.
    */
   useEffect(() => {
-    const newScoreEval = new ScoreEvaluator(dice)
+    const newScoreEval = new ScoreEvaluator(dice);
     setScoreEval(newScoreEval);
     if (curPlayers.getCurrentPlayer() && curPlayers.getCurrentPlayer().ai) {
       aiDecision();
@@ -67,7 +71,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
    * Rolls the dice.
    * @param selectedDice an array of ones and zeros to indicate which dice to roll.
    */
-  const rollDice = (selectedDice? : number[]) => {
+  const rollDice = (selectedDice?: number[]) => {
     if (rollsLeft > 0) {
       if (selectedDice) {
         dice.rollDiceByIndex(selectedDice);
@@ -83,19 +87,34 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
 
   /**
    * Handles the selection of a score category.
-   * @param category 
+   * @param category
    * @param score
    * @param potentialScores
    */
-  const handleScoreSelect = (category: ScoreCategory, score: number, potentialScores: ScoreEvaluator) => {
+  const handleScoreSelect = (
+    category: ScoreCategory,
+    score: number,
+    potentialScores: ScoreEvaluator
+  ) => {
     const currentPlayer = curPlayers.getCurrentPlayer();
-    if (currentPlayer.scorecard.scores[ScoreCategory.Yahtzee] >= 50 && currentPlayer.scorecard.yahtzeeBonus < 300 && potentialScores.scores[ScoreCategory.Yahtzee] == 50) {
+    if (
+      currentPlayer.scorecard.scores[ScoreCategory.Yahtzee] >= 50 &&
+      currentPlayer.scorecard.yahtzeeBonus < 300 &&
+      potentialScores.scores[ScoreCategory.Yahtzee] == 50
+    ) {
       currentPlayer.scorecard.addYahtzeeBonus();
     }
     currentPlayer.scorecard.addScore(category, score);
     curPlayers.nextTurn();
     setRollsLeft(3);
-    setCurPlayers(new LocalPlayers([...curPlayers.players], false, curPlayers.currentTurn, curPlayers.overallTurn));
+    setCurPlayers(
+      new LocalPlayers(
+        [...curPlayers.players],
+        false,
+        curPlayers.currentTurn,
+        curPlayers.overallTurn
+      )
+    );
     if (curPlayers.getIsGameOver()) {
       endGame();
     }
@@ -105,12 +124,12 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
    * Autofills scores in dev mode in order to view final score card quicker.
    */
   const handleAutofill = () => {
-    curPlayers.players.forEach(player => {
+    curPlayers.players.forEach((player) => {
       player.scorecard.setTotalScore(0);
-    })
+    });
 
     endGame();
-  }
+  };
 
   /**
    * Resets the game to the initial state.
@@ -127,7 +146,7 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
   const changePlayersAndReset = () => {
     resetGame();
     changePlayers();
-  }
+  };
 
   const aiDecision = () => {
     const scores = curPlayers.getCurrentPlayer().scorecard.scores;
@@ -151,13 +170,17 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
           setTimeout(() => {
             setAiSelectedCategory(categoryToAdd);
             setTimeout(() => {
-              handleScoreSelect(categoryToAdd as ScoreCategory, scoreToAdd, new ScoreEvaluator(dice));
+              handleScoreSelect(
+                categoryToAdd as ScoreCategory,
+                scoreToAdd,
+                new ScoreEvaluator(dice)
+              );
             }, 1500);
           }, 2000);
         }
       }
     });
-  }
+  };
 
   if (!gameLoaded) {
     return <div></div>;
@@ -167,9 +190,24 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
     <div className="flex flex-col items-center">
       {/* nav bar at the top of the in play screen with New Game, Change Players, and autofill scores */}
       <div className={`flex justify-center my-4 ${baloo2.className}`}>
-        <button className="bg-app-gray text-xl text-white px-2 py-1 rounded mx-2 w-48 transition hover:scale-105 shadow-2xl" onClick={resetGame}>New Game</button>
-        <button className="bg-app-gray text-xl text-white px-2 py-1 rounded mx-2 w-48 transition hover:scale-105 shadow-2xl" onClick={changePlayersAndReset}>Change Players</button>
-        <button className="bg-app-gray text-xl text-white px-2 py-1 rounded mx-2 w-48 transition hover:scale-105 shadow-2xl" onClick={handleAutofill}>Autofill Scores</button>
+        <button
+          className="bg-app-gray text-xl text-white px-2 py-1 rounded mx-2 w-48 transition hover:scale-105 shadow-2xl"
+          onClick={resetGame}
+        >
+          New Game
+        </button>
+        <button
+          className="bg-app-gray text-xl text-white px-2 py-1 rounded mx-2 w-48 transition hover:scale-105 shadow-2xl"
+          onClick={changePlayersAndReset}
+        >
+          Change Players
+        </button>
+        <button
+          className="bg-app-gray text-xl text-white px-2 py-1 rounded mx-2 w-48 transition hover:scale-105 shadow-2xl"
+          onClick={handleAutofill}
+        >
+          Autofill Scores
+        </button>
       </div>
 
       {/** renders the gameboard */}
@@ -184,8 +222,17 @@ const YahtzeeGame = ({changePlayers, players, endGame} : YahtzeeGameProps) => {
         />
       </div>
 
-      <DiceRow dice={dice} rollDice={rollDice} diceRolled={rollsLeft<3} playerName={curPlayers.getCurrentPlayer().name} rollsLeft={rollsLeft} isAiTurn={isAiTurn} aiSelectedDice={aiSelectedDice}/>
-  </div>);
+      <DiceRow
+        dice={dice}
+        rollDice={rollDice}
+        diceRolled={rollsLeft < 3}
+        playerName={curPlayers.getCurrentPlayer().name}
+        rollsLeft={rollsLeft}
+        isAiTurn={isAiTurn}
+        aiSelectedDice={aiSelectedDice}
+      />
+    </div>
+  );
 };
 
 export default YahtzeeGame;
