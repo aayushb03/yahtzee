@@ -20,8 +20,7 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
   const [leaderboardScores, setLeaderboardScores] = useState<IScore[]>([]);
   // array that holds the gameNumbers associated with the users in the database
   const [recentGameNums, setRecentGameNums] = useState([0]);
-
-    // boolean used to help timeout to wait for leaderboard to load
+  // boolean used to help timeout to wait for leaderboard to load
   const [showLeaderboard, setShowLeaderboard] = useState(false);
 
 

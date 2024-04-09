@@ -53,7 +53,6 @@ const Nav = ({ setGameStatus }: NavProps) => {
    * When logout button or logo is clicked, navigates to homescreen
    */
   const navToHomeScreen = () => {
-    // setPlayers([]);
     setGameStatus(GS.AddPlayers);
   };
 
@@ -73,6 +72,7 @@ const Nav = ({ setGameStatus }: NavProps) => {
         >
           YAHTZEE
         </h1>
+
         <div className="w-[22%] flex justify-end text-3xl text-white gap-4">
           {/* When this button is clicked, isHelpModalOpen becomes true, which should show the Modal */}
           <button
@@ -82,8 +82,6 @@ const Nav = ({ setGameStatus }: NavProps) => {
           >
             <IoIosHelpCircleOutline />
           </button>
-
-          {/*<IoIosSettings className={iconClasses}/>*/}
 
           {/* When this button is clicked, setStatsOpen becomes true, which should show the Modal */}
           <button 

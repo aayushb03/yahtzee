@@ -58,6 +58,7 @@ const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         }}
       >
+        {/* close button */}
         <button
           className={`${baloo2.className} text-app-red`}
           onClick={onClose}
