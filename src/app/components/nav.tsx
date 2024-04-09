@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
   IoIosHelpCircleOutline,
-  IoIosSettings,
   IoIosStats,
   IoIosLogIn,
 } from "react-icons/io";
 import Modal from "./modal";
-import { Player } from "@/models/player";
 import { getAllScores } from "@/services/scoreService";
 import { IScore } from "@/services/scoreService";
 // eslint-disable-next-line
@@ -25,14 +23,10 @@ const Nav = ({ setGameStatus }: NavProps) => {
   const iconClasses =
     "transition transform hover:-translate-y-1 cursor-pointer";
 
-  const [players, setPlayers] = useState<Player[]>([]);
-
   // helpers to see if modals are open or not
   const [isHelpModalOpen, setHelpModalOpen] = useState(false);
   const [statsOpen, setStatsOpen] = useState(false);
 
-  // declares the current players as a list of player objects who each have name and score property
-  const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
   // array of Scores to hold all leaderboard scores
   const [leaderboardScores, setLeaderboardScores] = useState<IScore[]>([]);
 
@@ -62,7 +56,7 @@ const Nav = ({ setGameStatus }: NavProps) => {
 
         {/* When YAHTZEE logo is clicked, navigates back to starting screen */}
         <h1
-          className="text-6xl text-white my-1 w-[50%] text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)]"
+          className="text-6xl text-white my-1 w-[50%] text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)] cursor-pointer transition transform hover:scale-105"
           onClick={navToHomeScreen}
           style={{
                 cursor: 'pointer', // Change cursor to pointer on hover
