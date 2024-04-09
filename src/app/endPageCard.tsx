@@ -18,14 +18,18 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
   const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
   // declares leaderboard scores as a list of player object which each have a Game_Num. Player_Name, and Score property
   const [leaderboardScores, setLeaderboardScores] = useState<IScore[]>([]);
+  // array that holds the gameNumbers associated with the users in the database
   const [recentGameNums, setRecentGameNums] = useState([0]);
 
+    // boolean used to help timeout to wait for leaderboard to load
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
 
   useEffect(() => {
     const curPlayers = [...players];
     // lists the current players in order depending on their score
     setCurrentPlayers(curPlayers.sort((a, b) => b.scorecard.totalScore - a.scorecard.totalScore));
+
     // gets ALL of the scores from database then getst the top 10 to show on the leaderboard
     getAllScores().then((scores: IScore[]) => { 
       const sortedScores = scores.sort((a, b) => b.Score - a.Score);
@@ -41,6 +45,11 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
       }
       setRecentGameNums(gameNumList)
     });
+    const timer = setTimeout(() => {
+      setShowLeaderboard(true);
+    }, 500); 
+
+    return () => clearTimeout(timer);
   }, [players]);
 
 
@@ -52,7 +61,7 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
         {/*  <RxCross1 className="text-2xl" />*/}
         {/*</button>*/}
 
-
+ 
         {/* final score part of scorecard */}
         <div className={"text-2xl text-center"}>
           Final Score
@@ -73,6 +82,7 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
 
         {/* leaderboard party of scorecard - only displays if connected to the database 
             if player makes it only the leaderboard - their name is highlighted */}
+      {showLeaderboard && ( <> 
         {leaderboardScores?.length !== 0 ? (
           <div>
             <div className={"text-2xl text-center"}>
@@ -101,6 +111,7 @@ const EndPageCard = ({players, onRestart} : EndPageCardProps) => {
             <p><span className={"font-bold"}>Error: </span>Unable to connect to database, scores will not be recorded!</p>
           </div>
         )} 
+        </>)}
 
         {/* restart game button at bottom of the scorecard */}
         <div className={`flex justify-center items-center ${baloo2.className}`}>

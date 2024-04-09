@@ -30,6 +30,9 @@ const Nav = ({ setGameStatus }: NavProps) => {
   // array of Scores to hold all leaderboard scores
   const [leaderboardScores, setLeaderboardScores] = useState<IScore[]>([]);
 
+  // boolean used to help timeout to wait for leaderboard to load
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+
   /**
    * makes sure that setLeaderboard scores gets the data from the database as soon as the button status of statsOpen is changed
    */
@@ -39,6 +42,11 @@ const Nav = ({ setGameStatus }: NavProps) => {
       console.log(sortedScores);
       setLeaderboardScores(sortedScores.slice(0, 10));
     });
+    const timer = setTimeout(() => {
+      setShowLeaderboard(true);
+    }, 500); 
+
+    return () => clearTimeout(timer);
   }, [statsOpen]);
 
   /**
@@ -218,6 +226,7 @@ const Nav = ({ setGameStatus }: NavProps) => {
 
       {/* This Modal should appear when statsOpen is true */}
       <Modal isOpen={statsOpen} onClose={() => setStatsOpen(false)}>
+      {showLeaderboard && ( <> 
         <div>
           <div className={"text-2xl text-center"}>Leaderboard</div>
           <div
@@ -242,6 +251,7 @@ const Nav = ({ setGameStatus }: NavProps) => {
             )}
           </div>
         </div>
+        </>)}
       </Modal>
     </>
   );
