@@ -15,7 +15,7 @@ describe("Nav component", () => {
     json: () => Promise.resolve(mockScores),
   });
 
-  let mockGameStatus = jest.fn();
+  const mockGameStatus = jest.fn();
 
   test("renders the rules when the info button is pressed", () => {
     const { getByTestId, getByText } = render(
