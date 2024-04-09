@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  IoIosHelpCircleOutline,
-  IoIosStats,
-  IoIosLogIn,
-} from "react-icons/io";
+import { IoIosHelpCircleOutline, IoIosStats, IoIosLogIn } from "react-icons/io";
 import Modal from "./modal";
 import { getAllScores } from "@/services/scoreService";
 import { IScore } from "@/services/scoreService";
@@ -44,7 +40,7 @@ const Nav = ({ setGameStatus }: NavProps) => {
     });
     const timer = setTimeout(() => {
       setShowLeaderboard(true);
-    }, 500); 
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [statsOpen]);
@@ -66,8 +62,8 @@ const Nav = ({ setGameStatus }: NavProps) => {
           className="text-6xl text-white my-1 w-[50%] text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)] cursor-pointer transition transform hover:scale-105"
           onClick={navToHomeScreen}
           style={{
-                cursor: 'pointer', // Change cursor to pointer on hover
-                textShadow: '0 4px 0 rgba(0, 0, 0, 0.4)' // Apply text shadow inline
+            cursor: "pointer", // Change cursor to pointer on hover
+            textShadow: "0 4px 0 rgba(0, 0, 0, 0.4)", // Apply text shadow inline
           }}
         >
           YAHTZEE
@@ -84,8 +80,8 @@ const Nav = ({ setGameStatus }: NavProps) => {
           </button>
 
           {/* When this button is clicked, setStatsOpen becomes true, which should show the Modal */}
-          <button 
-            onClick={() => setStatsOpen(true)} 
+          <button
+            onClick={() => setStatsOpen(true)}
             className={iconClasses}
             data-testid="leaderboard-button"
           >
@@ -93,8 +89,8 @@ const Nav = ({ setGameStatus }: NavProps) => {
           </button>
 
           {/* When this button is clicked, page navigates back to homescreen */}
-          <button 
-            onClick={() => navToHomeScreen()} 
+          <button
+            onClick={() => navToHomeScreen()}
             className={iconClasses}
             data-testid="leave-button"
           >
@@ -224,32 +220,39 @@ const Nav = ({ setGameStatus }: NavProps) => {
 
       {/* This Modal should appear when statsOpen is true */}
       <Modal isOpen={statsOpen} onClose={() => setStatsOpen(false)}>
-      {showLeaderboard && ( <> 
-        <div>
-          <div className={"text-2xl text-center"}>Leaderboard</div>
-          <div
-            className={`flex flex-col items-center w-full py-4 ${baloo2.className}`}
-          >
-            {leaderboardScores.length != 0 ? (
-              leaderboardScores.map((entry, index) => (
-                <div key={index} className={`text-xl flex w-[80%] border-b`}>
-                  <div className={"text-left w-[50%]"}>{entry.Player_Name}</div>
-                  <div className={"text-right w-[50%]"}>{entry.Score}</div>
-                </div>
-              ))
-            ) : (
+        {showLeaderboard && (
+          <>
+            <div>
+              <div className={"text-2xl text-center"}>Leaderboard</div>
               <div
-                className={`${baloo2.className} text-center text-app-red px-4 pb-4`}
+                className={`flex flex-col items-center w-full py-4 ${baloo2.className}`}
               >
-                <p>
-                  <span className={"font-bold"}>Error: </span>Unable to connect
-                  to database, scores will not be recorded!
-                </p>
+                {leaderboardScores.length != 0 ? (
+                  leaderboardScores.map((entry, index) => (
+                    <div
+                      key={index}
+                      className={`text-xl flex w-[80%] border-b`}
+                    >
+                      <div className={"text-left w-[50%]"}>
+                        {entry.Player_Name}
+                      </div>
+                      <div className={"text-right w-[50%]"}>{entry.Score}</div>
+                    </div>
+                  ))
+                ) : (
+                  <div
+                    className={`${baloo2.className} text-center text-app-red px-4 pb-4`}
+                  >
+                    <p>
+                      <span className={"font-bold"}>Error: </span>Unable to
+                      connect to database, scores will not be recorded!
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
-        </>)}
+            </div>
+          </>
+        )}
       </Modal>
     </>
   );
