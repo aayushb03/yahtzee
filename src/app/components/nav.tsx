@@ -64,6 +64,10 @@ const Nav = ({ setGameStatus }: NavProps) => {
         <h1
           className="text-6xl text-white my-1 w-[50%] text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)]"
           onClick={navToHomeScreen}
+          style={{
+                cursor: 'pointer', // Change cursor to pointer on hover
+                textShadow: '0 4px 0 rgba(0, 0, 0, 0.4)' // Apply text shadow inline
+          }}
         >
           YAHTZEE
         </h1>
