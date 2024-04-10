@@ -198,7 +198,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
           <tr key={i}>
             <td className="bg-white p-[7px] text-left border">{renderCategoryName(category, currentPlayers.getCurrentPlayer())}</td>
             {currentPlayers.players.map((player, i) => (
-                renderScoreCell(player, category, i)
+              renderScoreCell(player, category, i)
             ))}
           </tr>
         ))}

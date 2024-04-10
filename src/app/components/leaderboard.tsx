@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {getAllScores, IScore} from "@/services/scoreService";
+// eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
@@ -35,7 +36,7 @@ const Leaderboard = ( {numScores, boldRecent} : LeaderboardProps) => {
       setShowError(true);
     }).finally(() => {
       setLeaderboardLoaded(true);
-      }
+    }
     );
 
   }, []);
