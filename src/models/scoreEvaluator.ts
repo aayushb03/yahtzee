@@ -1,6 +1,7 @@
 import { ScoreCategory } from './enums';
 import { Dice } from "@/models/dice";
 
+
 /**
  * Interface representing all calculated scores for each category based on a set of dice for a game of Yahtzee.
  */
@@ -15,6 +16,7 @@ export interface IScoreEvaluator {
  * Class that implements the IScoreEvaluator interface.
  */
 export class ScoreEvaluator implements IScoreEvaluator {
+  // private readonly category: ScoreCategory;
   scores: { [key in ScoreCategory]: number };
   private readonly dice: [number, number, number, number, number];
   private readonly counts : { [key: number]: number }; // The counts of each number on the dice. (Helper property)
@@ -29,19 +31,19 @@ export class ScoreEvaluator implements IScoreEvaluator {
     this.counts = this.getCounts();
     this.sum = this.getSum();
     this.scores = {
-      Ones: this.calculateTopScores(1),
-      Twos: this.calculateTopScores(2),
-      Threes: this.calculateTopScores(3),
-      Fours: this.calculateTopScores(4),
-      Fives: this.calculateTopScores(5),
-      Sixes: this.calculateTopScores(6),
-      ThreeOfAKind: this.calculateNOfAKind(3),
-      FourOfAKind: this.calculateNOfAKind(4),
-      FullHouse: this.calculateFullHouse(),
-      SmallStraight: this.calculateStraights(4),
-      LargeStraight: this.calculateStraights(5),
-      Yahtzee: this.calculateYahtzee(),
-      Chance: this.sum
+      'Ones': this.calculateTopScores(1),
+      'Twos': this.calculateTopScores(2),
+      'Threes': this.calculateTopScores(3),
+      'Fours': this.calculateTopScores(4),
+      'Fives': this.calculateTopScores(5),
+      'Sixes': this.calculateTopScores(6),
+      'Three Of A Kind': this.calculateNOfAKind(3),
+      'Four Of A Kind': this.calculateNOfAKind(4),
+      'Full House': this.calculateFullHouse(),
+      'Small Straight': this.calculateStraights(4),
+      'Large Straight': this.calculateStraights(5),
+      'Yahtzee': this.calculateYahtzee(),
+      'Chance': this.sum,
     };
   }
 
@@ -70,7 +72,7 @@ export class ScoreEvaluator implements IScoreEvaluator {
   }
 
   /**
-   * Calculates the score for the top section of the scorecard. (Ones, Twos, Threes, Fours, Fives, Sixes)
+   * Calculates the score for EACH top section cell of the scorecard. (Ones, Twos, Threes, Fours, Fives, Sixes)
    * @param value - The number to evaluate.
    * @returns The sum of the dice that match the given number.
    */
@@ -126,7 +128,7 @@ export class ScoreEvaluator implements IScoreEvaluator {
 
   /**
    * Calculates the score for the Yahtzee category.
-   * @returns 50 if all the dice are the same, otherwise 0.
+   * @returns 5 if all the dice are the same, otherwise 0.
    */
   private calculateYahtzee(): number {
     if (this.dice[0] == 0) return 0;
@@ -135,4 +137,15 @@ export class ScoreEvaluator implements IScoreEvaluator {
     }
     return 0;
   }
+
+  // /**
+  //  * Calculates the score for the Yahtzee Bonus category.
+  //  * @returns 100 if all the dice are the same, otherwise 0.
+  //  */
+  // private calculateYahtzeeBonus(): number {
+  //   for (const key in this.counts) {
+  //     if (this.counts[key] === 5) return 100;
+  //   }
+  //   return 0;
+  // }
 }

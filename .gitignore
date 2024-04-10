@@ -3,3 +3,7 @@ node_modules
 .DS_Store
 .idea
 .vscode
+/coverage/
+.swc
+.env
+/prisma/migrations

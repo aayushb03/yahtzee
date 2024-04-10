@@ -3,15 +3,22 @@ import { ScoreCategory } from './enums';
 /**
  * Interface representing the current scorecard for one player in a game of Yahtzee.
  */
+
 export interface IScorecard {
+  
   /**
    * The current scores for each category in the ScoreCategory Enum. Access the scores using the ScoreCategory as the
    * key. If a category has not been scored yet, it will be -1.
    */
   scores: { [key in ScoreCategory]: number };
-  topTotal: number; // The total of the top section.
-  topBonus: number; // The bonus for scoring 63 or more in the top section.
-  totalScore: number; // The total of all scores
+  // The total of the top section.
+  topTotal: number;
+  // The bonus for scoring 63 or more in the top section. 
+  topBonus: number; 
+  // The total of all scores
+  totalScore: number;
+  // The yahtzee bonus
+  yahtzeeBonus: number;
 
   /**
    * Adds a score to the scorecard for the given category. If the category has already been scored, an error will be
@@ -38,6 +45,7 @@ export class Scorecard implements IScorecard {
   topTotal: number;
   topBonus: number;
   totalScore: number;
+  yahtzeeBonus: number;
 
   /**
    * Creates a scorecard with the given scores.
@@ -49,25 +57,27 @@ export class Scorecard implements IScorecard {
       this.topTotal = scoreCard.topTotal;
       this.topBonus = scoreCard.topBonus;
       this.totalScore = scoreCard.totalScore;
+      this.yahtzeeBonus = scoreCard.yahtzeeBonus;
     } else {
       this.scores = {
-        Ones: -1,
-        Twos: -1,
-        Threes: -1,
-        Fours: -1,
-        Fives: -1,
-        Sixes: -1,
-        ThreeOfAKind: -1,
-        FourOfAKind: -1,
-        FullHouse: -1,
-        SmallStraight: -1,
-        LargeStraight: -1,
-        Yahtzee: -1,
-        Chance: -1
+        'Ones': -1,
+        'Twos': -1,
+        'Threes': -1,
+        'Fours': -1,
+        'Fives': -1,
+        'Sixes': -1,
+        'Three Of A Kind': -1,
+        'Four Of A Kind': -1,
+        'Full House': -1,
+        'Small Straight': -1,
+        'Large Straight': -1,
+        'Yahtzee': -1,
+        'Chance': -1,
       };
       this.topTotal = 0;
       this.topBonus = 0;
       this.totalScore = 0;
+      this.yahtzeeBonus = 0;
     }
 
   }
@@ -78,10 +88,12 @@ export class Scorecard implements IScorecard {
    * @param score - The score to add.
    */
   addScore(category: ScoreCategory, score: number): void {
-    if (this.scores[category] != -1) {
-      throw new Error('Category already scored');
-    }
 
+    if (category == 'Yahtzee' && this.scores[category] != -1) {
+      this.totalScore += score - this.scores[category];
+      this.scores[category] = score;
+      return;
+    }
     this.scores[category] = score;
     this.totalScore += score;
     if (category == 'Ones' || category == 'Twos' || category == 'Threes'
@@ -95,6 +107,15 @@ export class Scorecard implements IScorecard {
     }
   }
 
+  addYahtzeeBonus(): void {
+    this.yahtzeeBonus += 100;
+    this.totalScore += 100;
+  }
+
+  /**
+   * For testing purposes, sets the total score.
+   * @param score
+   */
   setTotalScore(score: number): void {
     this.totalScore = score;
   }

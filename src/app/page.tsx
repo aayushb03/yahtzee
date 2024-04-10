@@ -4,8 +4,9 @@ import YahtzeeGame from './yahtzeeGame'
 import React, {useEffect, useState} from "react";
 import {GameStatus as GS} from "@/models/enums";
 import {Player} from "@/models/player";
-import { getAllScores, addScore, clearScores } from "@/services/scoreService";
+import {addScore, getAllScores} from "@/services/scoreService";
 import EndPageCard from './endPageCard';
+import Nav from "@/app/components/nav";
 
 export default function Home() {
   const [gameStatus, setGameStatus] = useState<GS>(GS.AddPlayers);
@@ -13,7 +14,7 @@ export default function Home() {
 
   // Temporary code to test the score service.
   useEffect(() => {
-    console.log('Testing score service');
+    // console.log('Testing score service');
     // getAllScores().then((scores) => {
     //   console.log(scores);
     // });
@@ -26,7 +27,7 @@ export default function Home() {
     // addScore('test', 200).then(() => {});
     // addScore('test2', 300).then(() => {});
     getAllScores().then((scores) => {
-      console.log(scores);
+      // console.log(scores);
     });
   }, []);
 
@@ -36,18 +37,28 @@ export default function Home() {
    * @param numPlayers
    */
   const startGame = (playerNames : string[], numPlayers : number) => {
-    let newPlayers = [];
+    const newPlayers = [];
     for (let i = 0; i < numPlayers; i++) {
-      newPlayers.push(new Player(playerNames[i]));
+      if (playerNames[i].includes(" (AI)")) {
+        newPlayers.push(new Player(playerNames[i], true));
+      } else {
+        newPlayers.push(new Player(playerNames[i]));
+      }
     }
     setPlayers(newPlayers);
     setGameStatus(GS.InProgress);
   }
 
+  /**
+   * sets the game status to EndGame
+   * then adds the total score of each player to their scorecard if not AI player
+   */
   const endGame = () => {
     setGameStatus(GS.EndGame);
-    for (let player of players) {
-      addScore(player.name, player.scorecard.totalScore).then(() => {});
+    for (const player of players) {
+      if(!player.ai){
+        addScore(player.name, player.scorecard.totalScore).then(() => {});
+      }
     }
   }
 
@@ -68,10 +79,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen bg-app-red" style={{ minWidth: '1162px' }}>
-      <h1 className="text-6xl text-white my-4 w-full text-center [text-shadow:_0_4px_0_rgb(0_0_0_/_40%)]">YAHTZEE</h1>
+      <Nav setGameStatus={setGameStatus}/>
       {gameStatus == GS.AddPlayers &&  <GameModeCard startYahtzee={startGame} currentPlayers={players}/>}
       {gameStatus == GS.InProgress && <YahtzeeGame changePlayers={changePlayers} players={players} endGame={endGame}/>}
       {gameStatus === GS.EndGame && <EndPageCard players={players} onRestart={restartGame} />}
     </div>
   );
-}
+} 
