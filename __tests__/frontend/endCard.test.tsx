@@ -27,13 +27,13 @@ describe("EndPageCard component", () => {
     expect(getByText("Final Score")).toBeInTheDocument();
   });
 
-  test("renders error message when not connected to database", () => {
+  test("renders loading message while waiting to connect to database", () => {
     const { getByText } = render(
       <EndPageCard players={mockPlayers} onRestart={() => {}} />
     );
 
     expect(
-      getByText("Unable to connect to database, scores will not be recorded!")
+      getByText("Loading...")
     ).toBeInTheDocument();
   });
 

@@ -12,8 +12,7 @@ export async function getAllScores() {
   });
 
   if (!response.ok) {
-    console.log("Error: ", response.status);
-    return [] as IScore[];
+    throw new Error("Error: " + response.status);
   }
 
   return await response.json() as IScore[];

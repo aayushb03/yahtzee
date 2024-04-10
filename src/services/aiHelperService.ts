@@ -16,7 +16,6 @@ export async function getBestOption(scores: { [key in ScoreCategory]: number }, 
   // Initialize the browser
   if (!browser) {
     browser = await puppeteer.launch();
-    console.log('Initialized browser')
   }
 
   // initialize and navigate to page

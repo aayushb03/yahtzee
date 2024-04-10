@@ -53,9 +53,10 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
    * Renders a cell in the scorecard table.
    * @param player as player - each player has two properties: name and socrecard
    * @param category as one of the categories on the scorecard (ex: ones, twos, etc. )
+   * @param i
    * @returns  The cell to render.
    */
-  const renderScoreCell = (player : Player, category: SC) => {
+  const renderScoreCell = (player : Player, category: SC, i: number) => {
     let score = player.scorecard.scores[category];
     // describes if the player has the potential to play in that category, if already filled in - false
     let potential = false; 
@@ -92,7 +93,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
     // if the dice hasn't been rolled yet, the player's column (who's turn it is) is highlighted yellow
     if (!showPotential && potential) {
       return (
-        <td className={cellClass}></td>
+        <td key={i} className={cellClass}></td>
       )
     }
     // if the cell has the potential to be filled, the score upon selecting that cell is displayed in red in that cell
@@ -105,6 +106,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
               onScoreSelect(category, score, potentialScores);
             }
           }}
+          key={i}
         >
           {score != undefined ? <span className="text-app-red">{score}</span> : <span>0</span>}
         </td>
@@ -114,6 +116,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
       return (
         <td
           className={cellClass}
+          key={i}
         >
           {score != -1 ? <span className="text-black">{score}</span> : <span></span>}
         </td>
@@ -125,9 +128,10 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
    * Renders a cell in the total score table.
    * @param player as player - each player has two properties: name and socrecard
    * @param category as one of the categories on the scorecard (ex: ones, twos, etc. )
+   * @param i
    * @returns  The cell to render.
    */
-  const renderTotalScoreCell = (player : Player, category: string) => {
+  const renderTotalScoreCell = (player : Player, category: string, i: number) => {
     let score;
     if (category === 'TopTotal') {
       score = player.scorecard.topTotal;
@@ -155,6 +159,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
     return (
       <td
         className={cellClass}
+        key={i}
       >
         {score !== undefined ? <span>{score}</span> : <span>0</span>}
       </td>
@@ -182,26 +187,26 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
         {/* either prints "upper section (left) or lower section (right) in the variable sectionTitle with player name next to it " */}
         <tr>
           <th className="bg-white p-[7px] text-left border">{sectionTitle}</th>
-          {currentPlayers.players.map(player => (
-            <th className="bg-white p-[7px] text-center border" style={{ minWidth }}>{player.name}</th>
+          {currentPlayers.players.map((player, i) => (
+            <th key={i} className="bg-white p-[7px] text-center border" style={{ minWidth }}>{player.name}</th>
           ))}
         </tr>
       </thead>
       <tbody>
         {/* first maps the table category based on each current player, then maps the totals*/}
-        {categories.map(category => (
-          <tr key={category}>
+        {categories.map((category, i) => (
+          <tr key={i}>
             <td className="bg-white p-[7px] text-left border">{renderCategoryName(category, currentPlayers.getCurrentPlayer())}</td>
-            {currentPlayers.players.map(player => (
-              renderScoreCell(player, category)
+            {currentPlayers.players.map((player, i) => (
+              renderScoreCell(player, category, i)
             ))}
           </tr>
         ))}
-        {totals.map(category => (
-          <tr key={category}>
+        {totals.map((category, i) => (
+          <tr key={i}>
             <td className="bg-white p-[7px] text-left border">{category}</td>
-            {currentPlayers.players.map(player => (
-              renderTotalScoreCell(player, category)
+            {currentPlayers.players.map((player, i) => (
+              renderTotalScoreCell(player, category, i)
             ))}
           </tr>
         ))}
