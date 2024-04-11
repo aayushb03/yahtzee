@@ -4,11 +4,11 @@ import {signIn} from "next-auth/react"
 import {useState} from "react"
 
 
-interface CredentialsFormProps{
+type CredentialsFormProps = {
     csrfToken?: string;
 }
 
-export function CredentialsForm(CredentialsFormProps){
+const CredentialsForm = ({csrfToken}: CredentialsFormProps) => {
     const [error, setError] = useState("")
 
     const handlesubmit = async (e) => {
@@ -36,4 +36,4 @@ export function CredentialsForm(CredentialsFormProps){
 
         </form>
     )
-} export default CredentialsForm;
+}; export default CredentialsForm;
