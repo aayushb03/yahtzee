@@ -1,7 +1,7 @@
 "use client"
 
 import {signIn} from "next-auth/react"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 
 
 type CredentialsFormProps = {
@@ -10,6 +10,15 @@ type CredentialsFormProps = {
 
 const CredentialsForm = ({csrfToken}: CredentialsFormProps) => {
     const [error, setError] = useState("")
+    const [userName, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [buttonShow, setButtonShow] = useState(false)
+
+    useEffect(() => {
+        setButtonShow(!(userName.length > 0 && password.length > 0));
+        console.log(userName)
+        console.log(password)
+      }, [userName, password]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -31,34 +40,52 @@ const CredentialsForm = ({csrfToken}: CredentialsFormProps) => {
     }
 
     return( 
-        <div className="flex h-full w-full justify-center items-center mb-40">
-                <div className="flex justify-around">
-                    <form onSubmit={handleSubmit} className="flex flex-col">
-                        <div className="mb-4">
+        <div className="flex h-full w-full justify-left items-left">
+                <div className="flex justify-between w-full m-3">
+                    <form onSubmit={handleSubmit} className="flex flex-col items-left">
+                        <div className="mb-8">
                             <label htmlFor="username" className="mr-2 text-lg">Username: </label>
                             <input
                             type="text"
                             id="username"
                             name="username"
-                            className="border border-gray-800 px-2 py-1 text-lg"
+                            className="border border-gray-800 px-4 py-2 text-lg"
+                            value={userName}
+                            onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-8">
                             <label htmlFor="password" className="mr-2 text-lg">Password: </label>
                             <input
                             type="password"
                             id="password"
                             name="password"
-                            className="border border-gray-800 px-2 py-1 text-lg"
+                            className="border border-gray-800 px-4 py-2 text-lg"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        <div>
+                        <div className="text-center">
                             {error && <div style={{ color: "red", fontSize: "1.5rem" }}>{error}</div>}
-                            <button type="submit" className="bg-blue-500 text-white px-4 py-2 mx-auto">
-                            Sign In
+                            <button disabled={buttonShow} type="submit" className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow">
+                                Login
                             </button>
                         </div>
                     </form>
+                    <div className="flex flex-col ml-10" style={{background: '#879CB9'}}>
+                        <div className="flex flex-col m-2 ">
+                            <div className="text-center text-white">
+                                <p className="m-4 text-lg">Don't have an accont?</p>
+                                <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow">
+                                    Continue as Guest
+                                </button>
+                                <p className="m-4 text-lg"> or </p>
+                                <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow">
+                                    Register
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
         </div>
 
