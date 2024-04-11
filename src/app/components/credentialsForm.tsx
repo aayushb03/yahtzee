@@ -11,10 +11,11 @@ type CredentialsFormProps = {
 const CredentialsForm = ({csrfToken}: CredentialsFormProps) => {
     const [error, setError] = useState("")
 
-    const handlesubmit = async (e) => {
-        e.preventDefault()
-        const data = new FormData(e.currentTarget)
-
+    const handleSubmit = async (e: Event) => {
+        e.preventDefault();
+        const target = e.currentTarget as HTMLFormElement;
+        const data = new FormData(target);
+    
         const signInResponse = await signIn("credentials",{
             username: data.get("text"),
             password: data.get("password"),
