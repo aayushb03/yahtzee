@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor, act } from "@testing-library/react";
 import { Player } from "@/models/player";
 import EndPageCard from "@/app/endPageCard";
 import * as scoreService from "@/services/scoreService";
+import {UserProvider} from "@/services/userContext";
 
 describe("EndPageCard component", () => {
   const mockPlayer1 = new Player("Player 1");
@@ -21,7 +22,9 @@ describe("EndPageCard component", () => {
 
   test("renders the final score card", () => {
     const { getByText } = render(
-      <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      <UserProvider>
+        <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      </UserProvider>
     );
 
     expect(getByText("Final Score")).toBeInTheDocument();
@@ -29,7 +32,9 @@ describe("EndPageCard component", () => {
 
   test("renders loading message while waiting to connect to database", () => {
     const { getByText } = render(
-      <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      <UserProvider>
+        <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      </UserProvider>
     );
 
     expect(
@@ -39,7 +44,9 @@ describe("EndPageCard component", () => {
 
   test("successfully renders leaderboard when connected to database", async () => {
     const { getByText } = render(
-      <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      <UserProvider>
+        <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      </UserProvider>
     );
 
     await waitFor(() => {

@@ -124,10 +124,6 @@ const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
    * Autofills scores in dev mode in order to view final score card quicker.
    */
   const handleAutofill = () => {
-    curPlayers.players.forEach((player) => {
-      player.scorecard.setTotalScore(0);
-    });
-
     endGame();
   };
 

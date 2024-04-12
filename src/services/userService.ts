@@ -2,8 +2,8 @@
 
 const url = 'http://localhost:3000/api';
 
-/** 
- *  retrieves ALL Users from the database (User) and stores them in an User[] 
+/**
+ *  retrieves ALL Users from the database (User) and stores them in an User[]
  *  returns an empty [] if error is thrown
  */
 export async function getAllUsers() {
@@ -18,31 +18,30 @@ export async function getAllUsers() {
   return await response.json() as IUser[];
 }
 
-/** 
-*  Adds a score to the database (Users) as a user object - 
-*   @param username - player's username to add in the format of a string
-*   @param password - player's password to add in the format of a string
-*   @param pastGameScores - comma separated list of past scores
-*   returns null if error is thrown
+/**
+ *  Adds a score to the database (Users) as a user object -
+ *   @param email - player's email to add in the format of a string
+ *   @param username - player's username to add in the format of a string
+ *   @param password - player's password to add in the format of a string
+ *   returns null if error is thrown
  **/
-export async function addUser(username: string, password: string, pastGameScores: string) {
+export async function addUser(email: string, username: string, password: string, ) {
   const response = await fetch(`${url}/addUser`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ username, password, pastGameScores })
+    body: JSON.stringify({ email, username, password })
   });
 
   if (!response.ok) {
-    console.log("Error: ", response.status);
-    return null;
+    throw new Error("Error: " + response.status);
   }
 
-  return await response.json() as IUser;
+  return response.json();
 }
 
-/* 
+/*
  * Describes User interface
  */
 export interface IUser {

@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent, waitFor, act } from "@testing-library/react";
 import Nav from "@/app/components/nav";
 import * as scoreService from "@/services/scoreService";
-import { GameStatus as GS } from "@/models/enums";
+import {UserProvider} from "@/services/userContext";
 
 describe("Nav component", () => {
   const mockScores: scoreService.IScore[] = [
@@ -19,7 +19,9 @@ describe("Nav component", () => {
 
   test("renders the rules when the info button is pressed", () => {
     const { getByTestId, getByText } = render(
-      <Nav setGameStatus={mockGameStatus} />
+      <UserProvider>
+        <Nav setGameStatus={mockGameStatus} />
+      </UserProvider>
     );
 
     fireEvent.click(getByTestId("help-button"));
@@ -29,7 +31,9 @@ describe("Nav component", () => {
 
   test("renders the leaderboard when the leaderboard button is pressed", async () => {
     const { getByTestId, getByText } = render(
-      <Nav setGameStatus={mockGameStatus} />
+      <UserProvider>
+        <Nav setGameStatus={mockGameStatus} />
+      </UserProvider>
     );
 
     fireEvent.click(getByTestId("leaderboard-button"));
@@ -44,11 +48,13 @@ describe("Nav component", () => {
 
   test("returns to the home screen when the leave button is pressed", () => {
     const { getByTestId, getByText } = render(
-      <Nav setGameStatus={mockGameStatus} />
+      <UserProvider>
+        <Nav setGameStatus={mockGameStatus} />
+      </UserProvider>
     );
 
-    fireEvent.click(getByTestId("leave-button"));
+    fireEvent.click(getByTestId("log-in-button"));
 
-    expect(mockGameStatus).toHaveBeenCalledWith(GS.AddPlayers);
+    expect(getByText("Username:")).toBeInTheDocument();
   });
 });

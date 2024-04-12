@@ -1,16 +1,28 @@
 'use client';
 import GameModeCard from './gameModeCard'
 import YahtzeeGame from './yahtzeeGame'
-import React, {useState} from "react";
-import {GameStatus as GS} from "@/models/enums";
+import React, {useEffect, useState} from "react";
+import {GameStatus as GS, ScoreCategory as SC} from "@/models/enums";
 import {Player} from "@/models/player";
 import {addScore} from "@/services/scoreService";
 import EndPageCard from './endPageCard';
 import Nav from "@/app/components/nav";
+import { useUser } from '@/services/userContext';
+import {getSession} from "next-auth/react";
+import {addGame} from "@/services/gameService";
 
 export default function Home() {
   const [gameStatus, setGameStatus] = useState<GS>(GS.AddPlayers);
   const [players, setPlayers] = useState<Player[]>([]);
+  const { user, setUser } = useUser();
+
+  useEffect(() => {
+    getSession().then((session) => {
+      if (session && session.user && session.user.name && session.user.email) {
+        setUser({ email: session.user.email, username: session.user.name });
+      }
+    });
+  }, []);
 
   /**
    * Starts the game with the given players and number of players.
@@ -38,7 +50,16 @@ export default function Home() {
     setGameStatus(GS.EndGame);
     for (const player of players) {
       if(!player.ai){
+
         addScore(player.name, player.scorecard.totalScore).then(() => {});
+        if (user?.email) {
+          const score = player.scorecard.totalScore;
+          const yahtzees = (player.scorecard.scores[SC.Yahtzee] == 50 ? 1 : 0) + (player.scorecard.yahtzeeBonus - 50) / 100;
+          // TODO: add wins logic (Might have to change a lot more)
+          addGame(score, yahtzees, true, user?.email).then((response) => {
+            console.log(response);
+          });
+        }
       }
     }
   }

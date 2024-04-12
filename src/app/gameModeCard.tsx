@@ -6,8 +6,6 @@ import {Player} from "@/models/player";
 // eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
-import Modal from "./components/modal";
-import CredentialsForm from "./components/credentialsForm"
 import { getAllUsers, IUser } from "@/services/userService"
 
 const config: Config = {
@@ -31,8 +29,6 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   const [players, setPlayers] = useState<string[]>(["", "", "", ""])
   // keeps track of the number of players (MAX 4)
   const [numPlayers, setNumPlayers] = useState<number>(1)
-  //makes sure the modal is open when page loads
-  const [loginModal, setLoginModal] = useState(true);
 
   useEffect(() => {
     // when page is loaded, always going to declare the players names in the newPlayers [] and add to numPlayers
@@ -97,11 +93,6 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
     <div className={"flex h-full w-full justify-center items-center mb-40"}>
       <div className={"flex flex-col p-2 w-96 rounded-xl bg-white text-black shadow-2xl"}>
         <div className={"flex justify-around"}>
-
-          {/* This Modal should appear when loginModal is true */}
-          <Modal isOpen={loginModal} onClose={() => setLoginModal(false)} closeOnBackdropClick={false}>
-            <CredentialsForm onClose={() => setLoginModal(false)}/> 
-          </Modal>
 
           {/* This is the div that holds the local and online buttons*/}
           <button className={`border-app-gray px-2 py-1 rounded mx-1 w-48 border transition hover:scale-105

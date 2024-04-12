@@ -4,6 +4,7 @@ import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import Home from '../../src/app/page'
 import GameModeCard from '@/app/gameModeCard';
+import {UserProvider} from '@/services/userContext';
 
 // Mocking services
 jest.mock('../../src/services/scoreService', () => ({
@@ -11,15 +12,29 @@ jest.mock('../../src/services/scoreService', () => ({
   addScore: jest.fn().mockResolvedValue(undefined),
   clearScores: jest.fn().mockResolvedValue(undefined),
 }));
+jest.mock('../../src/services/userService', () => ({
+  getAllUsers: jest.fn().mockResolvedValue([]),
+}));
+jest.mock('next-auth/react' , () => ({
+  getSession: jest.fn().mockResolvedValue(undefined),
+}));
 
 describe('Home component', () => {
   test('renders GameModeCard when game status is AddPlayers', () => {
-    const { getByText } = render(<Home />);
+    const { getByText } = render(
+      <UserProvider>
+        <Home />
+      </UserProvider>
+    );
     expect(getByText('START GAME')).toBeInTheDocument();
   });
 
   test('renders GameModeCard and adds more than one player', async () => {
-    const { getByText, getByLabelText } = render(<Home />);
+    const { getByText, getByLabelText } = render(
+      <UserProvider>
+        <Home />
+      </UserProvider>
+    );
     act(() => {
       fireEvent.change(getByLabelText('Player 1:'), { target: { value: 'Player 1' } });
       fireEvent.click(getByText('Add Player'));
@@ -50,14 +65,22 @@ describe('Home component', () => {
   });
 
   test('renders YahtzeeGame when the game status is InProgress', () => {
-    const { getByText, getByLabelText } = render(<Home />);
+    const { getByText, getByLabelText } = render(
+      <UserProvider>
+        <Home />
+      </UserProvider>
+    );
     fireEvent.change(getByLabelText('Player 1:'), { target: { value: 'Player 1' } });
     fireEvent.click(getByText('START GAME'));
     expect(getByText('New Game')).toBeInTheDocument();
   });
 
   test('renders EndPageCard when the game status is EndGame', async () => {
-    const { getByText, getByLabelText } = render(<Home />);
+    const { getByText, getByLabelText } = render(
+      <UserProvider>
+        <Home />
+      </UserProvider>
+    );
     act(() => {
       fireEvent.change(getByLabelText('Player 1:'), { target: { value: 'Player 1' } });
       fireEvent.click(getByText('START GAME'));

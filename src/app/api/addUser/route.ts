@@ -7,18 +7,19 @@ import prisma from "@/../prisma/client";
  * data is the player's username and password 
  * throws an error if unsucessfull 
  */
+// eslint-disable-next-line
 export async function POST(request: NextRequest) {
   const data = await request.json();
   const username = data.username;
+  const email = data.email;
   const password = data.password;
-  const pastGameScores = data.pastGameScores;
   try {
-    const newUser = await prisma.User.create({
+    const newUser = await prisma.user.create({
       data: {
         // eslint-disable-next-line
+        Email: email,
         Username: username,
-        password: password,
-        pastGameScores: pastGameScores,
+        Password: password,
       },
     });
     return NextResponse.json(newUser, { status: 200 });
