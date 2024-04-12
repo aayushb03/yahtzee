@@ -7,6 +7,7 @@ import {Player} from "@/models/player";
 import { Baloo_2 } from "next/font/google";
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
 import { getAllUsers, IUser } from "@/services/userService"
+import {getSession} from "next-auth/react";
 
 const config: Config = {
   dictionaries: [names]
@@ -29,6 +30,8 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   const [players, setPlayers] = useState<string[]>(["", "", "", ""])
   // keeps track of the number of players (MAX 4)
   const [numPlayers, setNumPlayers] = useState<number>(1)
+  //keeps track of logged in user
+  const [loggedInUser, setLoggedInUser] = useState("")
 
   useEffect(() => {
     // when page is loaded, always going to declare the players names in the newPlayers [] and add to numPlayers
@@ -42,6 +45,14 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
     getAllUsers().then((users: IUser[]) => {
       const userList = users
       console.log(userList)
+      /**
+      getSession().then((session) => {
+        if (session && session.user && session.user.name) {
+          setLoggedInUser(session.user.name)
+          setNumPlayers(1)
+          setPlayers([session.user.name , "", "", ""])
+        }
+      }); */
     })
     
   }, []);

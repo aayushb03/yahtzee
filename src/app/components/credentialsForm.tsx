@@ -46,7 +46,7 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
       console.log("Success: ", signInResponse);
       getSession().then((session) => {
         if (session && session.user && session.user.name && session.user.email) {
-          setUser({ email: session.user.email, username: session.user.name });
+          setUser({ email: session.user.email, username: session.user.name});
         }
       });
     } else {
@@ -164,3 +164,4 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
 };
 
 export default CredentialsForm;
+
