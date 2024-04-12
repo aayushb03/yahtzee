@@ -8,6 +8,7 @@ import Leaderboard from "@/app/components/leaderboard";
 import CredentialsForm from "@/app/components/credentialsForm";
 import Profile from "@/app/components/profile";
 import {useUser} from "@/services/userContext";
+import {getSession} from "next-auth/react";
 
 // eslint-disable-next-line
 type NavProps = {
@@ -21,7 +22,7 @@ const Nav = ({ setGameStatus }: NavProps) => {
   // helpers to see if modals are open or not
   const [isHelpModalOpen, setHelpModalOpen] = useState(false);
   const [statsOpen, setStatsOpen] = useState(false);
-  const [loginModal, setLoginModal] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const {user} = useUser();
 
@@ -32,6 +33,14 @@ const Nav = ({ setGameStatus }: NavProps) => {
       setLoggedIn(false);
     }
   } ,[user]);
+
+  useEffect(() => {
+    getSession().then((session) => {
+      if (!session) {
+        setLoginModalOpen(true);
+      }
+    });
+  }, []);
 
   /**
    * When logout button or logo is clicked, navigates to homescreen
@@ -74,7 +83,7 @@ const Nav = ({ setGameStatus }: NavProps) => {
 
           {/* When this button is clicked, page navigates back to homescreen */}
           <button
-            onClick={() => setLoginModal(true)}
+            onClick={() => setLoginModalOpen(true)}
             className={iconClasses}
             data-testid="log-in-button"
           >
@@ -94,9 +103,9 @@ const Nav = ({ setGameStatus }: NavProps) => {
         <Leaderboard numScores={50} boldRecent={0}/>
       </Modal>
 
-      {/* This Modal should appear when loginModal is true */}
-      <Modal isOpen={loginModal} onClose={() => setLoginModal(false)} closeOnBackdropClick={false}>
-        {!loggedIn && <CredentialsForm onClose={() => setLoginModal(false)}/>}
+      {/* This Modal should appear when loginModalOpen is true */}
+      <Modal isOpen={loginModalOpen} onClose={() => setLoginModalOpen(false)} closeOnBackdropClick={false}>
+        {!loggedIn && <CredentialsForm onClose={() => setLoginModalOpen(false)}/>}
         {loggedIn && <Profile/>}
       </Modal>
     </>

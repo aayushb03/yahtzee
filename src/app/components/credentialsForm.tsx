@@ -71,7 +71,18 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
       return;
     }
     addUser(email, username, password).then(() => {
-      onClose();
+      signIn("credentials", {
+        email: email,
+        password: password,
+        redirect: false,
+      }).then(() => {
+        getSession().then((session) => {
+          if (session && session.user && session.user.name && session.user.email) {
+            setUser({ email: session.user.email, username: session.user.name });
+          }
+        });
+      }
+      );
     }).catch(() => {
       setError("User already exists");
     });
