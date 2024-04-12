@@ -8,6 +8,7 @@ import { Baloo_2 } from "next/font/google";
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
 import Modal from "./components/modal";
 import CredentialsForm from "./components/credentialsForm"
+import { getAllUsers, IUser } from "@/services/userService"
 
 const config: Config = {
   dictionaries: [names]
@@ -42,6 +43,11 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
       setNumPlayers(i + 1);
     }
     setPlayers(newPlayers);
+    getAllUsers().then((users: IUser[]) => {
+      const userList = users
+      console.log(userList)
+    })
+    
   }, []);
 
 
@@ -93,8 +99,8 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
         <div className={"flex justify-around"}>
 
           {/* This Modal should appear when loginModal is true */}
-          <Modal isOpen={loginModal} onClose={() => setLoginModal(false)}>
-            <CredentialsForm /> 
+          <Modal isOpen={loginModal} onClose={() => setLoginModal(false)} closeOnBackdropClick={false}>
+            <CredentialsForm onClose={() => setLoginModal(false)}/> 
           </Modal>
 
           {/* This is the div that holds the local and online buttons*/}

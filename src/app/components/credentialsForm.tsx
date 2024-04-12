@@ -2,13 +2,15 @@
 
 import {signIn} from "next-auth/react"
 import {useEffect, useState} from "react"
+import { getAllUsers, addUser } from "@/services/userService"
 
 
 type CredentialsFormProps = {
     csrfToken?: string;
+    onClose: () => void;
 }
 
-const CredentialsForm = ({csrfToken}: CredentialsFormProps) => {
+const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
     const [error, setError] = useState("")
     const [userName, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -16,10 +18,9 @@ const CredentialsForm = ({csrfToken}: CredentialsFormProps) => {
 
     useEffect(() => {
         setButtonShow(!(userName.length > 0 && password.length > 0));
-        console.log(userName)
-        console.log(password)
       }, [userName, password]);
 
+    // handles login button behavior
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const target = e.currentTarget as HTMLFormElement;
@@ -37,6 +38,19 @@ const CredentialsForm = ({csrfToken}: CredentialsFormProps) => {
           console.log("Error: ", signInResponse);
           setError("Username or password is wrong");
         }
+    }
+
+    // closes the modal and brings back to GameModeCard
+    const handleGuest = () =>{
+       onClose()
+    }
+
+    //handles register
+    const handleRegister = () =>{
+        // when registering setitng just an empty string as pastGameScore
+        addUser(userName, password, "")
+        // add in name prop so name is automatically saved? 
+        onClose()
     }
 
     return( 
@@ -76,11 +90,13 @@ const CredentialsForm = ({csrfToken}: CredentialsFormProps) => {
                         <div className="flex flex-col m-2 ">
                             <div className="text-center text-white">
                                 <p className="m-4 text-lg">Don't have an accont?</p>
-                                <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow">
+                                <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow"
+                                onClick={handleGuest}>
                                     Continue as Guest
                                 </button>
                                 <p className="m-4 text-lg"> or </p>
-                                <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow">
+                                <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl m-1 w-48 border transition hover:scale-105 shadow"
+                                onClick={handleRegister}>
                                     Register
                                 </button>
                             </div>

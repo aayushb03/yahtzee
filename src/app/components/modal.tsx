@@ -8,14 +8,15 @@ interface IModalProps {
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;
+  closeOnBackdropClick?: boolean;
 }
 
-const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children, closeOnBackdropClick = true }) => {
   useEffect(() => {
     const handleBackdropClick = (event: MouseEvent) => {
       // Check if the click is on the backdrop (and not the modal content)
-      if ((event.target as HTMLElement).id === "modal-backdrop") {
-        onClose(); // Close the modal if the backdrop is clicked
+      if (closeOnBackdropClick && (event.target as HTMLElement).id === "modal-backdrop") {
+        onClose();
       }
     };
 
@@ -26,7 +27,7 @@ const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
       // Remove the event listener when the component is unmounted
       window.removeEventListener("click", handleBackdropClick);
     };
-  }, [onClose]);
+  }, [onClose, closeOnBackdropClick]);
 
   if (!isOpen) return null;
 
