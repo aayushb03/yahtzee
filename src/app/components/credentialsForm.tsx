@@ -23,6 +23,7 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
   const [buttonShow, setButtonShow] = useState(false);
   // eslint-disable-next-line
   const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  const [isSignUp, setSignUp] = useState(false)
 
   const {setUser} = useUser();
 
@@ -62,6 +63,7 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
 
   //handles register
   const handleRegister = () =>{
+    setSignUp(!isSignUp)
     if (!regexp.test(email)) {
       setError("Invalid email");
       return;
@@ -104,6 +106,7 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+          {isSignUp? 
           <div className="mb-4">
             <label htmlFor="username" className="mr-2 text-lg w-48">Username: </label>
             <input
@@ -115,7 +118,7 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
               placeholder={"Only for sign-up"}
               onChange={(e) => setUsername(e.target.value)}
             />
-          </div>
+          </div> : <></>} 
           <div className="mb-4">
             <label htmlFor="password" className="mr-2 text-lg w-48">Password: </label>
             <input
@@ -144,7 +147,7 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
             </div>
           </div>
         </form>
-        <div className="flex flex-col ml-10" style={{background: '#879CB9'}}>
+        <div className="flex flex-col ml-10 justify-center items-center" style={{background: '#879CB9'}}>
           <div className="flex flex-col m-2 ">
             <div className="text-center text-white">
               <p className="m-4 text-lg">Don't have an account?</p>
