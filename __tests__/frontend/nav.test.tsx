@@ -18,15 +18,18 @@ describe("Nav component", () => {
   const mockGameStatus = jest.fn();
 
   test("renders the rules when the info button is pressed", () => {
+    // ARRANGE
     const { getByTestId, getByText } = render(
       <UserProvider>
-        <Nav setGameStatus={mockGameStatus} />
+        <Nav setGameStatus={mockGameStatus} /> 
       </UserProvider>
-    );
+    );                                          
 
-    fireEvent.click(getByTestId("help-button"));
+    // ACT
+    fireEvent.click(getByTestId("help-button")); 
 
-    expect(getByText("Basic rules of Yahtzee:")).toBeInTheDocument();
+    // ASSERT
+    expect(getByText("Basic rules of Yahtzee:")).toBeInTheDocument(); 
   });
 
   test("renders the leaderboard when the leaderboard button is pressed", async () => {
@@ -55,6 +58,6 @@ describe("Nav component", () => {
 
     fireEvent.click(getByTestId("log-in-button"));
 
-    expect(getByText("Username:")).toBeInTheDocument();
+    expect(getByText("Continue as Guest")).toBeInTheDocument();
   });
 });

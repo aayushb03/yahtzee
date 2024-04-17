@@ -35,6 +35,7 @@ describe('Home component', () => {
         <Home />
       </UserProvider>
     );
+    
     act(() => {
       fireEvent.change(getByLabelText('Player 1:'), { target: { value: 'Player 1' } });
       fireEvent.click(getByText('Add Player'));
