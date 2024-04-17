@@ -6,6 +6,10 @@ import {getGamesByUser, IGame} from "@/services/gameService";
 import { Baloo_2 } from "next/font/google";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
+/**
+ * Handles the user profile if a user is logged in
+ * @returns Profile
+ */
 const Profile = () => {
   const [games, setGames] = useState<IGame[]>([]);
   const {user, setUser} = useUser();

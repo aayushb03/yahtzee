@@ -11,6 +11,10 @@ import { useUser } from '@/services/userContext';
 import {getSession} from "next-auth/react";
 import {addGame} from "@/services/gameService";
 
+/**
+ * Page that controls the navigation as well as starting/stopping/adding players to game. Edits the gameStatus to do so. 
+ * @returns navigating to screen depending on what player selects
+ */
 export default function Home() {
   const [gameStatus, setGameStatus] = useState<GS>(GS.AddPlayers);
   const [players, setPlayers] = useState<Player[]>([]);

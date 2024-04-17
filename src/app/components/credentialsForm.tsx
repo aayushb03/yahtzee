@@ -15,6 +15,12 @@ type CredentialsFormProps = {
 }
 
 // eslint-disable-next-line
+
+/**
+ * Handles the form on the modal that handles taking in credentials as well as verifying them and throwing errors if incorrect or empty
+ * @param param0 
+ * @returns CredentialsForm
+ */
 const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
@@ -63,7 +69,7 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
 
   //handles register
   const handleRegister = () =>{
-    setSignUp(!isSignUp)
+    setSignUp(true)
     if (!regexp.test(email)) {
       setError("Invalid email");
       return;

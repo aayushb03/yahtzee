@@ -15,6 +15,12 @@ type NavProps = {
   setGameStatus: (status: GameStatus) => void;
 };
 
+/**
+ * Nav bar component that includes 3 buttons (Question mark/instructions, leaderboard, logout/profile) and their respective modals 
+ * functionality.
+ * @param param0 
+ * @returns Nav
+ */
 const Nav = ({ setGameStatus }: NavProps) => {
   const iconClasses =
     "transition transform hover:-translate-y-1 cursor-pointer";

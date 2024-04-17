@@ -18,6 +18,12 @@ type YahtzeeGameProps = {
   players: Player[];
 };
 
+/**
+ * Handles the actual playing of the yahtzee game. Handles rolling the dice, selecing scores, and whose turn it is. 
+ * Also handles buttons at top of board "New Game", "Change Players", and "Autofill Scores"
+ * @param param0 
+ * @returns 
+ */
 const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
   const [dice, setDice] = useState(new Dice());
   const [scoreEval, setScoreEval] = useState<ScoreEvaluator>(

@@ -19,6 +19,12 @@ type DiceRowProps = {
   isAiTurn: boolean;
 };
 
+/**
+ * Handles the row of dice at the bottom of the screen. Includes rolls left as well as freezing the dice in between rolls. 
+ * Also handles dice animation as defined in DiceAnimation Class. 
+ * @param param0 
+ * @returns DiceRow
+ */
 const DiceRow = ({
   dice,
   rollDice,

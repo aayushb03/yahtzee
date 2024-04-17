@@ -17,6 +17,12 @@ type BoardProps = {
   isAiTurn: boolean;
 }
 
+/**
+ * Represents the board of the yahtzee game including the scoreboard itself as well as handles selecting score and handling turns
+ * @param param0 
+ * @returns Board
+ */
+
 const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSelectedCategory, isAiTurn } : BoardProps) => {
   const [showPotential, setShowPotential] = useState(false)
   const [aiDecision, setAiDecision] = useState("");

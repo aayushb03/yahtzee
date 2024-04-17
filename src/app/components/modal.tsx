@@ -11,6 +11,11 @@ interface IModalProps {
   closeOnBackdropClick?: boolean;
 }
 
+/**
+ * Generic modal used for sign in button, nav buttons (instructions and leaderboard) so that all modals are consistent. 
+ * @param param0 
+ * @returns Modal 
+ */
 const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children, closeOnBackdropClick = true }) => {
   useEffect(() => {
     const handleBackdropClick = (event: MouseEvent) => {

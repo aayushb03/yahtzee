@@ -9,6 +9,12 @@ type LeaderboardProps = {
   boldRecent: number; // number of most recent scores to bold
 }
 
+/**
+ * Returns the leaderboard displayed in both endGameCard and when button is clicked in nav bar.
+ * Handles errors if not connected tothe database.
+ * @param param0 
+ * @returns Leaderboard
+ */
 const Leaderboard = ( {numScores, boldRecent} : LeaderboardProps) => {
   // declares leaderboard scores as a list of player object which each have a Game_Num. Player_Name, and Score property
   const [leaderboardScores, setLeaderboardScores] = useState<IScore[]>([]);
