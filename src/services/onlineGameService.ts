@@ -2,6 +2,7 @@
 
 const url = 'http://localhost:3000/api/online';
 
+// eslint-disable-next-line
 export async function createGameRoom(playerName: string) {
   const response = await fetch(`${url}/createGameRoom?playerName=${playerName}`, {
     method: 'GET'
@@ -14,6 +15,7 @@ export async function createGameRoom(playerName: string) {
   return await response.json() as string;
 }
 
+// eslint-disable-next-line
 export async function joinGameRoom(roomId: string, playerName: string) {
   const response = await fetch(`${url}/joinGameRoom?id=${roomId}&playerName=${playerName}`, {
     method: 'GET'
@@ -26,6 +28,7 @@ export async function joinGameRoom(roomId: string, playerName: string) {
   return await response.json() as string;
 }
 
+// eslint-disable-next-line
 export async function getAllPlayers(roomId: string) {
   const response = await fetch(`${url}/getAllPlayers?id=${roomId}`, {
     method: 'GET'

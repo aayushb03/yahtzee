@@ -1,11 +1,8 @@
 'use client';
 
-import {Baloo_2} from "next/font/google";
 import {useEffect, useState} from "react";
 import {IOnlinePlayer, createGameRoom, getAllPlayers, joinGameRoom} from "@/services/onlineGameService";
-import {pusherClient} from "@/services/pusher/pusherClient";
 import OnlinePlayerList from "@/app/components/onlinePlayerList";
-const baloo2 = Baloo_2({subsets: ["latin"]});
 
 export const OnlineCard = () => {
   const [gameId, setGameId] = useState<string>("");

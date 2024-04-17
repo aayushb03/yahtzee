@@ -40,7 +40,7 @@ const OnlinePlayerList = ({initialPlayers, gameRoomId, addPlayers}: OnlinePlayer
 
   return(
     <div className={"flex flex-col w-full"}>
-      {initialPlayers.map((player, index) => {
+      {initialPlayers.map((player) => {
         return (
           <div key={player.id} className="text-center text-xl">{player.name} {player.isHost && "(Host)"}</div>
         );

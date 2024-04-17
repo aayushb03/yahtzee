@@ -2,6 +2,7 @@ import prisma from "../../../../../prisma/client";
 import { nanoid } from "nanoid"
 import {NextRequest, NextResponse} from "next/server";
 
+// eslint-disable-next-line
 export async function GET(request: NextRequest) {
   const {searchParams} = new URL(request.url);
   const id = nanoid(10);
