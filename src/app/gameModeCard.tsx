@@ -18,17 +18,19 @@ type GameModeCardProps = {
   startYahtzee: (players: string[], numPlayers : number) => void;
 }
 
-
-// This is the game mode card that shows up BEFORE starting the game
-
-
+/**
+ * Card that displays first when logging on. Handles login modal, add player screen + ai players, as well as online playing and start game.
+ * Switches state in order to navigate to different screens
+ * @param param0
+ * @returns GameModeCard
+ */
 const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
   // keeps track of what is happening in the game
-  const [gameMode, setGameMode] = useState<GM>(GM.Local)
+  const [gameMode, setGameMode] = useState<GM>(GM.Local);
   // keeps track of players names in a string [] (MAX 4)
-  const [players, setPlayers] = useState<string[]>(["", "", "", ""])
+  const [players, setPlayers] = useState<string[]>(["", "", "", ""]);
   // keeps track of the number of players (MAX 4)
-  const [numPlayers, setNumPlayers] = useState<number>(1)
+  const [numPlayers, setNumPlayers] = useState<number>(1);
 
   useEffect(() => {
     // when page is loaded, always going to declare the players names in the newPlayers [] and add to numPlayers

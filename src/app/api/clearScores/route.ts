@@ -9,6 +9,7 @@ import prisma from "@/../prisma/client";
  * | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
  * @returns status 200 if successful, throws an error if not
  */
+// eslint-disable-next-line
 export async function DELETE() {
   try {
     await prisma.past_Scores.deleteMany();

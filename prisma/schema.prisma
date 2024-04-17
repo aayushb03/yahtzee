@@ -32,3 +32,21 @@ model Player {
   gameRoomId String
   gameRoom   GameRoom @relation(fields: [gameRoomId], references: [id])
 }
+
+
+model User {
+  Id       Int    @id @default(autoincrement())
+  Email    String @unique
+  Username String @unique
+  Password String
+  Games    Game[]
+}
+
+model Game {
+  Game_Num Int      @id @default(autoincrement())
+  Score    Int
+  Yahtzees Int
+  isWin    Boolean?
+  User_Id  Int
+  User     User     @relation(fields: [User_Id], references: [Id])
+}
