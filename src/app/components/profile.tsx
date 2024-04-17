@@ -36,12 +36,13 @@ const Profile = () => {
         Hello {user?.username}!
       </div>
       <div className="border border-black p-4 m-5 text-lg">
-        <h1 className="font-bold ml-20 mr-20 my-1"> Profile Information: </h1>
+        <h1 className="font-bold ml-1 mr-1 my-1"> Profile Information: </h1>
         <p className= "ml-20 mr-20"> <strong>Email:</strong>   {user?.email} </p>
         <p className= "ml-20 mr-20"><strong>Username:</strong>  {user?.username} </p>
         <div className= "ml-20 mr-20">
           <strong> Games Played: </strong> {games.length}
         </div>
+        <h1 className="font-bold ml-1 mr-1 my-1"> Game Statistics: </h1>
         <div className= "ml-20 mr-20">
           <strong> Number of Wins: </strong>
         </div>
