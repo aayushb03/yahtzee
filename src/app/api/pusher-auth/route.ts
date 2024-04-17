@@ -4,6 +4,7 @@ import { pusherServer } from "@/services/pusher/pusherServer"
 
 // This is optional but highly recommended to prevent bad actors
 // from overloading your channel.
+// eslint-disable-next-line
 export async function POST(req: Request) {
   const data = await req.text()
 
@@ -17,7 +18,9 @@ export async function POST(req: Request) {
 
   // Provide identity metadata for the request maker.
   const presenceData = {
+    // eslint-disable-next-line
     user_id: id,
+    // eslint-disable-next-line
     user_data: { user_id: id },
   }
 
