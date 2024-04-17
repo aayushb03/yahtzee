@@ -58,8 +58,7 @@ export default function Home() {
         addScore(player.name, player.scorecard.totalScore).then(() => {});
         if (user?.email) {
           const score = player.scorecard.totalScore;
-          const yahtzees = (player.scorecard.scores[SC.Yahtzee] == 50 ? 1 : 0) + (player.scorecard.yahtzeeBonus - 50) / 100;
-          // TODO: add wins logic (Might have to change a lot more)
+          const yahtzees = (player.scorecard.scores[SC.Yahtzee] == 50 ? 1 : 0) + ((player.scorecard.yahtzeeBonus) / 100);
           addGame(score, yahtzees, true, user?.email).then((response) => {
             console.log(response);
           });
