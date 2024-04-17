@@ -1,5 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/../prisma/client";
+import bcrypt from 'bcryptjs';
 
 /**
  * @returns status 200 (ok) if succesful, status 500 if not succesful 
@@ -13,13 +14,14 @@ export async function POST(request: NextRequest) {
   const username = data.username;
   const email = data.email;
   const password = data.password;
+  const encryptedPassword = await bcrypt.hash(password, 10);
   try {
     const newUser = await prisma.user.create({
       data: {
         // eslint-disable-next-line
         Email: email,
         Username: username,
-        Password: password,
+        Password: encryptedPassword,
       },
     });
     return NextResponse.json(newUser, { status: 200 });
