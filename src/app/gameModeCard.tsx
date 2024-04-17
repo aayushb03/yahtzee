@@ -6,6 +6,7 @@ import {Player} from "@/models/player";
 // eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
+import {OnlineCard} from "@/app/components/onlineCard";
 
 const config: Config = {
   dictionaries: [names]
@@ -104,67 +105,70 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
         </div>
 
         {/* this is div in the middle part of the gamecard with the player names if the game mode LOCAL is selected*/}
-        <div className={`flex flex-col h-48 items-center w-full py-2 ${baloo2.className}`}>
-          {gameMode == GM.Local && <div className={"pt-2"}>
-            {[...Array(numPlayers)].map((_, i) => {
-              const isAi = players[i].includes(" (AI)");
-              const playerNum = i + 1;
-              return (
-                <div key={i}>
-                  <div className="flex justify-center items-center h-8 w-full gap-4">
-                    <label htmlFor={`playerInput-${i}`} className="text-xl">
+        {gameMode == GM.Local && <>
+          <div className={`flex flex-col h-48 items-center w-full py-2 ${baloo2.className}`}>
+            <div className={"pt-2"}>
+              {[...Array(numPlayers)].map((_, i) => {
+                const isAi = players[i].includes(" (AI)");
+                const playerNum = i + 1;
+                return (
+                  <div key={i}>
+                    <div className="flex justify-center items-center h-8 w-full gap-4">
+                      <label htmlFor={`playerInput-${i}`} className="text-xl">
                       Player {playerNum}:
-                    </label>
+                      </label>
 
-                    {/* handles changing players by clicking the "x" button */}
-                    <input className={`border-b-[1px] text-xl ${players[i].trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-32 bg-transparent ${isAi && "text-app-gray"}`}
-                      id={`playerInput-${i}`}
-                      value={players[i]}
-                      disabled={isAi}
-                      onChange={(e) => onPlayerChange(i, e.target.value)}
-                      maxLength={8}
-                    />
-                    <button data-testid={`remove-player-button-${i}`} className={"hover:text-app-red"} onClick={() => {removePlayer(i)}}><RxCross1/></button>
+                      {/* handles changing players by clicking the "x" button */}
+                      <input className={`border-b-[1px] text-xl ${players[i].trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-32 bg-transparent ${isAi && "text-app-gray"}`}
+                        id={`playerInput-${i}`}
+                        value={players[i]}
+                        disabled={isAi}
+                        onChange={(e) => onPlayerChange(i, e.target.value)}
+                        maxLength={8}
+                      />
+                      <button data-testid={`remove-player-button-${i}`} className={"hover:text-app-red"} onClick={() => {removePlayer(i)}}><RxCross1/></button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
 
-            <div className={"flex w-full justify-center items-center"}>
-              {/* the add button below the player names  */}
-              <div className={"flex justify-center items-center h-8 mt-2"}>
-                {numPlayers != 4 &&
+              <div className={"flex w-full justify-center items-center"}>
+                {/* the add button below the player names  */}
+                <div className={"flex justify-center items-center h-8 mt-2"}>
+                  {numPlayers != 4 &&
                       <button
                         className={"bg-app-light-gray text-white rounded mx-1 w-24 shadow-xl transition hover:scale-105"}
                         onClick={addPlayer}>Add Player</button>
-                }
-              </div>
-              <div className={"flex justify-center items-center h-8 mt-2"}>
-                {numPlayers != 4 &&
+                  }
+                </div>
+                <div className={"flex justify-center items-center h-8 mt-2"}>
+                  {numPlayers != 4 &&
                     <button
                       className={"bg-app-light-gray text-white rounded mx-1 w-24 shadow-xl transition hover:scale-105"}
                       onClick={addAI}>Add AI</button>
-                }
+                  }
+                </div>
               </div>
             </div>
-          </div>}
-
-          {/* handles if the game mode ONLINE is selected  */}
-          {gameMode == GM.Online &&
-          <div className={"flex flex-col items-center w-full"}>
-            Online game mode
           </div>
-          }
-        </div>
 
 
-        {/* start of game button at the bottom */}
-        <div className={`flex justify-center items-center ${baloo2.className}`}>
-          <button
-            className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow" onClick={startGame}>
+          {/* start of game button at the bottom */}
+          <div className={`flex justify-center items-center ${baloo2.className}`}>
+            <button
+              className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow" onClick={startGame}>
             START GAME
-          </button>
-        </div>
+            </button>
+          </div>
+        </>
+        }
+
+        {/* handles if the game mode ONLINE is selected  */}
+        {gameMode == GM.Online &&
+          <div className={`flex flex-col h-[230px] items-center w-full py-2 ${baloo2.className}`}>
+            <OnlineCard/>
+          </div>
+        }
       </div>
     </div>
   );

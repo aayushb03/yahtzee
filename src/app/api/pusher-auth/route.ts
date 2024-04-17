@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid"
 
-import { pusherServer } from "@/../pusher/pusherServer"
+import { pusherServer } from "@/services/pusher/pusherServer"
 
 // This is optional but highly recommended to prevent bad actors
 // from overloading your channel.

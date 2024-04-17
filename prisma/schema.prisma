@@ -20,7 +20,7 @@ model Past_Scores {
 }
 
 model GameRoom {
-  id        Int      @id @default(autoincrement())
+  id        String   @id
   createdAt DateTime @default(now())
   messages  Player[]
 }
@@ -28,6 +28,7 @@ model GameRoom {
 model Player {
   id         Int      @id @default(autoincrement())
   name       String
-  gameRoomId Int
+  isHost     Boolean
+  gameRoomId String
   gameRoom   GameRoom @relation(fields: [gameRoomId], references: [id])
 }
