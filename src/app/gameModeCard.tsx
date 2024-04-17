@@ -150,9 +150,11 @@ const GameModeCard = ({ startYahtzee, currentPlayers } : GameModeCardProps) => {
           </div>}
 
           {/* handles if the game mode ONLINE is selected  */}
-          {gameMode == GM.Online && <>
-              (Online game mode options)
-          </>}
+          {gameMode == GM.Online &&
+          <div className={"flex flex-col items-center w-full"}>
+            Online game mode
+          </div>
+          }
         </div>
 
 
