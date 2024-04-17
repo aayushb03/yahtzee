@@ -42,6 +42,21 @@ const Profile = () => {
         <div className= "ml-20 mr-20">
           <strong> Games Played: </strong> {games.length}
         </div>
+        <div className= "ml-20 mr-20">
+          <strong> Number of Wins: </strong>
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Win Rate: </strong>
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Total Number of Yahtzees: </strong>
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Average Number of Yahtzee's per Game: </strong>
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Average Score per Game: </strong>
+        </div>
       </div>
       <button className={"bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow"}
         onClick={logout}>
