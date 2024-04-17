@@ -59,9 +59,28 @@ Need to deploy on VM to be able to access database. Two ways to deploy:
     ```
     docker pull registry.doit.wisc.edu/<your_image_path>
     ```
-    * run the Docker container on your VM
+
+**run the Docker container on your VM**
+```
+docker run -d -p 3000:3000 --name yahtzee_yahtzee-app yahtzee_yahtzee-app
+```
+* other docker commands:
+    * see all the containers
     ```
-    docker run -d -p host-port:container-port --name container-name registry-url/image-name:tag
+    docker ps
+    ```
+    * start a container that's already running
+    ```
+    docker start yahtzee_yahtzee-app
+    ```
+    * stop and remove a container 
+    ```
+    docker stop yahtzee_yahtzee-app
+    docker rm yahtzee_yahtzee-app
+    ```
+    * check container logs
+    ```
+    docker logs yahtzee_yahtzee-app
     ```
 
 
