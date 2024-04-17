@@ -14,6 +14,8 @@ export const OnlineCard = () => {
   const [players, setPlayers] = useState<IOnlinePlayer[]>([]);
   const [gameRoomId, setGameRoomId] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [isHost, setIsHost] = useState<boolean>(false);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   useEffect(() => {
     if (gameJoined) {
@@ -34,6 +36,7 @@ export const OnlineCard = () => {
     createGameRoom(playerName).then((gameId ) => {
       setGameRoomId(gameId);
       setGameJoined(true);
+      setIsHost(true);
     }).catch(() => {
       setError("Error creating game room");
     })
@@ -54,10 +57,15 @@ export const OnlineCard = () => {
     joinGameRoom(gameId, playerName).then((gameId) => {
       setGameRoomId(gameId);
       setGameJoined(true);
+      setIsHost(false);
     }).catch(() => {
       setError("Game room does not exist or is full");
     })
   }
+
+  const toggleReadyStatus = () => {
+    setIsReady(!isReady);
+  };
 
   return (
     <div className={"flex flex-col h-full w-full"}>
@@ -102,11 +110,21 @@ export const OnlineCard = () => {
               <OnlinePlayerList initialPlayers={players} gameRoomId={gameRoomId} addPlayers={addPlayers}/>
             }
           </div>
-          <div className={`flex justify-center items-center ${baloo2.className}`}>
-            <button
-              className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow"
-              onClick={() => {}}>
-              START GAME
+          <div className={`flex justify-center items-center`}>
+            {isHost ? (
+              <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-40 border transition hover:scale-105 shadow">
+                START GAME
+              </button>
+            ) : (
+              <button
+                className={`text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-40 border transition hover:scale-105 shadow ${!isReady ? 'bg-green-500' : 'bg-red-500'}`}
+                onClick={toggleReadyStatus}
+              >
+                {isReady ? "UNREADY" : "READY"}
+              </button>
+            )}
+            <button className="bg-app-red text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-40 border transition hover:scale-105 shadow">
+              QUIT
             </button>
           </div>
         </div>
