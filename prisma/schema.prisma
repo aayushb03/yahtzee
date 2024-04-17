@@ -10,11 +10,28 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL_LOCAL")
 }
 
 model Past_Scores {
-  Game_Num Int @id @default(autoincrement())
+  Game_Num    Int     @id @default(autoincrement())
   Player_Name String?
-  Score Int?
+  Score       Int?
+}
+
+model User {
+  Id       Int    @id @default(autoincrement())
+  Email    String @unique
+  Username String @unique
+  Password String
+  Games    Game[]
+}
+
+model Game {
+  Game_Num Int      @id @default(autoincrement())
+  Score    Int
+  Yahtzees Int
+  isWin    Boolean?
+  User_Id  Int
+  User     User     @relation(fields: [User_Id], references: [Id])
 }

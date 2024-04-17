@@ -1,16 +1,26 @@
-import React, { useState } from "react";
-import { IoIosHelpCircleOutline, IoIosStats, IoIosLogIn } from "react-icons/io";
+import React, {useEffect, useState} from "react";
+import { IoIosHelpCircleOutline, IoIosStats, IoIosLogIn, IoIosContact } from "react-icons/io";
 import Modal from "./modal";
 // eslint-disable-next-line
 import { GameStatus as GS, GameStatus } from "@/models/enums";
 import Instructions from "@/app/components/instructions";
 import Leaderboard from "@/app/components/leaderboard";
+import CredentialsForm from "@/app/components/credentialsForm";
+import Profile from "@/app/components/profile";
+import {useUser} from "@/services/userContext";
+import {getSession} from "next-auth/react";
 
 // eslint-disable-next-line
 type NavProps = {
   setGameStatus: (status: GameStatus) => void;
 };
 
+/**
+ * Nav bar component that includes 3 buttons (Question mark/instructions, leaderboard, logout/profile) and their respective modals
+ * functionality.
+ * @param param0
+ * @returns Nav
+ */
 const Nav = ({ setGameStatus }: NavProps) => {
   const iconClasses =
     "transition transform hover:-translate-y-1 cursor-pointer";
@@ -18,6 +28,25 @@ const Nav = ({ setGameStatus }: NavProps) => {
   // helpers to see if modals are open or not
   const [isHelpModalOpen, setHelpModalOpen] = useState(false);
   const [statsOpen, setStatsOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const {user} = useUser();
+
+  useEffect(() => {
+    if (user) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  } ,[user]);
+
+  useEffect(() => {
+    getSession().then((session) => {
+      if (!session) {
+        setLoginModalOpen(true);
+      }
+    });
+  }, []);
 
   /**
    * When logout button or logo is clicked, navigates to homescreen
@@ -60,11 +89,12 @@ const Nav = ({ setGameStatus }: NavProps) => {
 
           {/* When this button is clicked, page navigates back to homescreen */}
           <button
-            onClick={() => navToHomeScreen()}
+            onClick={() => setLoginModalOpen(true)}
             className={iconClasses}
-            data-testid="leave-button"
+            data-testid="log-in-button"
           >
-            <IoIosLogIn className={iconClasses} />
+            {!loggedIn && <IoIosLogIn className={iconClasses}/>}
+            {loggedIn && <IoIosContact className={iconClasses}/>}
           </button>
         </div>
       </nav>
@@ -77,6 +107,12 @@ const Nav = ({ setGameStatus }: NavProps) => {
       {/* This Modal should appear when statsOpen is true */}
       <Modal isOpen={statsOpen} onClose={() => setStatsOpen(false)}>
         <Leaderboard numScores={50} boldRecent={0}/>
+      </Modal>
+
+      {/* This Modal should appear when loginModalOpen is true */}
+      <Modal isOpen={loginModalOpen} onClose={() => setLoginModalOpen(false)} closeOnBackdropClick={false}>
+        {!loggedIn && <CredentialsForm onClose={() => setLoginModalOpen(false)}/>}
+        {loggedIn && <Profile/>}
       </Modal>
     </>
   );

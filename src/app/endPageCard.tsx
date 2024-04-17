@@ -12,6 +12,12 @@ type EndPageCardProps = {
   onRestart: () => void;
 };
 
+/**
+ * EndpageCard that is displayed at the end of a game. Has final scores and leaderboards as well as Restart game option.
+ * Connects to database to get leaderboard information.
+ * @param param0
+ * @returns
+ */
 const EndPageCard = ({ players, onRestart }: EndPageCardProps) => {
   // declares the current players as a list of player objects who each have name and score property
   const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);

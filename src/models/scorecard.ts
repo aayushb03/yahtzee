@@ -27,14 +27,6 @@ export interface IScorecard {
    * @param score - The score to add.
    */
   addScore(category: ScoreCategory, score: number): void;
-
-  /**
-   * Sets the total score, used mainly for the autofill implementation to allow viewing of final scorecard
-   * 
-   *
-   * @param score - The new total score.
-   */
-  setTotalScore(score: number): void;
 }
 
 /**
@@ -110,13 +102,5 @@ export class Scorecard implements IScorecard {
   addYahtzeeBonus(): void {
     this.yahtzeeBonus += 100;
     this.totalScore += 100;
-  }
-
-  /**
-   * For testing purposes, sets the total score.
-   * @param score
-   */
-  setTotalScore(score: number): void {
-    this.totalScore = score;
   }
 }

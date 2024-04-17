@@ -1,4 +1,4 @@
-import {NextRequest, NextResponse} from "next/server";
+import { NextResponse} from "next/server";
 import prisma from "@/../prisma/client";
 
 /**
@@ -7,6 +7,7 @@ import prisma from "@/../prisma/client";
  * | Game_Number (auto_increment) | Player_Name (VARCHAR(45) | Score (INT) |
  * @returns status 200 if succesful, throws an error if not
  */
+// eslint-disable-next-line
 export async function GET() {
   try {
     const scores = await prisma.past_Scores.findMany();

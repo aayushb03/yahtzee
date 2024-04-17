@@ -3,6 +3,10 @@ import React from "react";
 import { Baloo_2 } from "next/font/google";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
+/**
+ * Handles the set of instructions displayed on modal when question mark button clicked in nav bar
+ * @returns Instructions
+ */
 const Instructions = () => {
   return (
     <div>
