@@ -80,7 +80,7 @@ const Profile = () => {
           <strong> Total Number of Yahtzees: </strong> {totalYahtzeeCount}
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Average Number of Yahtzee's per Game: </strong> {totalYahtzeeCount / games.length}
+          <strong> Average Number of Yahtzee's per Game: </strong> {Math.round(totalYahtzeeCount / games.length * 100)/100}
         </div>
         <div className= "ml-20 mr-20">
           <strong> Average Score per Game: </strong> {Math.round(totalScore / games.length * 100)/100}
