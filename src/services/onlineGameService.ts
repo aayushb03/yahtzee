@@ -74,6 +74,16 @@ export async function startGame(roomId: string) {
   await pusherServer.trigger(roomId, "game-started", {});
 }
 
+// eslint-disable-next-line
+export async function sendSelectDice(roomId: string, selectedDice: number[]) {
+  await pusherServer.trigger(roomId, "dice-selected", selectedDice);
+}
+
+// eslint-disable-next-line
+export async function sendDiceRoll(roomId: string, diceAndRolls: [number[], number]) {
+  await pusherServer.trigger(roomId, "dice-rolled", diceAndRolls);
+}
+
 export interface IOnlinePlayer {
   id: number;
   name: string;

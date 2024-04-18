@@ -14,6 +14,12 @@ export interface IDice {
    * @param indices - The indices of the dice to roll.
    */
   rollDiceByIndex(indices: number[]): void;
+
+  /**
+   * Rolls the dice with the given values.
+   * @param dice - The values to set the dice to.
+   */
+  rollDiceFixed(dice: number[]): void;
 }
 
 /**
@@ -55,6 +61,16 @@ export class Dice implements IDice {
         this.dice[i] = Math.floor(Math.random() * 6) + 1;
         // this.dice[i] = 5;
       }
+    }
+  }
+
+  /**
+   * Rolls the dice with the given values.
+   * @param dice - The values to set the dice to.
+   */
+  rollDiceFixed(dice: number[]): void {
+    for (let i = 0; i < 5; i++) {
+      this.dice[i] = dice[i];
     }
   }
 }

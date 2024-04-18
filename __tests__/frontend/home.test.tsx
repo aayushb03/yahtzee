@@ -48,8 +48,9 @@ describe('Home component', () => {
 
   test('renders GameModeCard and deletes a player', async () => {
     const mockStartYahtzee = jest.fn();
+    const mockStartOnlineYahtzee = jest.fn();
     const { getByTestId, getByLabelText, getByText, queryByLabelText } = render(
-      <GameModeCard startYahtzee={mockStartYahtzee} currentPlayers={[]} />
+      <GameModeCard startYahtzee={mockStartYahtzee} startOnlineYahtzee={mockStartOnlineYahtzee} currentPlayers={[]} />
     );
 
     act(() => {

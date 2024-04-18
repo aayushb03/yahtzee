@@ -14,7 +14,7 @@ type BoardProps = {
   rollsLeft: number;
 
   aiSelectedCategory: string;
-  isAiTurn: boolean;
+  isAiOrOnlineTurn: boolean;
 }
 
 /**
@@ -23,7 +23,7 @@ type BoardProps = {
  * @returns Board
  */
 
-const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSelectedCategory, isAiTurn } : BoardProps) => {
+const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSelectedCategory, isAiOrOnlineTurn } : BoardProps) => {
   const [showPotential, setShowPotential] = useState(false)
   const [aiDecision, setAiDecision] = useState("");
 
@@ -38,7 +38,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
   }, [rollsLeft]);
 
   useEffect(() => {
-    if (isAiTurn) {
+    if (isAiOrOnlineTurn) {
       setAiDecision(aiSelectedCategory);
     }
   }, [aiSelectedCategory]);
@@ -80,7 +80,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
     let cellClass;
     if (currentPlayers.isPlayersTurn(player)) {
       cellClass = 'text-center border-x';
-      if (!isAiTurn) {
+      if (!isAiOrOnlineTurn) {
         cellClass += ' bg-app-yellow ';
         if (showPotential && potential) {
           cellClass += ' cursor-pointer hover:bg-[#d4c2a3]';
@@ -108,7 +108,7 @@ const Board = ({ currentPlayers, potentialScores, onScoreSelect, rollsLeft, aiSe
         <td
           className={cellClass}
           onClick={() => {
-            if (!isAiTurn) {
+            if (!isAiOrOnlineTurn) {
               onScoreSelect(category, score, potentialScores);
             }
           }}

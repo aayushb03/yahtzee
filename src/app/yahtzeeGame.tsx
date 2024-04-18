@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import Board from "./components/board";
 import DiceRow from "@/app/components/dice_row";
@@ -10,12 +9,15 @@ import { LocalPlayers } from "@/models/localPlayers";
 // eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
 import { getBestOption } from "@/services/aiHelperService";
+import {pusherClient} from "@/services/pusher/pusherClient";
+import {sendDiceRoll} from "@/services/onlineGameService";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type YahtzeeGameProps = {
   changePlayers: () => void;
   endGame: () => void;
   players: Player[];
+  gameRoomId: string;
 };
 
 /**
@@ -24,7 +26,7 @@ type YahtzeeGameProps = {
  * @param param0
  * @returns
  */
-const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
+const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGameProps) => {
   const [dice, setDice] = useState(new Dice());
   const [scoreEval, setScoreEval] = useState<ScoreEvaluator>(
     new ScoreEvaluator(dice)
@@ -34,8 +36,8 @@ const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
     new LocalPlayers([])
   );
   const [gameLoaded, setGameLoaded] = useState(false);
-  const [isAiTurn, setIsAiTurn] = useState(false);
-  const [aiSelectedDice, setAiSelectedDice] = useState([0, 0, 0, 0, 0]);
+  const [isAiOrOnlineTurn, setIsAiOrOnlineTurn] = useState(false);
+  const [aiOrOnlineSelectedDice, setAiOrOnlineSelectedDice] = useState([0, 0, 0, 0, 0]);
   const [aiSelectedCategory, setAiSelectedCategory] = useState<string>("");
 
   /**
@@ -44,8 +46,19 @@ const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
   useEffect(() => {
     // setScores(new Scorecard());
     setRollsLeft(3);
-    setCurPlayers(new LocalPlayers([...players], true));
+    setCurPlayers(new LocalPlayers([...players], gameRoomId == ""));
     setGameLoaded(true);
+    if (gameRoomId != "") {
+      pusherClient.subscribe(gameRoomId);
+      pusherClient.bind("dice-rolled", (diceAndRolls: [number[], number]) => {
+        dice.rollDiceFixed(diceAndRolls[0]);
+        setDice(new Dice(dice));
+        setRollsLeft(diceAndRolls[1]);
+      });
+      return () => {
+        pusherClient.unsubscribe(gameRoomId);
+      }
+    }
   }, []);
 
   /**
@@ -61,15 +74,18 @@ const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
 
   useEffect(() => {
     if (curPlayers.players.length == 0) return;
+    console.log(curPlayers);
 
     // start the ai's turn
     if (curPlayers.getCurrentPlayer().ai) {
-      setIsAiTurn(true);
+      setIsAiOrOnlineTurn(true);
       setTimeout(() => {
         rollDice();
       }, 1000);
+    } else if (curPlayers.getCurrentPlayer().online) {
+      setIsAiOrOnlineTurn(true);
     } else {
-      setIsAiTurn(false);
+      setIsAiOrOnlineTurn(false);
     }
   }, [curPlayers]);
 
@@ -85,6 +101,11 @@ const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
         dice.rollDice();
       }
       setDice(new Dice(dice));
+      if (gameRoomId != "") {
+        sendDiceRoll(gameRoomId, [dice.dice, rollsLeft-1]).catch((err) => {
+          console.log(err);
+        });
+      }
       setRollsLeft(rollsLeft - 1);
     } else {
       // alert('No rolls left, please choose a score category.');
@@ -161,7 +182,7 @@ const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
         if (categoryToAdd == "") {
           // console.log(diceToKeep);
           setTimeout(() => {
-            setAiSelectedDice(diceToKeep);
+            setAiOrOnlineSelectedDice(diceToKeep);
             setTimeout(() => {
               rollDice(diceToKeep);
             }, 1500);
@@ -220,7 +241,7 @@ const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
           potentialScores={scoreEval}
           rollsLeft={rollsLeft}
           aiSelectedCategory={aiSelectedCategory}
-          isAiTurn={isAiTurn}
+          isAiOrOnlineTurn={isAiOrOnlineTurn}
         />
       </div>
 
@@ -230,8 +251,9 @@ const YahtzeeGame = ({ changePlayers, players, endGame }: YahtzeeGameProps) => {
         diceRolled={rollsLeft < 3}
         playerName={curPlayers.getCurrentPlayer().name}
         rollsLeft={rollsLeft}
-        isAiTurn={isAiTurn}
-        aiSelectedDice={aiSelectedDice}
+        isAiOrOnlineTurn={isAiOrOnlineTurn}
+        aiOrOnlineSelectedDice={aiOrOnlineSelectedDice}
+        gameRoomId={gameRoomId}
       />
     </div>
   );

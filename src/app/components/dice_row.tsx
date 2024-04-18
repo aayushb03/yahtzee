@@ -1,6 +1,8 @@
 import { Dice } from "@/models/dice";
 import React, { useEffect, useState } from "react";
 import styles from "./DiceAnimations.module.css";
+import {pusherClient} from "@/services/pusher/pusherClient";
+import {sendSelectDice} from "@/services/onlineGameService";
 
 type DiceRowProps = {
   // enum that returns 5 randomly generated numbers
@@ -14,9 +16,10 @@ type DiceRowProps = {
   // the rolls left in the turn
   rollsLeft: number;
   // keeps track of each selected dice
-  aiSelectedDice: number[];
+  aiOrOnlineSelectedDice: number[];
   // if it is the AI's turn
-  isAiTurn: boolean;
+  isAiOrOnlineTurn: boolean;
+  gameRoomId: string;
 };
 
 /**
@@ -31,14 +34,27 @@ const DiceRow = ({
   diceRolled,
   playerName,
   rollsLeft,
-  aiSelectedDice,
-  isAiTurn,
+  aiOrOnlineSelectedDice,
+  isAiOrOnlineTurn,
+  gameRoomId
 }: DiceRowProps) => {
   // keeps track of each dice value
   const [diceArr, setDiceArr] = useState([1, 1, 1, 1, 1]);
   // keeps track of dice to freeze
   const [selectedDice, setSelectedDice] = useState([0, 0, 0, 0, 0]);
   const [isRolling, setIsRolling] = useState(false);
+
+  useEffect(() => {
+    if (gameRoomId != "") {
+      pusherClient.subscribe(gameRoomId);
+      pusherClient.bind("dice-selected", (selectedDice: number[]) => {
+        setSelectedDice(selectedDice);
+      });
+      return () => {
+        pusherClient.unsubscribe(gameRoomId);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     setDiceArr(dice.dice)
@@ -51,10 +67,11 @@ const DiceRow = ({
   }, [diceArr]);
 
   useEffect(() => {
-    if (isAiTurn) {
-      setSelectedDice(aiSelectedDice);
+    if (isAiOrOnlineTurn) {
+      setSelectedDice(aiOrOnlineSelectedDice);
+      console.log(aiOrOnlineSelectedDice)
     }
-  } , [aiSelectedDice]);
+  } , [aiOrOnlineSelectedDice]);
 
   /**
    * at the beginning of each turn, all the  dice are unselected
@@ -72,6 +89,11 @@ const DiceRow = ({
     const newSelectedDice = [...selectedDice];
     newSelectedDice[index] = newSelectedDice[index] == 0 ? 1 : 0;
     setSelectedDice(newSelectedDice);
+    if (gameRoomId != "") {
+      sendSelectDice(gameRoomId, newSelectedDice).catch(() => {
+        console.error("Error selecting dice");
+      });
+    }
   };
 
   /* the progress bar visually shows the players have 3 rolls, each time "Roll" is selected, the progress bar goes down 1/3 */
@@ -142,7 +164,7 @@ const DiceRow = ({
           <div
             key={index}
             onClick={() => {
-              if (!isAiTurn) handleDiceClick(index);
+              if (!isAiOrOnlineTurn) handleDiceClick(index);
             }}
             className={`${styles.dice} ${
               selectedDice[index] === 1 ? styles.diceSelected : ""
@@ -164,7 +186,7 @@ const DiceRow = ({
         ))}
         <button
           className="bg-app-yellow text-gray-800 font-bold px-4 py-2 rounded mx-2 transition hover:scale-105 shadow-2xl"
-          disabled={isRolling || rollsLeft === 0 ||  selectedDice.every(val => val === 1) || isAiTurn}
+          disabled={isRolling || rollsLeft === 0 ||  selectedDice.every(val => val === 1) || isAiOrOnlineTurn}
           onClick={() => {
             const newSelectedDice = selectedDice.map((selected, i) =>
               selected === 1 ? diceArr[i] : 0

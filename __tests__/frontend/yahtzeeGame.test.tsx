@@ -16,7 +16,7 @@ const mockPlayer2 = new Player('Player 2');
 const mockLocalPlayers = new LocalPlayers([mockPlayer1, mockPlayer2]);
 
 // Mock potential scores data
-const mockPotentialScores = new ScoreEvaluator({ dice: [1, 1, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}});
+const mockPotentialScores = new ScoreEvaluator({ dice: [1, 1, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}, rollDiceFixed() {}});
 
 // Mock onScoreSelect function
 const mockOnScoreSelect = jest.fn();
@@ -42,7 +42,7 @@ describe('Board component', () => {
         onScoreSelect={mockOnScoreSelect}
         rollsLeft={3}
         aiSelectedCategory={''}
-        isAiTurn={false}
+        isAiOrOnlineTurn={false}
       />
     );
 
@@ -58,7 +58,7 @@ describe('Board component', () => {
         onScoreSelect={mockOnScoreSelect}
         rollsLeft={3}
         aiSelectedCategory={''}
-        isAiTurn={false}
+        isAiOrOnlineTurn={false}
       />
     );
 
@@ -76,8 +76,9 @@ describe('DiceRow component', () => {
         diceRolled={false}
         playerName={""}
         rollsLeft={3}
-        aiSelectedDice={[]}
-        isAiTurn={false}
+        aiOrOnlineSelectedDice={[]}
+        isAiOrOnlineTurn={false}
+        gameRoomId={""}
       />
     );
 
@@ -96,8 +97,9 @@ describe('DiceRow component', () => {
         diceRolled={false}
         playerName={""}
         rollsLeft={3}
-        aiSelectedDice={[]}
-        isAiTurn={false}
+        aiOrOnlineSelectedDice={[]}
+        isAiOrOnlineTurn={false}
+        gameRoomId={""}
       />
     );
 
@@ -114,8 +116,9 @@ describe('DiceRow component', () => {
         diceRolled={false}
         playerName={""}
         rollsLeft={3}
-        aiSelectedDice={[]}
-        isAiTurn={false}
+        aiOrOnlineSelectedDice={[]}
+        isAiOrOnlineTurn={false}
+        gameRoomId={""}
       />
     );
     
@@ -143,8 +146,9 @@ describe('DiceRow component', () => {
         diceRolled={false}
         playerName={""}
         rollsLeft={0}
-        aiSelectedDice={[]}
-        isAiTurn={false}
+        aiOrOnlineSelectedDice={[]}
+        isAiOrOnlineTurn={false}
+        gameRoomId={""}
       />
     );
 
