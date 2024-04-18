@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
         gameRoomId: id
       }
     });
-    await pusherServer.trigger(id, "remove-player", playerId)
+    await pusherServer.trigger(id, "player-removed", player.name)
     return NextResponse.json({roomId: id, playerId: player.id}, { status: 200 });
   } catch (error) {
     console.error('Error removing player from room:', error);

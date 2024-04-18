@@ -1,5 +1,7 @@
 "use server";
 
+import {pusherServer} from "@/services/pusher/pusherServer";
+
 const url = 'http://localhost:3000/api/online';
 
 // eslint-disable-next-line
@@ -54,8 +56,26 @@ export async function removePlayer(roomId: string, playerId: number) {
   return await response.json() as IRoomAndPlayerIds;
 }
 
+// eslint-disable-next-line
+export async function endGame(roomId: string) {
+  const response = await fetch(`${url}/endGame?id=${roomId}`, {
+    method: 'GET'
+  });
+
+  if (!response.ok) {
+    throw new Error("Error: " + response.status);
+  }
+
+  return await response.json() as IRoomAndPlayerIds;
+}
+
+// eslint-disable-next-line
+export async function startGame(roomId: string) {
+  await pusherServer.trigger(roomId, "game-started", {});
+}
+
 export interface IOnlinePlayer {
-  id: string;
+  id: number;
   name: string;
   isHost: boolean;
   gameRoomId: string;

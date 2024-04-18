@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
         gameRoomId: id
       }
     });
-    await pusherServer.trigger(id, "new-player", playerName)
+    await pusherServer.trigger(id, "player-joined", playerName)
     return NextResponse.json({roomId: id, playerId:player.id}, { status: 200 });
   } catch (error) {
     console.error('Error joining room:', error);

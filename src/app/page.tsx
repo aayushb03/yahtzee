@@ -10,6 +10,7 @@ import Nav from "@/app/components/nav";
 import { useUser } from '@/services/userContext';
 import {getSession} from "next-auth/react";
 import {addGame} from "@/services/gameService";
+import {IOnlinePlayer} from "@/services/onlineGameService";
 
 /**
  * Page that controls the navigation as well as starting/stopping/adding players to game. Edits the gameStatus to do so.
@@ -18,6 +19,8 @@ import {addGame} from "@/services/gameService";
 export default function Home() {
   const [gameStatus, setGameStatus] = useState<GS>(GS.AddPlayers);
   const [players, setPlayers] = useState<Player[]>([]);
+  const [isOnline, setIsOnline] = useState<boolean>(false);
+  const [gameId, setGameId] = useState<string>("");
   const { user, setUser } = useUser();
 
   useEffect(() => {
@@ -42,6 +45,17 @@ export default function Home() {
         newPlayers.push(new Player(playerNames[i]));
       }
     }
+    setPlayers(newPlayers);
+    setGameStatus(GS.InProgress);
+  }
+
+  const startOnlineGame = (players: IOnlinePlayer[], gameId : string, curPlayerId:number) => {
+    const newPlayers = [];
+    for (let i = 0; i < players.length; i++) {
+      newPlayers.push(new Player(players[i].name, false, players[i].id != curPlayerId, players[i].id));
+    }
+    setIsOnline(true);
+    setGameId(gameId);
     setPlayers(newPlayers);
     setGameStatus(GS.InProgress);
   }
@@ -85,7 +99,7 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen bg-app-red" style={{ minWidth: '1162px' }}>
       <Nav setGameStatus={setGameStatus}/>
-      {gameStatus == GS.AddPlayers &&  <GameModeCard startYahtzee={startGame} currentPlayers={players}/>}
+      {gameStatus == GS.AddPlayers &&  <GameModeCard startYahtzee={startGame} startOnlineYahtzee={startOnlineGame} currentPlayers={players}/>}
       {gameStatus == GS.InProgress && <YahtzeeGame changePlayers={changePlayers} players={players} endGame={endGame}/>}
       {gameStatus === GS.EndGame && <EndPageCard players={players} onRestart={restartGame} />}
     </div>
