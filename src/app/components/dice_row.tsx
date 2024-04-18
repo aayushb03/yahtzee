@@ -11,7 +11,7 @@ type DiceRowProps = {
   rollDice: (selectedDice: number[]) => void;
   // if the dice have been rolled or not
   diceRolled: boolean;
-  // player who's turn it is
+  // player whose turn it is
   playerName: string;
   // the rolls left in the turn
   rollsLeft: number;
@@ -69,7 +69,6 @@ const DiceRow = ({
   useEffect(() => {
     if (isAiOrOnlineTurn) {
       setSelectedDice(aiOrOnlineSelectedDice);
-      console.log(aiOrOnlineSelectedDice)
     }
   } , [aiOrOnlineSelectedDice]);
 

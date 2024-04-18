@@ -25,6 +25,7 @@ export async function GET(request: NextRequest) {
       data: {
         name: playerName,
         isHost: false,
+        isReady: false,
         gameRoomId: id
       }
     });

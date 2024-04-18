@@ -1,4 +1,4 @@
-import {use, useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 import {
   IOnlinePlayer,
   createGameRoom,
@@ -7,7 +7,7 @@ import {
   endGame,
   removePlayer,
   startGame,
-  updatePlayerReadiness
+  togglePlayerReadiness
 } from "@/services/onlineGameService";
 import OnlinePlayerList from "@/app/components/onlinePlayerList";
 import { useUser } from '@/services/userContext';
@@ -24,7 +24,6 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
   const [players, setPlayers] = useState<IOnlinePlayer[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isHost, setIsHost] = useState<boolean>(false);
-  const [isReady, setIsReady] = useState<boolean>(false);
   const [curPlayerid, setCurPlayerid] = useState<number>(0);
   const { user } = useUser(); 
   const [canStartGame, setCanStartGame] = useState<boolean>(false);
@@ -125,7 +124,6 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
     setGameRoomId("");
     setPlayers([]);
     setIsHost(false);
-    setIsReady(false);
     setCurPlayerid(0);
     setErrorMessage("");
   }
@@ -140,11 +138,8 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
    * Toggles the ready status of the player.
    */
   const toggleReadyStatus = async () => {
-    const newReadyStatus = !isReady;
-    setIsReady(newReadyStatus); // Update local state immediately for responsiveness
-    updatePlayerReadiness(curPlayerid, newReadyStatus, gameRoomId).catch(error => {
+    togglePlayerReadiness(gameRoomId, curPlayerid).catch(error => {
       console.error("Error updating ready status", error);
-      setIsReady(isReady); // Revert state on error
     });
   };
 
@@ -154,7 +149,7 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
       setCanStartGame(allPlayersReady);
     }
   }
-  , [players, isReady]);
+  , [players]);
 
   return (
     <div className={"flex flex-col h-full w-full"}>
@@ -217,10 +212,10 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
               </button>
             ) : (
               <button
-                className={`text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-40 border transition hover:scale-105 shadow ${!isReady ? 'bg-green-500' : 'bg-app-red'}`}
+                className={`text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-40 border transition hover:scale-105 shadow ${!(players && players.find((player) => player.id == curPlayerid)?.isReady) ? 'bg-green-500' : 'bg-app-red'}`}
                 onClick={toggleReadyStatus}
               >
-                {isReady ? "UNREADY" : "READY"}
+                {players && players.find((player) => player.id == curPlayerid)?.isReady ? "UNREADY" : "READY"}
               </button>
             )}
             <button className="bg-app-red text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-40 border transition hover:scale-105 shadow" onClick={onQuit}>

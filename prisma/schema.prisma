@@ -29,10 +29,10 @@ model Player {
   id         Int      @id @default(autoincrement())
   name       String
   isHost     Boolean
+  isReady    Boolean
   gameRoomId String
   gameRoom   GameRoom @relation(fields: [gameRoomId], references: [id])
 }
-
 
 model User {
   Id       Int    @id @default(autoincrement())

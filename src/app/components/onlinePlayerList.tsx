@@ -25,6 +25,9 @@ const OnlinePlayerList = ({players, gameRoomId, updatePlayers, isHost, startOnli
       setAlert(`${playerName} has left the game!`);
       updatePlayers();
     });
+    pusherClient.bind("toggle-ready", () => {
+      updatePlayers();
+    });
     pusherClient.bind("game-started", () => {
       setAlert("Game is starting!");
       getAllPlayers(gameRoomId).then((players) => {
@@ -66,12 +69,10 @@ const OnlinePlayerList = ({players, gameRoomId, updatePlayers, isHost, startOnli
               </label>
 
               {/* handles changing players by clicking the "x" button */}
-              <div key={player.id} className="text-center text-xl w-32">{player.name} {player.isHost && "(Host)"}</div>
-              { showX &&
-                <button className={"hover:text-app-red"} onClick={() => {removePlayer2(player.id)}}>
-                  <RxCross1/>
-                </button>
-              }
+              <div key={player.id} className={`text-center text-xl w-32 ${player.isReady ? 'text-green-600' : 'text-app-red'}`}>{player.name} {player.isHost && "(Host)"}</div>
+              <button className={`${!showX && 'invisible'} hover:text-app-red`} onClick={() => {removePlayer2(player.id)}}>
+                <RxCross1/>
+              </button>
             </div>
           </div>
         // <div key={player.id} className="text-center text-xl w-32">{player.name} {player.isHost && "(Host)"}</div>

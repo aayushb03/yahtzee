@@ -85,13 +85,16 @@ export async function sendDiceRoll(roomId: string, diceAndRolls: [number[], numb
 }
 
 // eslint-disable-next-line
-export async function updatePlayerReadiness(playerId: number, isReady: boolean, roomId: string) {
-  try {
-    await pusherServer.trigger(roomId, "player-ready", {playerId, isReady});
-  } catch (error) {
-    console.error("Failed to trigger player readiness update", error);
-    throw error; 
+export async function togglePlayerReadiness(roomId: string, playerId: number) {
+  const response = await fetch(`${url}/toggleReady?id=${roomId}&playerId=${playerId}`, {
+    method: 'GET'
+  });
+
+  if (!response.ok) {
+    throw new Error("Error: " + response.status);
   }
+
+  return await response.json() as IOnlinePlayer;
 }
 
 export interface IOnlinePlayer {

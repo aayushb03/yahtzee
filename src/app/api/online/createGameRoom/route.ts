@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
       data: {
         name: playerName,
         isHost: true,
+        isReady: true,
         gameRoomId: room.id
       }
     });
