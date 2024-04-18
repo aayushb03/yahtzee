@@ -5,7 +5,7 @@ import {IOnlinePlayer, createGameRoom, getAllPlayers, joinGameRoom} from "@/serv
 import OnlinePlayerList from "@/app/components/onlinePlayerList";
 
 export const OnlineCard = () => {
-  const [gameId, setGameId] = useState<string>("");
+  const [gameIdInput, setGameIdInput] = useState<string>("");
   const [gameJoined, setGameJoined] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
   const [players, setPlayers] = useState<IOnlinePlayer[]>([]);
@@ -30,8 +30,8 @@ export const OnlineCard = () => {
       setError("Please enter your name")
       return;
     }
-    createGameRoom(playerName).then((gameId ) => {
-      setGameRoomId(gameId);
+    createGameRoom(playerName).then((ids ) => {
+      setGameRoomId(ids.roomId);
       setGameJoined(true);
       setIsHost(true);
     }).catch(() => {
@@ -47,12 +47,12 @@ export const OnlineCard = () => {
   }
 
   const joinGame = () => {
-    if (gameId.trim() == "" || playerName.trim() == "") {
+    if (gameIdInput.trim() == "" || playerName.trim() == "") {
       setError("Please enter your name and game ID")
       return;
     }
-    joinGameRoom(gameId, playerName).then((gameId) => {
-      setGameRoomId(gameId);
+    joinGameRoom(gameIdInput, playerName).then((ids) => {
+      setGameRoomId(ids.roomId);
       setGameJoined(true);
       setIsHost(false);
     }).catch(() => {
@@ -80,9 +80,9 @@ export const OnlineCard = () => {
         </button>
         <div className="text-xl">OR</div>
         <input
-          className={`border-b-[1px] text-xl ${gameId.trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-40 bg-transparent`}
-          value={gameId}
-          onChange={(e) => setGameId(e.target.value)}
+          className={`border-b-[1px] text-xl ${gameIdInput.trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-40 bg-transparent`}
+          value={gameIdInput}
+          onChange={(e) => setGameIdInput(e.target.value)}
           placeholder={"Enter Game ID"}
         />
         <button

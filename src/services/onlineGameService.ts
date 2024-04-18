@@ -12,7 +12,7 @@ export async function createGameRoom(playerName: string) {
     throw new Error("Error: " + response.status);
   }
 
-  return await response.json() as string;
+  return await response.json() as IRoomAndPlayerIds;
 }
 
 // eslint-disable-next-line
@@ -25,7 +25,7 @@ export async function joinGameRoom(roomId: string, playerName: string) {
     throw new Error("Error: " + response.status);
   }
 
-  return await response.json() as string;
+  return await response.json() as IRoomAndPlayerIds;
 }
 
 // eslint-disable-next-line
@@ -41,9 +41,27 @@ export async function getAllPlayers(roomId: string) {
   return await response.json() as IOnlinePlayer[];
 }
 
+// eslint-disable-next-line
+export async function removePlayer(roomId: string, playerId: number) {
+  const response = await fetch(`${url}/removePlayer?id=${roomId}&playerId=${playerId}`, {
+    method: 'GET'
+  });
+
+  if (!response.ok) {
+    throw new Error("Error: " + response.status);
+  }
+
+  return await response.json() as IRoomAndPlayerIds;
+}
+
 export interface IOnlinePlayer {
   id: string;
   name: string;
   isHost: boolean;
   gameRoomId: string;
+}
+
+export interface IRoomAndPlayerIds {
+  roomId: string;
+  playerId: number;
 }
