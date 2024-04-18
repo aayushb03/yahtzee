@@ -84,11 +84,22 @@ export async function sendDiceRoll(roomId: string, diceAndRolls: [number[], numb
   await pusherServer.trigger(roomId, "dice-rolled", diceAndRolls);
 }
 
+// eslint-disable-next-line
+export async function updatePlayerReadiness(playerId: number, isReady: boolean, roomId: string) {
+  try {
+    await pusherServer.trigger(roomId, "player-ready", {playerId, isReady});
+  } catch (error) {
+    console.error("Failed to trigger player readiness update", error);
+    throw error; 
+  }
+}
+
 export interface IOnlinePlayer {
   id: number;
   name: string;
   isHost: boolean;
   gameRoomId: string;
+  isReady: boolean;
 }
 
 export interface IRoomAndPlayerIds {

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {use, useEffect, useState} from "react";
 import {
   IOnlinePlayer,
   createGameRoom,
@@ -6,7 +6,8 @@ import {
   joinGameRoom,
   endGame,
   removePlayer,
-  startGame
+  startGame,
+  updatePlayerReadiness
 } from "@/services/onlineGameService";
 import OnlinePlayerList from "@/app/components/onlinePlayerList";
 import { useUser } from '@/services/userContext';
@@ -26,6 +27,7 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
   const [isReady, setIsReady] = useState<boolean>(false);
   const [curPlayerid, setCurPlayerid] = useState<number>(0);
   const { user } = useUser(); 
+  const [canStartGame, setCanStartGame] = useState<boolean>(false);
 
   /**
    * Sets the player name to the user's username if it exists.
@@ -137,9 +139,22 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
   /**
    * Toggles the ready status of the player.
    */
-  const toggleReadyStatus = () => {
-    setIsReady(!isReady);
+  const toggleReadyStatus = async () => {
+    const newReadyStatus = !isReady;
+    setIsReady(newReadyStatus); // Update local state immediately for responsiveness
+    updatePlayerReadiness(curPlayerid, newReadyStatus, gameRoomId).catch(error => {
+      console.error("Error updating ready status", error);
+      setIsReady(isReady); // Revert state on error
+    });
   };
+
+  useEffect(() => {
+    if (players.length > 0) {
+      const allPlayersReady = players.every((player) => player.isReady);
+      setCanStartGame(allPlayersReady);
+    }
+  }
+  , [players, isReady]);
 
   return (
     <div className={"flex flex-col h-full w-full"}>
@@ -192,8 +207,13 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
           </div>
           <div className={`flex justify-center items-center`}>
             {isHost ? (
-              <button className="bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-40 border transition hover:scale-105 shadow" onClick={startGameHost}>
-                START GAME
+              <button className={`bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-40 border transition hover:scale-105 shadow ${
+                canStartGame ? '' : 'opacity-50 cursor-not-allowed'
+              }`}
+              onClick={startGameHost}
+              disabled={!canStartGame} // Disable the button if not all players are ready
+              >
+              START GAME
               </button>
             ) : (
               <button
