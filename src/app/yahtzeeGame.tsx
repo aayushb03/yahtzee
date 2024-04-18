@@ -10,7 +10,7 @@ import { LocalPlayers } from "@/models/localPlayers";
 import { Baloo_2 } from "next/font/google";
 import { getBestOption } from "@/services/aiHelperService";
 import {pusherClient} from "@/services/pusher/pusherClient";
-import {sendDiceRoll} from "@/services/onlineGameService";
+import {sendAddScore, sendDiceRoll} from "@/services/onlineGameService";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type YahtzeeGameProps = {
@@ -74,7 +74,6 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
 
   useEffect(() => {
     if (curPlayers.players.length == 0) return;
-    console.log(curPlayers);
 
     // start the ai's turn
     if (curPlayers.getCurrentPlayer().ai) {
@@ -86,6 +85,28 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
       setIsAiOrOnlineTurn(true);
     } else {
       setIsAiOrOnlineTurn(false);
+    }
+
+    if (gameRoomId != "") {
+      pusherClient.subscribe(gameRoomId);
+      pusherClient.bind("score-added", (scoreCategoryYahtzee: [number, string, boolean]) => {
+        const currentPlayer = curPlayers.getCurrentPlayer();
+        currentPlayer.scorecard.addScore(scoreCategoryYahtzee[1] as ScoreCategory, scoreCategoryYahtzee[0]);
+        if (scoreCategoryYahtzee[2]) {
+          currentPlayer.scorecard.addYahtzeeBonus();
+        }
+        currentPlayer.scorecard.recalculateTotals();
+        curPlayers.nextTurn();
+        setRollsLeft(3);
+        setCurPlayers(
+          new LocalPlayers(
+            [...curPlayers.players],
+            false,
+            curPlayers.currentTurn,
+            curPlayers.overallTurn
+          )
+        );
+      });
     }
   }, [curPlayers]);
 
@@ -123,27 +144,37 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
     score: number,
     potentialScores: ScoreEvaluator
   ) => {
-    const currentPlayer = curPlayers.getCurrentPlayer();
-    if (
-      currentPlayer.scorecard.scores[ScoreCategory.Yahtzee] >= 50 &&
-      currentPlayer.scorecard.yahtzeeBonus < 300 &&
-      potentialScores.scores[ScoreCategory.Yahtzee] == 50
-    ) {
-      currentPlayer.scorecard.addYahtzeeBonus();
-    }
-    currentPlayer.scorecard.addScore(category, score);
-    curPlayers.nextTurn();
-    setRollsLeft(3);
-    setCurPlayers(
-      new LocalPlayers(
-        [...curPlayers.players],
-        false,
-        curPlayers.currentTurn,
-        curPlayers.overallTurn
-      )
-    );
-    if (curPlayers.getIsGameOver()) {
-      endGame();
+    if (gameRoomId != "") {
+      const currentPlayer = curPlayers.getCurrentPlayer();
+      const addYahtzeeBonus = currentPlayer.scorecard.scores[ScoreCategory.Yahtzee] >= 50 &&
+        currentPlayer.scorecard.yahtzeeBonus < 300 &&
+        potentialScores.scores[ScoreCategory.Yahtzee] == 50;
+      sendAddScore(gameRoomId, [score, category, addYahtzeeBonus]).catch((err) => {
+        console.log(err);
+      });
+    } else {
+      const currentPlayer = curPlayers.getCurrentPlayer();
+      if (
+        currentPlayer.scorecard.scores[ScoreCategory.Yahtzee] >= 50 &&
+        currentPlayer.scorecard.yahtzeeBonus < 300 &&
+        potentialScores.scores[ScoreCategory.Yahtzee] == 50
+      ) {
+        currentPlayer.scorecard.addYahtzeeBonus();
+      }
+      currentPlayer.scorecard.addScore(category, score);
+      curPlayers.nextTurn();
+      setRollsLeft(3);
+      setCurPlayers(
+        new LocalPlayers(
+          [...curPlayers.players],
+          false,
+          curPlayers.currentTurn,
+          curPlayers.overallTurn
+        )
+      );
+      if (curPlayers.getIsGameOver()) {
+        endGame();
+      }
     }
   };
 

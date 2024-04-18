@@ -103,4 +103,24 @@ export class Scorecard implements IScorecard {
     this.yahtzeeBonus += 100;
     this.totalScore += 100;
   }
+
+  recalculateTotals(): void {
+    this.totalScore = 0;
+    this.topTotal = 0;
+    this.topBonus = 0;
+    for (const key in this.scores) {
+      if (this.scores[key as ScoreCategory] != -1) {
+        this.totalScore += this.scores[key as ScoreCategory];
+        if (key == 'Ones' || key == 'Twos' || key == 'Threes'
+          || key == 'Fours' || key == 'Fives' || key == 'Sixes') {
+          this.topTotal += this.scores[key];
+          if (this.topBonus != 35 && this.topTotal >= 63) {
+            this.topBonus = 35;
+            this.totalScore += 35;
+            this.topTotal += 35;
+          }
+        }
+      }
+    }
+  }
 }
