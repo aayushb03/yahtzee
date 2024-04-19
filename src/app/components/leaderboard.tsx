@@ -79,10 +79,10 @@ const Leaderboard = ( {numScores, boldRecent} : LeaderboardProps) => {
               <div className={"text-center w-[10%]"}>
                 {index + 1}
               </div>
-              <div className={"text-left w-[45%]"}>
+              <div className={"text-left w-[60%]"}>
                 {entry.Player_Name}
               </div>
-              <div className={"text-right w-[45%]"}>{entry.Score}</div>
+              <div className={"text-right w-[30%]"}>{entry.Score}</div>
             </div>
           ))
         ) : (

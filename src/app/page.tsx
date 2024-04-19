@@ -9,8 +9,9 @@ import EndPageCard from './endPageCard';
 import Nav from "@/app/components/nav";
 import { useUser } from '@/services/userContext';
 import {getSession} from "next-auth/react";
-import {addGame} from "@/services/gameService";
-import {getAllPlayers, IOnlinePlayer} from "@/services/onlineGameService";
+import {addLocalGame, addOnlineGame} from "@/services/gameService";
+import {getAllPlayers} from "@/services/onlineGameService";
+import {pusherClient} from "@/services/pusher/pusherClient";
 
 /**
  * Page that controls the navigation as well as starting/stopping/adding players to game. Edits the gameStatus to do so.
@@ -48,7 +49,7 @@ export default function Home() {
     setGameStatus(GS.InProgress);
   }
 
-  const startOnlineGame = (players: IOnlinePlayer[], gameId : string, curPlayerId : number) => {
+  const startOnlineGame = (gameId : string, curPlayerId : number) => {
     getAllPlayers(gameId).then((players) => {
       const newPlayers = [];
       for (let i = 0; i < players.length; i++) {
@@ -66,20 +67,31 @@ export default function Home() {
    * sets the game status to EndGame
    * then adds the total score of each player to their scorecard if not AI player
    */
-  const endGame = () => {
-    setGameStatus(GS.EndGame);
-    for (const player of players) {
-      if(!player.ai){
-
-        addScore(player.name, player.scorecard.totalScore).then(() => {});
-        if (user?.email) {
+  const endGame = async (onlineScores? : Player[]) => {
+    if (gameRoomId != "" && onlineScores) {
+      const player = onlineScores.find(player => !player.online);
+      if(player){
+        const score = player.scorecard.totalScore;
+        const yahtzees = (player.scorecard.scores[SC.Yahtzee] == 50 ? 1 : 0) + ((player.scorecard.yahtzeeBonus) / 100);
+        const isWin = player?.scorecard.totalScore == Math.max(...onlineScores.map(player => player.scorecard.totalScore));
+        await addOnlineGame(gameRoomId, player.name, score, yahtzees, isWin, user?.email).catch(() => {});
+        const playerName = user?.username ? user.username : `${player.name} (Guest)`;
+        await addScore(playerName, player.scorecard.totalScore).catch(() => {});
+        setPlayers(onlineScores);
+        setGameStatus(GS.EndGame);
+        pusherClient.unsubscribe(gameRoomId);
+      }
+    } else {
+      for (const player of players) {
+        if(!player.ai){
           const score = player.scorecard.totalScore;
           const yahtzees = (player.scorecard.scores[SC.Yahtzee] == 50 ? 1 : 0) + ((player.scorecard.yahtzeeBonus) / 100);
-          addGame(score, yahtzees, true, user?.email).then((response) => {
-            console.log(response);
-          });
+          await addLocalGame(player.name, score, yahtzees, user?.email).catch(() => {});
+          const playerName = user?.username ? user.username : `${player.name} (Guest)`;
+          await addScore(playerName, player.scorecard.totalScore).catch(() => {});
         }
       }
+      setGameStatus(GS.EndGame);
     }
   }
 

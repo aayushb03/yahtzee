@@ -4,19 +4,19 @@ import prisma from "@/../prisma/client";
 // eslint-disable-next-line
 export async function POST(request: NextRequest) {
   const data = await request.json();
-  const score = data.score;
-  const yahtzees = data.yahtzees;
-  const isWin = data.isWin;
-  const userEmail = data.email;
+  const playerName = data.playerName;
+  const userEmail = data.userEmail
+  const score = data.score
+  const yahtzees = data.yahtzees
 
   try {
-    const newGame = await prisma.game.create({
+    const newGame = await prisma.localGameStats.create({
       data: {
         // eslint-disable-next-line
+        PlayerName: playerName,
         Score: score,
         Yahtzees: yahtzees,
-        isWin: isWin,
-        User: { connect: { Email:userEmail } } // Connect the game to the user
+        UserEmail: userEmail
       },
     });
     return NextResponse.json(newGame, { status: 200 });

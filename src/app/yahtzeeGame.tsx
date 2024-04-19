@@ -10,12 +10,12 @@ import { LocalPlayers } from "@/models/localPlayers";
 import { Baloo_2 } from "next/font/google";
 import { getBestOption } from "@/services/aiHelperService";
 import {pusherClient} from "@/services/pusher/pusherClient";
-import {sendAddScore, sendDiceRoll} from "@/services/onlineGameService";
+import {sendAddScore, sendDiceRoll, sendEndGame} from "@/services/onlineGameService";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 type YahtzeeGameProps = {
   changePlayers: () => void;
-  endGame: () => void;
+  endGame: (onlineScores?: Player[]) => void;
   players: Player[];
   gameRoomId: string;
 };
@@ -49,15 +49,11 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
     setCurPlayers(new LocalPlayers([...players], gameRoomId == ""));
     setGameLoaded(true);
     if (gameRoomId != "") {
-      pusherClient.subscribe(gameRoomId);
       pusherClient.bind("dice-rolled", (diceAndRolls: [number[], number]) => {
         dice.rollDiceFixed(diceAndRolls[0]);
         setDice(new Dice(dice));
         setRollsLeft(diceAndRolls[1]);
       });
-      return () => {
-        pusherClient.unsubscribe(gameRoomId);
-      }
     }
   }, []);
 
@@ -88,13 +84,10 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
     }
 
     if (gameRoomId != "") {
-      pusherClient.subscribe(gameRoomId);
-      pusherClient.bind("score-added", (scoreCategoryYahtzee: [number, string, boolean]) => {
+      pusherClient.bind("score-added", (scoreCategoryYahtzee: [number, string, number]) => {
         const currentPlayer = curPlayers.getCurrentPlayer();
         currentPlayer.scorecard.addScore(scoreCategoryYahtzee[1] as ScoreCategory, scoreCategoryYahtzee[0]);
-        if (scoreCategoryYahtzee[2]) {
-          currentPlayer.scorecard.addYahtzeeBonus();
-        }
+        currentPlayer.scorecard.setYahtzeeBonus(scoreCategoryYahtzee[2]);
         currentPlayer.scorecard.recalculateTotals();
         curPlayers.nextTurn();
         setRollsLeft(3);
@@ -106,6 +99,12 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
             curPlayers.overallTurn
           )
         );
+        if (curPlayers.getIsGameOver()) {
+          endGame(curPlayers.players);
+        }
+      });
+      pusherClient.bind("ended-game", () => {
+        endGame(curPlayers.players);
       });
     }
   }, [curPlayers]);
@@ -149,7 +148,7 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
       const addYahtzeeBonus = currentPlayer.scorecard.scores[ScoreCategory.Yahtzee] >= 50 &&
         currentPlayer.scorecard.yahtzeeBonus < 300 &&
         potentialScores.scores[ScoreCategory.Yahtzee] == 50;
-      sendAddScore(gameRoomId, [score, category, addYahtzeeBonus]).catch((err) => {
+      sendAddScore(gameRoomId, [score, category, addYahtzeeBonus ? 100 + currentPlayer.scorecard.yahtzeeBonus : currentPlayer.scorecard.yahtzeeBonus]).catch((err) => {
         console.log(err);
       });
     } else {
@@ -182,7 +181,13 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
    * Autofills scores in dev mode in order to view final score card quicker.
    */
   const handleAutofill = () => {
-    endGame();
+    if (gameRoomId != "") {
+      sendEndGame(gameRoomId).catch((err) => {
+        console.log(err);
+      });
+    } else {
+      endGame();
+    }
   };
 
   /**

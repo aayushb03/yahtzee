@@ -6,7 +6,6 @@ import {Player} from "@/models/player";
 import { Baloo_2 } from "next/font/google";
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
 import {OnlineCard} from "@/app/components/onlineCard";
-import {IOnlinePlayer} from "@/services/onlineGameService";
 
 const config: Config = {
   dictionaries: [names]
@@ -16,7 +15,7 @@ const baloo2 = Baloo_2({ subsets: ["latin"] });
 type GameModeCardProps = {
   currentPlayers: Player[];
   startYahtzee: (players: string[], numPlayers : number) => void;
-  startOnlineYahtzee: (players: IOnlinePlayer[], gameId: string, curPlayerId: number) => void;
+  startOnlineYahtzee: (gameId: string, curPlayerId: number) => void;
 }
 
 /**

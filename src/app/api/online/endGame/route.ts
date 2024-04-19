@@ -11,6 +11,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    await prisma.player.deleteMany({
+      where: {
+        gameRoomId: id
+      }
+    });
     const room = await prisma.gameRoom.delete({
       where: {
         id: id

@@ -11,9 +11,10 @@ import {
 } from "@/services/onlineGameService";
 import OnlinePlayerList from "@/app/components/onlinePlayerList";
 import { useUser } from '@/services/userContext';
+import {pusherClient} from "@/services/pusher/pusherClient";
 
 type OnlineCardProps = {
-  startOnlineYahtzee: (players: IOnlinePlayer[], gameId: string, curPlayerId: number) => void;
+  startOnlineYahtzee: (gameId: string, curPlayerId: number) => void;
 }
 
 export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
@@ -27,6 +28,10 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
   const [curPlayerid, setCurPlayerid] = useState<number>(0);
   const { user } = useUser(); 
   const [canStartGame, setCanStartGame] = useState<boolean>(false);
+
+  useEffect(() => {
+    resetStates();
+  }, []);
 
   /**
    * Sets the player name to the user's username if it exists.
@@ -110,11 +115,13 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
         console.error("Error removing player", error);
       });
     }
+    pusherClient.unsubscribe(gameRoomId);
     resetStates();
   }
 
   const onBoot = () => {
     resetStates();
+    pusherClient.unsubscribe(gameRoomId);
     setErrorMessage("You were removed from the game, or the host ended the game!");
   }
 

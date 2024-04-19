@@ -98,8 +98,13 @@ export async function togglePlayerReadiness(roomId: string, playerId: number) {
 }
 
 // eslint-disable-next-line
-export async function sendAddScore(roomId: string, scoreCategoryAndYahtzee: [number, string, boolean]) {
+export async function sendAddScore(roomId: string, scoreCategoryAndYahtzee: [number, string, number]) {
   await pusherServer.trigger(roomId, "score-added", scoreCategoryAndYahtzee);
+}
+
+// eslint-disable-next-line
+export async function sendEndGame(roomId: string) {
+  await pusherServer.trigger(roomId, "ended-game", {});
 }
 
 export interface IOnlinePlayer {

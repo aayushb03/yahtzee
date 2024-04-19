@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Past_Scores {
-  Game_Num    Int     @id @default(autoincrement())
+  Id          Int     @id @default(autoincrement())
   Player_Name String?
   Score       Int?
 }
@@ -35,18 +35,32 @@ model Player {
 }
 
 model User {
-  Id       Int    @id @default(autoincrement())
-  Email    String @unique
-  Username String @unique
-  Password String
-  Games    Game[]
+  Id          Int               @id @default(autoincrement())
+  Email       String            @unique
+  Username    String            @unique
+  Password    String
+  LocalGames  LocalGameStats[]
+  OnlineGames OnlineGameStats[]
 }
 
-model Game {
-  Game_Num Int      @id @default(autoincrement())
-  Score    Int
-  Yahtzees Int
-  isWin    Boolean?
-  User_Id  Int
-  User     User     @relation(fields: [User_Id], references: [Id])
+model LocalGameStats {
+  Id         Int     @id @default(autoincrement())
+  PlayerName String
+  Score      Int
+  Yahtzees   Int
+  UserEmail  String?
+  User       User?   @relation(fields: [UserEmail], references: [Email])
+}
+
+model OnlineGameStats {
+  Id         Int     @id @default(autoincrement())
+  GameRoomId String
+  PlayerName String
+  Score      Int
+  Yahtzees   Int
+  isWin      Boolean
+  UserEmail  String?
+  User       User?   @relation(fields: [UserEmail], references: [Email])
+
+  @@unique([PlayerName, GameRoomId])
 }

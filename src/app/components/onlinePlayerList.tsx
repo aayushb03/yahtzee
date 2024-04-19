@@ -9,13 +9,14 @@ type OnlinePlayerListProps = {
   currentPlayerId: number;
   isHost: boolean;
   updatePlayers: () => void;
-  startOnlineYahtzee: (players: IOnlinePlayer[], gameId: string, curPlayerId: number) => void;
+  startOnlineYahtzee: (gameId: string, curPlayerId: number) => void;
 }
 
 const OnlinePlayerList = ({players, gameRoomId, updatePlayers, isHost, startOnlineYahtzee, currentPlayerId}: OnlinePlayerListProps) => {
   const [alert, setAlert] = useState<string>("");
 
   useEffect(() => {
+    setAlert("");
     pusherClient.subscribe(gameRoomId);
     pusherClient.bind("player-joined", (playerName: string) => {
       setAlert(`${playerName} has joined the game!`);
@@ -30,19 +31,15 @@ const OnlinePlayerList = ({players, gameRoomId, updatePlayers, isHost, startOnli
     });
     pusherClient.bind("game-started", () => {
       setAlert("Game is starting!");
-      getAllPlayers(gameRoomId).then((players) => {
+      getAllPlayers(gameRoomId).then(() => {
         setTimeout(() => {
-          startOnlineYahtzee(players, gameRoomId, currentPlayerId);
+          startOnlineYahtzee(gameRoomId, currentPlayerId);
         } , 3000);
       }).catch(() => {
         console.error("Error getting players");
         setAlert("Error starting game!")
       });
     });
-
-    return () => {
-      pusherClient.unsubscribe(gameRoomId);
-    }
   }, []);
 
   useEffect(() => {
