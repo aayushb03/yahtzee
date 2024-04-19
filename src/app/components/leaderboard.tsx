@@ -36,8 +36,8 @@ const Leaderboard = ( {numScores, boldRecent} : LeaderboardProps) => {
       const sortedScores = scores.sort((a, b) => b.Score - a.Score);
       setLeaderboardScores(sortedScores.slice(0, numScores));
       setLeaderboardLoaded(true);
-      const sortedGames = scores.sort((a, b) => b.Game_Num - a.Game_Num);
-      setRecentGameNums(sortedGames.slice(0, boldRecent).map(score => score.Game_Num));
+      const sortedGames = scores.sort((a, b) => b.Id - a.Id);
+      setRecentGameNums(sortedGames.slice(0, boldRecent).map(score => score.Id));
     }).catch(() => {
       setShowError(true);
     }).finally(() => {
@@ -74,7 +74,7 @@ const Leaderboard = ( {numScores, boldRecent} : LeaderboardProps) => {
           leaderboardScores.map((entry, index) => (
             <div
               key={index}
-              className={`text-xl flex w-[80%] border-b ${recentGameNums.includes(entry.Game_Num) ? "font-bold" : ""}`}
+              className={`text-xl flex w-[80%] border-b ${recentGameNums.includes(entry.Id) ? "font-bold" : ""}`}
             >
               <div className={"text-center w-[10%]"}>
                 {index + 1}

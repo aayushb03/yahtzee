@@ -12,7 +12,7 @@ describe("EndPageCard component", () => {
 
   const mockScores: scoreService.IScore[] = [
     // eslint-disable-next-line
-    { Game_Num: 1, Player_Name: "Player 3", Score: 400 },
+    { Id: 1, Player_Name: "Player 3", Score: 400 },
   ];
 
   global.fetch = jest.fn().mockResolvedValue({

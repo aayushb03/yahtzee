@@ -7,7 +7,7 @@ import {UserProvider} from "@/services/userContext";
 describe("Nav component", () => {
   const mockScores: scoreService.IScore[] = [
     // eslint-disable-next-line
-    { Game_Num: 1, Player_Name: "Player 1", Score: 400 },
+    { Id: 1, Player_Name: "Player 1", Score: 400 },
   ];
 
   global.fetch = jest.fn().mockResolvedValue({

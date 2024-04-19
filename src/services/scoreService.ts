@@ -58,7 +58,7 @@ export async function clearScores() {
  * Describes Score interface - has the same properties as the database (Game_Num, Player_Name, and Score)
  */
 export interface IScore {
-  Game_Num: number;
+  Id: number;
   Player_Name: string;
   Score: number;
 }

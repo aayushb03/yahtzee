@@ -14,9 +14,11 @@ datasource db {
 }
 
 model Past_Scores {
-  Id          Int     @id @default(autoincrement())
-  Player_Name String?
-  Score       Int?
+  Id          Int    @id @default(autoincrement())
+  Player_Name String
+  Score       Int
+
+  @@unique([Player_Name, Score])
 }
 
 model GameRoom {
