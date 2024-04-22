@@ -7,6 +7,13 @@ import { Player } from '@/models/player';
 import { ScoreEvaluator } from '@/models/scoreEvaluator';
 import { Dice } from '@/models/dice';
 
+// Mock pusherClient
+jest.mock('@/services/pusher/pusherClient', () => ({
+  pusherClient: {
+    bind: jest.fn(),
+  },
+}));
+
 // Board Mocks
 // Mock player data
 const mockPlayer1 = new Player('Player 1');

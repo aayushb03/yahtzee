@@ -6,6 +6,13 @@ import Home from '../../src/app/page'
 import GameModeCard from '@/app/gameModeCard';
 import {UserProvider} from '@/services/userContext';
 
+// Mock pusherClient
+jest.mock('@/services/pusher/pusherClient', () => ({
+  pusherClient: {
+    bind: jest.fn(),
+  },
+}));
+
 // Mocking services
 jest.mock('../../src/services/scoreService', () => ({
   getAllScores: jest.fn().mockResolvedValue([]),
