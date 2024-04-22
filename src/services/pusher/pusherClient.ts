@@ -10,4 +10,8 @@ export const pusherClient = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_APP_
       "Content-Type": "application/json",
     },
   },
+  wsHost: "ws.pusherapp.com",
+  httpHost: "sockjs.pusher.com",
+  httpPath: "/pusher",
+  disableStats: true
 })
