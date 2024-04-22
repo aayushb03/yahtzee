@@ -13,10 +13,18 @@ import OnlinePlayerList from "@/app/components/onlinePlayerList";
 import { useUser } from '@/services/userContext';
 import {pusherClient} from "@/services/pusher/pusherClient";
 
+/**
+ * Props for the OnlineCard component.
+ */
 type OnlineCardProps = {
   startOnlineYahtzee: (gameId: string, curPlayerId: number) => void;
 }
 
+/**
+ * Card for the online game room.
+ * @param startOnlineYahtzee
+ * @returns OnlineCard
+ */
 export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
   const [playerNameInput, setPlayerNameInput] = useState<string>("");
   const [gameIdInput, setGameIdInput] = useState<string>("");
@@ -119,12 +127,18 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
     resetStates();
   }
 
+  /**
+   * Resets the states and displays an error message when the player is booted from the game.
+   */
   const onBoot = () => {
     resetStates();
     pusherClient.unsubscribe(gameRoomId);
     setErrorMessage("You were removed from the game, or the host ended the game!");
   }
 
+  /**
+   * Resets the states.
+   */
   const resetStates = () => {
     setGameJoined(false);
     setGameIdInput("");
@@ -135,6 +149,9 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
     setErrorMessage("");
   }
 
+  /**
+   * Starts the game as the host.
+   */
   const startGameHost = () => {
     startGame(gameRoomId).catch((error) => {
       console.error("Error starting game", error);

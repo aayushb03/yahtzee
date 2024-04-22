@@ -3,6 +3,9 @@ import {useEffect, useState} from "react";
 import {getAllPlayers, IOnlinePlayer, removePlayer} from "@/services/onlineGameService";
 import {RxCross1} from "react-icons/rx";
 
+/**
+ * Props for the OnlinePlayerList component.
+ */
 type OnlinePlayerListProps = {
   players: IOnlinePlayer[];
   gameRoomId: string;
@@ -12,9 +15,17 @@ type OnlinePlayerListProps = {
   startOnlineYahtzee: (gameId: string, curPlayerId: number) => void;
 }
 
+/**
+ * List of players in the online game room.
+ * @param players, gameRoomId, updatePlayers, isHost, startOnlineYahtzee, currentPlayerId
+ * @returns OnlinePlayerList
+ */
 const OnlinePlayerList = ({players, gameRoomId, updatePlayers, isHost, startOnlineYahtzee, currentPlayerId}: OnlinePlayerListProps) => {
   const [alert, setAlert] = useState<string>("");
 
+  /**
+   * Subscribes to the game room and listens for player events.
+   */
   useEffect(() => {
     setAlert("");
     pusherClient.subscribe(gameRoomId);
@@ -42,12 +53,19 @@ const OnlinePlayerList = ({players, gameRoomId, updatePlayers, isHost, startOnli
     });
   }, []);
 
+  /**
+   * Removes the alert after 5 seconds.
+   */
   useEffect(() => {
     setTimeout(() => {
       setAlert("");
     }, 5000);
   }, [alert]);
 
+  /**
+   * Removes a player from the game room.
+   * @param playerId 
+   */
   const removePlayer2 = (playerId: number) => {
     removePlayer(gameRoomId, playerId).catch(() => {
       console.error("Error removing player");

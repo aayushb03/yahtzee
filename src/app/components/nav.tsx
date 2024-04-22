@@ -18,7 +18,7 @@ type NavProps = {
 /**
  * Nav bar component that includes 3 buttons (Question mark/instructions, leaderboard, logout/profile) and their respective modals
  * functionality.
- * @param param0
+ * @param setGameStatus
  * @returns Nav
  */
 const Nav = ({ setGameStatus }: NavProps) => {

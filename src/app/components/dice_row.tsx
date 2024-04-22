@@ -25,7 +25,7 @@ type DiceRowProps = {
 /**
  * Handles the row of dice at the bottom of the screen. Includes rolls left as well as freezing the dice in between rolls.
  * Also handles dice animation as defined in DiceAnimation Class.
- * @param param0
+ * @param DiceRowProps
  * @returns DiceRow
  */
 const DiceRow = ({
@@ -100,6 +100,9 @@ const DiceRow = ({
     rollsLeft: number;
   };
 
+  /**
+   * Handles the dice rolling animation
+   */
   const rollAnimation = () => {
     setIsRolling(true);
     setTimeout(() => {

@@ -7,11 +7,17 @@ import { Baloo_2 } from "next/font/google";
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
 import {OnlineCard} from "@/app/components/onlineCard";
 
+/**
+ * Config for unique-names-generator
+ */
 const config: Config = {
   dictionaries: [names]
 }
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
+/**
+ * GameMode enum
+ */
 type GameModeCardProps = {
   currentPlayers: Player[];
   startYahtzee: (players: string[], numPlayers : number) => void;
@@ -21,7 +27,7 @@ type GameModeCardProps = {
 /**
  * Card that displays first when logging on. Handles login modal, add player screen + ai players, as well as online playing and start game.
  * Switches state in order to navigate to different screens
- * @param param0
+ * @param GameModeCardProps
  * @returns GameModeCard
  */
 const GameModeCard = ({ startYahtzee, startOnlineYahtzee, currentPlayers } : GameModeCardProps) => {
@@ -44,12 +50,19 @@ const GameModeCard = ({ startYahtzee, startOnlineYahtzee, currentPlayers } : Gam
   }, []);
 
 
-  // handles adding a player the card
+  /**
+   * Adds a player to the game card
+   * @returns void
+   */
   const addPlayer = () => {
     if (numPlayers >= 4) return;
     setNumPlayers(numPlayers + 1);
   }
 
+  /**
+   * Adds an AI player to the game card
+   * @returns void
+   */
   const addAI = () => {
     if (numPlayers >= 4) return;
     setNumPlayers(numPlayers + 1);
@@ -60,7 +73,11 @@ const GameModeCard = ({ startYahtzee, startOnlineYahtzee, currentPlayers } : Gam
     onPlayerChange(numPlayers, aiName + " (AI)")
   }
 
-  // handles removing a player fom card
+  /**
+   * Removes a player from the game card
+   * @param index 
+   * @returns void
+   */
   const removePlayer = (index: number) => {
     if (numPlayers <= 1) return;
     const newPlayers = players.slice(0, index).concat(players.slice(index + 1)).concat([""]);
@@ -68,14 +85,21 @@ const GameModeCard = ({ startYahtzee, startOnlineYahtzee, currentPlayers } : Gam
     setNumPlayers(numPlayers - 1);
   }
 
-  // handles clicking the 'change players' button 
+  /**
+   * Handles clicking the 'change players' button 
+   * @param i 
+   * @param value 
+   */
   const onPlayerChange = (i: number, value: string) => {
     const newPlayers = [...players];
     newPlayers[i] = value;
     setPlayers(newPlayers);
   }
 
-  // starts the game with the current number of players
+  /**
+   * Starts the game with the current number of players
+   * @returns void
+   */
   const startGame = () => {
     for (let i = 0; i < numPlayers; i++) {
       if (players[i].trim() == "") {

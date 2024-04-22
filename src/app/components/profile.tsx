@@ -53,6 +53,9 @@ const Profile = () => {
     }
   }, [user]);
 
+  /**
+   * Logs out the user
+   */
   const logout = () => {
     signOut({redirect: false}).then(() => {
       setUser(null);

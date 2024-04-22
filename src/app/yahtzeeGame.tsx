@@ -23,7 +23,7 @@ type YahtzeeGameProps = {
 /**
  * Handles the actual playing of the yahtzee game. Handles rolling the dice, selecing scores, and whose turn it is.
  * Also handles buttons at top of board "New Game", "Change Players", and "Autofill Scores"
- * @param param0
+ * @param YahtzeeGameProps
  * @returns
  */
 const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGameProps) => {
@@ -68,6 +68,9 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
     }
   }, [dice]);
 
+  /**
+   * Updates the players when the game is loaded.
+   */
   useEffect(() => {
     if (curPlayers.players.length == 0) return;
 
@@ -207,6 +210,9 @@ const YahtzeeGame = ({ changePlayers, players, endGame, gameRoomId }: YahtzeeGam
     changePlayers();
   };
 
+  /**
+   * Makes the AI decision on what to do.
+   */
   const aiDecision = () => {
     const scores = curPlayers.getCurrentPlayer().scorecard.scores;
     const diceArr = dice.dice;

@@ -49,6 +49,11 @@ export default function Home() {
     setGameStatus(GS.InProgress);
   }
 
+  /**
+   * Starts the online game with the given game id and current player id.
+   * @param gameId 
+   * @param curPlayerId 
+   */
   const startOnlineGame = (gameId : string, curPlayerId : number) => {
     getAllPlayers(gameId).then((players) => {
       const newPlayers = [];

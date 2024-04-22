@@ -12,7 +12,7 @@ type LeaderboardProps = {
 /**
  * Returns the leaderboard displayed in both endGameCard and when button is clicked in nav bar.
  * Handles errors if not connected tothe database.
- * @param param0
+ * @param LeaderboardProps
  * @returns Leaderboard
  */
 const Leaderboard = ( {numScores, boldRecent} : LeaderboardProps) => {

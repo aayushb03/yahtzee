@@ -19,7 +19,7 @@ type BoardProps = {
 
 /**
  * Represents the board of the yahtzee game including the scoreboard itself as well as handles selecting score and handling turns
- * @param param0
+ * @param BoardProps
  * @returns Board
  */
 
