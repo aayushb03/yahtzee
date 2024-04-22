@@ -4,6 +4,7 @@ Research on the best way to deploy our application
 
 **Update: Can now access docker container on VM, however database is still wip**
 
+* Connect to campus vpn
 * Click [here](http://128.105.37.207:8080)
 
 **[Building & Deploying Application w/Next.js](https://nextjs.org/docs/pages/building-your-application/deploying)**
