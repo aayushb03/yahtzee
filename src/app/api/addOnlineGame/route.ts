@@ -1,6 +1,11 @@
 import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/../prisma/client";
 
+/**
+ * Adds a new online game to the database.
+ * @param request 
+ * @returns NextResponse.json
+ */
 // eslint-disable-next-line
 export async function POST(request: NextRequest) {
   const data = await request.json();

@@ -2,6 +2,11 @@ import prisma from "../../../../../prisma/client";
 import { nanoid } from "nanoid"
 import {NextRequest, NextResponse} from "next/server";
 
+/**
+ * Creates a game room and adds the player to it.
+ * @param request 
+ * @returns NextResponse.json
+ */
 // eslint-disable-next-line
 export async function GET(request: NextRequest) {
   const {searchParams} = new URL(request.url);

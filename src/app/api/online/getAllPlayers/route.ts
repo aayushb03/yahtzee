@@ -1,6 +1,11 @@
 import {NextRequest, NextResponse} from "next/server";
 import prisma from "../../../../../prisma/client";
 
+/**
+ * Gets all players in a game room.
+ * @param request 
+ * @returns NextResponse.json
+ */
 // eslint-disable-next-line
 export async function GET(request: NextRequest) {
   const {searchParams} = new URL(request.url);

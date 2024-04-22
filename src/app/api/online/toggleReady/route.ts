@@ -2,6 +2,11 @@ import prisma from "../../../../../prisma/client";
 import {NextRequest, NextResponse} from "next/server";
 import {pusherServer} from "@/services/pusher/pusherServer";
 
+/**
+ * Toggles the ready status of a player in the game room.
+ * @param request 
+ * @returns NextResponse.json
+ */
 // eslint-disable-next-line
 export async function GET(request: NextRequest) {
   const {searchParams} = new URL(request.url);
