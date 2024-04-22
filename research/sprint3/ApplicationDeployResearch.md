@@ -5,6 +5,7 @@ Research on the best way to deploy our application
 **Update: Can now access docker container on VM, however database is still wip**
 
 * Connect to campus vpn
+* The IP addr for the csl machine is 128.105.37.207, and the port exposed for our app is 8080
 * Click [here](http://128.105.37.207:8080)
 
 **[Building & Deploying Application w/Next.js](https://nextjs.org/docs/pages/building-your-application/deploying)**
