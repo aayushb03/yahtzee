@@ -7,7 +7,7 @@ import GameModeCard from '@/app/gameModeCard';
 import {UserProvider} from '@/services/userContext';
 
 // Mock pusherClient
-jest.mock('@/services/pusher/pusherClient', () => ({
+jest.mock('../../src/services/pusher/pusherClient', () => ({
   pusherClient: {
     bind: jest.fn(),
   },

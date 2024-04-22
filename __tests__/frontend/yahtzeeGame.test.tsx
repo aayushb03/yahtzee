@@ -8,7 +8,7 @@ import { ScoreEvaluator } from '@/models/scoreEvaluator';
 import { Dice } from '@/models/dice';
 
 // Mock pusherClient
-jest.mock('@/services/pusher/pusherClient', () => ({
+jest.mock('../../src/services/pusher/pusherClient', () => ({
   pusherClient: {
     bind: jest.fn(),
   },
