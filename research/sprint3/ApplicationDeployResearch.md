@@ -2,6 +2,10 @@
 
 Research on the best way to deploy our application
 
+**Update: Can now access docker container on VM, however database is still wip**
+
+* Click [here](http://128.105.37.207:8080)
+
 **[Building & Deploying Application w/Next.js](https://nextjs.org/docs/pages/building-your-application/deploying)**
 * Goes over the basics of the production build and gives multiple options to deploy
 * Very helpful as it goes over 3 different ways to self host, most notably with Docker
