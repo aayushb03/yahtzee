@@ -1,8 +1,22 @@
-Tutorial: https://www.youtube.com/watch?v=AbUVY16P4Ys
+Tutorials: 
+
+https://www.youtube.com/watch?v=AbUVY16P4Ys
+    - have some differences based on what they use vs nodejs 
+        - do some additional research on how to change to nodejs
+    - maybe look on actual node page to see how they do it 
+    - still have to create the form that takes in the information - not made for you
+        - have an additional component for it and add it in a modal about it
 
 https://nextjs.org/docs/pages/building-your-application/authentication
+    - next js documentaiton on how to add authenticate
+        - some helpful and some not
+
+        https://next-auth.js.org/getting-started/example
+            - more node documentation from the actual documentation itself
+            - more helpful than some of the tutorial 
 
 https://www.freecodecamp.org/news/how-to-authenticate-users-with-nextauth-in-nextjs-app-and-pages-router/
+    - moderately helpful, some better
 
 
 Using database to store ?
