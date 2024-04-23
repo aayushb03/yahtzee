@@ -4,9 +4,19 @@ Research on the best way to deploy our application
 
 **Update: Can now access docker container on VM, however database is still wip**
 
-* Connect to campus vpn
-* The IP addr for the csl machine is 128.105.37.207, and the port exposed for our app is 8080
-* Click [here](http://128.105.37.207:8080)
+*Steps to replicate*
+
+1. Connect to campus vpn
+2. Go to [here](http://128.105.37.207:8080), this connects to our csl machine using it's IP and then targeting 8080 which is running our yahtzee-app
+3. Database should be able to work -- currently only working on Docker branch (PUSHER WIP)
+
+**NOTES**
+
+- Had to generate a new compose file which is viewable in docker branch
+
+- Had to change urls, all services needed urls changed to accomodate for service names from compose file, localhost becomes yahtzee-app, and hits it's accompanying production. For example, here is the new url in scoreService.ts: `const url = 'http://localhost:3000/api'`
+
+- .env file is changed to `DATABASE_URL=mysql://root:yahtzee@db1:3306/yahtzee` as the service 'db1' is located on port 3306
 
 **[Building & Deploying Application w/Next.js](https://nextjs.org/docs/pages/building-your-application/deploying)**
 * Goes over the basics of the production build and gives multiple options to deploy
