@@ -57,10 +57,10 @@ const Profile = () => {
 
           for (let j = 0; j < localGames.length; j++) {
             const currLocalGame = localGames[j];
-            localScoreSum += currLocalGame.score;
-            localYahtzeeCount += currLocalGame.yahtzees;
-            if(currLocalGame.score > currMaxLocalScore){
-              currMaxLocalScore = currLocalGame.score;
+            localScoreSum += currLocalGame.Score;
+            localYahtzeeCount += currLocalGame.Yahtzees;
+            if(currLocalGame.Score > currMaxLocalScore){
+              currMaxLocalScore = currLocalGame.Score;
             }
           }
 

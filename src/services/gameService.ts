@@ -82,8 +82,8 @@ export async function getGamesByUser(email: string) {
 export interface ILocalGames {
   playerName: string;
   userEmail: number;
-  score: number;
-  yahtzees: number;
+  Score: number;
+  Yahtzees: number;
 }
 
 /**
