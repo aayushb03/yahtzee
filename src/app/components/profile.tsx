@@ -6,6 +6,11 @@ import {getGamesByUser, ILocalGames, IOnlineGames} from "@/services/gameService"
 import { Baloo_2 } from "next/font/google";
 const baloo2 = Baloo_2({ subsets: ["latin"] });
 
+import { FaDice } from "react-icons/fa";
+import { GiGamepad } from "react-icons/gi";
+import { TbConfetti } from "react-icons/tb";
+import { MdScoreboard } from "react-icons/md";
+
 /**
  * Handles the user profile if a user is logged in
  * @returns Profile
@@ -101,44 +106,44 @@ const Profile = () => {
 
         <h2 className="font-bold ml-1 mr-1 my-1"><i>Online Game Statistics: </i></h2>
         <div className= "ml-20 mr-20">
-          <strong> Online Games Played: </strong> {numOnlineGames}
+          <strong> <span style={{ display: 'inline-flex', alignItems: 'center' }}><GiGamepad />Online Games Played: {numOnlineGames} </span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Number of Online Wins: </strong> {toatlOnlineWinCount}
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti />Number of Online Wins: {toatlOnlineWinCount}</span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Win Rate: </strong> {toatlOnlineWinCount/numOnlineGames * 100} <strong>%</strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti />Win Rate: {toatlOnlineWinCount/numOnlineGames * 100}</span></strong> <strong>%</strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Total Number of Yahtzees: </strong> {totalOnlineYahtzeeCount}
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Total Number of Yahtzees: {totalOnlineYahtzeeCount}</span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Avg Number of Yahtzee's per Online Game: </strong> {Math.round(totalOnlineYahtzeeCount / numOnlineGames * 100)/100}
+            <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Avg Number of Yahtzee's per Online Game: {Math.round(totalOnlineYahtzeeCount / numOnlineGames * 100)/100} </span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Average Score per Online Game: </strong> {Math.round(totalOnlineScore / numOnlineGames * 100)/100}
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Average Score per Online Game: {Math.round(totalOnlineScore / numOnlineGames * 100)/100}</span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Highest Online Game Score: </strong> {maxOnlineScore}
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Highest Online Game Score: {maxOnlineScore}</span></strong>
         </div>
         
         <hr style={{ height: '3px', borderWidth: '0', color: 'black', backgroundColor: 'black' }}/>
 
         <h2 className="font-bold ml-1 mr-1 my-1"><i>Local Game Statistics: </i></h2>
         <div className= "ml-20 mr-20">
-          <strong> Local Games Played: </strong> {numLocalGames}
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><GiGamepad /> Local Games Played: {numLocalGames} </span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Total Number of Yahtzees: </strong> {totalLocalYahtzeeCount}
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Total Number of Yahtzees: {totalLocalYahtzeeCount}</span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Avg Number of Yahtzee's per Local Game: </strong> {Math.round(totalLocalYahtzeeCount / numLocalGames * 100)/100}
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Avg Number of Yahtzee's per Local Game: {Math.round(totalLocalYahtzeeCount / numLocalGames * 100)/100}</span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Average Score per Local Game: </strong> {Math.round(totalLocalScore / numLocalGames * 100)/100}
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Average Score per Local Game: {Math.round(totalLocalScore / numLocalGames * 100)/100}</span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Highest Local Game Score: </strong> {maxLocalScore}
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Highest Local Game Score: {maxLocalScore}</span></strong> 
         </div>
       </div>
       <button className={"bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow"}
