@@ -10,7 +10,6 @@ import { FaDice } from "react-icons/fa";
 import { GiGamepad } from "react-icons/gi";
 import { TbConfetti } from "react-icons/tb";
 import { MdScoreboard } from "react-icons/md";
-import { colors } from "unique-names-generator";
 
 /**
  * Handles the user profile if a user is logged in
@@ -46,8 +45,8 @@ const Profile = () => {
           let localYahtzeeCount = totalLocalYahtzeeCount;
           let currMaxLocalScore = maxLocalScore;
 
-          let currNumOnlineGames = onlineGames.length;
-          let currNumLocalGames = localGames.length;
+          const currNumOnlineGames = onlineGames.length;
+          const currNumLocalGames = localGames.length;
 
           for (let i = 0; i < onlineGames.length; i++) {
             const currOnlineGame = onlineGames[i];
@@ -119,7 +118,7 @@ const Profile = () => {
           <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Total Number of Yahtzees: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{totalOnlineYahtzeeCount}</span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-            <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Avg Number of Yahtzee's per game: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{Math.round(totalOnlineYahtzeeCount / numOnlineGames * 100)/100} </span></span></strong> 
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Avg Number of Yahtzee's per game: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{Math.round(totalOnlineYahtzeeCount / numOnlineGames * 100)/100} </span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
           <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard style={{marginRight:'4px'}}/>Average Score: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{Math.round(totalOnlineScore / numOnlineGames * 100)/100}</span></span></strong> 
