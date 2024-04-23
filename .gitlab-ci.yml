@@ -12,6 +12,7 @@ stages:
 variables:
   RELEASE_TAG: release-$CI_PIPELINE_IID
   DATABASE_URL: mysql://root:yahtzee@localhost:53316/yahtzee
+  DATABASE_URL_LOCAL: mysql://root:yahtzee@localhost:53316/yahtzee
 
 #####################################
 ############## Linting ##############
