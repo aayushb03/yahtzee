@@ -14,40 +14,65 @@ const Profile = () => {
   // const [games, setGames] = useState<IGame[]>([]);
   const {user, setUser} = useUser();
 
-  const [totalScore, setTotalScore] = useState<number>(0);
-  const [totalYahtzeeCount, setTotalYahtzeeCount] = useState<number>(0);
-  const [toatlWinCount, setTotalWinCount] = useState<number>(0);
-  const [maxScore, setMaxScore] = useState<number>(0);
+  const [totalOnlineScore, setTotalOnlineScore] = useState<number>(0);
+  const [totalLocalScore, setTotalLocalScore] = useState<number>(0);
+  const [totalOnlineYahtzeeCount, setTotalOnlineYahtzeeCount] = useState<number>(0);
+  const [totalLocalYahtzeeCount, setTotalLocalYahtzeeCount] = useState<number>(0);
+  const [toatlOnlineWinCount, setTotalOnlineWinCount] = useState<number>(0);
+  const [maxOnlineScore, setMaxOnlineScore] = useState<number>(0);
+  const [maxLocalScore, setMaxLocalScore] = useState<number>(0);
+  const [numOnlineGames, setNumOnlineGames] = useState<number>(0);
+  const [numLocalGames, setNumLocalGames] = useState<number>(0);
 
   useEffect(() => {
     if (user?.email) {
       getGamesByUser(user.email).then((games) => {
         if (games) {
-          const localGames = games.localGames;
-          const onlineGames = games.onlineGames;
-          // setGames(games);
+          const localGames : ILocalGames[] = games.localGames;
+          const onlineGames : IOnlineGames[] = games.onlineGames;
+          
+          let onlineScoreSum = totalOnlineScore;
+          let onlineYahtzeeCount = totalOnlineYahtzeeCount;
+          let onlineWinCount = toatlOnlineWinCount;
+          let currMaxOnlineScore = maxOnlineScore;
 
-          // let scoreSum = totalScore;
-          // let yahtzeeCount = totalYahtzeeCount;
-          // let winCount = toatlWinCount;
-          // let currMaxScore = maxScore;
-          //
-          // for (let i = 0; i < games.length; i++) {
-          //   const game = games[i];
-          //   scoreSum += game.Score;
-          //   yahtzeeCount += game.Yahtzees;
-          //   if(game.isWin) {
-          //     winCount += 1;
-          //   }
-          //   if(game.Score > currMaxScore) {
-          //     currMaxScore = game.Score;
-          //   }
-          // }
-          //
-          // setTotalScore(scoreSum);
-          // setTotalYahtzeeCount(yahtzeeCount);
-          // setTotalWinCount(winCount);
-          // setMaxScore(currMaxScore)
+          let localScoreSum = totalLocalScore;
+          let localYahtzeeCount = totalLocalYahtzeeCount;
+          let currMaxLocalScore = maxLocalScore;
+
+          let currNumOnlineGames = onlineGames.length;
+          let currNumLocalGames = localGames.length;
+
+          for (let i = 0; i < onlineGames.length; i++) {
+            const currOnlineGame = onlineGames[i];
+            onlineScoreSum += currOnlineGame.Score;
+            onlineYahtzeeCount += currOnlineGame.Yahtzees;
+            if(currOnlineGame.isWin) {
+              onlineWinCount += 1;
+            }
+            if(currOnlineGame.Score > currMaxOnlineScore) {
+              currMaxOnlineScore = currOnlineGame.Score;
+            }
+          }
+
+          for (let j = 0; j < localGames.length; j++) {
+            const currLocalGame = localGames[j];
+            localScoreSum += currLocalGame.score;
+            localYahtzeeCount += currLocalGame.yahtzees;
+            if(currLocalGame.score > currMaxLocalScore){
+              currMaxLocalScore = currLocalGame.score;
+            }
+          }
+
+          setTotalOnlineScore(onlineScoreSum);
+          setTotalLocalScore(localScoreSum);
+          setTotalOnlineYahtzeeCount(onlineYahtzeeCount);
+          setTotalLocalYahtzeeCount(localYahtzeeCount);
+          setTotalOnlineWinCount(onlineWinCount);
+          setMaxOnlineScore(currMaxOnlineScore);
+          setMaxLocalScore(currMaxLocalScore);
+          setNumLocalGames(currNumLocalGames);
+          setNumOnlineGames(currNumOnlineGames);
         }
       });
     }
@@ -71,27 +96,49 @@ const Profile = () => {
         <h1 className="font-bold ml-1 mr-1 my-1"> Profile Information: </h1>
         <p className= "ml-20 mr-20"> <strong>Email:</strong>   {user?.email} </p>
         <p className= "ml-20 mr-20"><strong>Username:</strong>  {user?.username} </p>
+        
+        <hr style={{ height: '3px', borderWidth: '0', color: 'black', backgroundColor: 'black' }}/>
+
+        <h2 className="font-bold ml-1 mr-1 my-1"><i>Online Game Statistics: </i></h2>
         <div className= "ml-20 mr-20">
-          {/*<strong> Games Played: </strong> {games.length}*/}
-        </div>
-        <h1 className="font-bold ml-1 mr-1 my-1"> Game Statistics: </h1>
-        <div className= "ml-20 mr-20">
-          <strong> Number of Wins: </strong> {toatlWinCount}
-        </div>
-        <div className= "ml-20 mr-20">
-          {/*<strong> Win Rate: </strong> {toatlWinCount/games.length * 100} <strong>%</strong>*/}
+          <strong> Online Games Played: </strong> {numOnlineGames}
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Total Number of Yahtzees: </strong> {totalYahtzeeCount}
+          <strong> Number of Online Wins: </strong> {toatlOnlineWinCount}
         </div>
         <div className= "ml-20 mr-20">
-          {/*<strong> Average Number of Yahtzee's per Game: </strong> {totalYahtzeeCount / games.length}*/}
+          <strong> Win Rate: </strong> {toatlOnlineWinCount/numOnlineGames * 100} <strong>%</strong>
         </div>
         <div className= "ml-20 mr-20">
-          {/*<strong> Average Score per Game: </strong> {Math.round(totalScore / games.length * 100)/100}*/}
+          <strong> Total Number of Yahtzees: </strong> {totalOnlineYahtzeeCount}
         </div>
         <div className= "ml-20 mr-20">
-          <strong> Highest Game Score: </strong> {maxScore}
+          <strong> Avg Number of Yahtzee's per Online Game: </strong> {Math.round(totalOnlineYahtzeeCount / numOnlineGames * 100)/100}
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Average Score per Online Game: </strong> {Math.round(totalOnlineScore / numOnlineGames * 100)/100}
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Highest Online Game Score: </strong> {maxOnlineScore}
+        </div>
+        
+        <hr style={{ height: '3px', borderWidth: '0', color: 'black', backgroundColor: 'black' }}/>
+
+        <h2 className="font-bold ml-1 mr-1 my-1"><i>Local Game Statistics: </i></h2>
+        <div className= "ml-20 mr-20">
+          <strong> Local Games Played: </strong> {numLocalGames}
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Total Number of Yahtzees: </strong> {totalLocalYahtzeeCount}
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Avg Number of Yahtzee's per Local Game: </strong> {Math.round(totalLocalYahtzeeCount / numLocalGames * 100)/100}
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Average Score per Local Game: </strong> {Math.round(totalLocalScore / numLocalGames * 100)/100}
+        </div>
+        <div className= "ml-20 mr-20">
+          <strong> Highest Local Game Score: </strong> {maxLocalScore}
         </div>
       </div>
       <button className={"bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow"}
