@@ -18,7 +18,7 @@ type CredentialsFormProps = {
 
 /**
  * Handles the form on the modal that handles taking in credentials as well as verifying them and throwing errors if incorrect or empty
- * @param param0 
+ * @param CredentialsFormProps
  * @returns CredentialsForm
  */
 // eslint-disable-next-line
@@ -47,7 +47,10 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
     setConfirmPassword("");
   }, [isSignUp]);
 
-  // handles login button behavior
+  /**
+   * Handles the submission of the form
+   * @param e
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.currentTarget as HTMLFormElement;
@@ -72,12 +75,18 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
     }
   }
 
-  // closes the modal and brings back to GameModeCard
+  /**
+   * Handles the guest login
+   * @returns void 
+   */
   const handleGuest = () =>{
     onClose();
   }
 
-  //handles register
+  /**
+   * Handles the registration of a new user
+   * @returns void
+   */
   const handleRegister = () =>{
     setSignUp(true)
     if (!regexp.test(email)) {

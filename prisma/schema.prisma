@@ -10,28 +10,59 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL_LOCAL")
+  url      = env("DATABASE_URL")
 }
 
 model Past_Scores {
-  Game_Num    Int     @id @default(autoincrement())
-  Player_Name String?
-  Score       Int?
+  Id          Int    @id @default(autoincrement())
+  Player_Name String
+  Score       Int
+
+  @@unique([Player_Name, Score])
+}
+
+model GameRoom {
+  id        String   @id
+  createdAt DateTime @default(now())
+  messages  Player[]
+}
+
+model Player {
+  id         Int      @id @default(autoincrement())
+  name       String
+  isHost     Boolean
+  isReady    Boolean
+  gameRoomId String
+  gameRoom   GameRoom @relation(fields: [gameRoomId], references: [id])
 }
 
 model User {
-  Id       Int    @id @default(autoincrement())
-  Email    String @unique
-  Username String @unique
-  Password String
-  Games    Game[]
+  Id          Int               @id @default(autoincrement())
+  Email       String            @unique
+  Username    String            @unique
+  Password    String
+  LocalGames  LocalGameStats[]
+  OnlineGames OnlineGameStats[]
 }
 
-model Game {
-  Game_Num Int      @id @default(autoincrement())
-  Score    Int
-  Yahtzees Int
-  isWin    Boolean?
-  User_Id  Int
-  User     User     @relation(fields: [User_Id], references: [Id])
+model LocalGameStats {
+  Id         Int     @id @default(autoincrement())
+  PlayerName String
+  Score      Int
+  Yahtzees   Int
+  UserEmail  String?
+  User       User?   @relation(fields: [UserEmail], references: [Email])
+}
+
+model OnlineGameStats {
+  Id         Int     @id @default(autoincrement())
+  GameRoomId String
+  PlayerName String
+  Score      Int
+  Yahtzees   Int
+  isWin      Boolean
+  UserEmail  String?
+  User       User?   @relation(fields: [UserEmail], references: [Email])
+
+  @@unique([PlayerName, GameRoomId])
 }

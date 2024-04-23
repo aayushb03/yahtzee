@@ -12,7 +12,7 @@ type LeaderboardProps = {
 /**
  * Returns the leaderboard displayed in both endGameCard and when button is clicked in nav bar.
  * Handles errors if not connected tothe database.
- * @param param0
+ * @param LeaderboardProps
  * @returns Leaderboard
  */
 const Leaderboard = ( {numScores, boldRecent} : LeaderboardProps) => {
@@ -36,8 +36,8 @@ const Leaderboard = ( {numScores, boldRecent} : LeaderboardProps) => {
       const sortedScores = scores.sort((a, b) => b.Score - a.Score);
       setLeaderboardScores(sortedScores.slice(0, numScores));
       setLeaderboardLoaded(true);
-      const sortedGames = scores.sort((a, b) => b.Game_Num - a.Game_Num);
-      setRecentGameNums(sortedGames.slice(0, boldRecent).map(score => score.Game_Num));
+      const sortedGames = scores.sort((a, b) => b.Id - a.Id);
+      setRecentGameNums(sortedGames.slice(0, boldRecent).map(score => score.Id));
     }).catch(() => {
       setShowError(true);
     }).finally(() => {
@@ -74,15 +74,15 @@ const Leaderboard = ( {numScores, boldRecent} : LeaderboardProps) => {
           leaderboardScores.map((entry, index) => (
             <div
               key={index}
-              className={`text-xl flex w-[80%] border-b ${recentGameNums.includes(entry.Game_Num) ? "font-bold" : ""}`}
+              className={`text-xl flex w-[80%] border-b ${recentGameNums.includes(entry.Id) ? "font-bold" : ""}`}
             >
               <div className={"text-center w-[10%]"}>
                 {index + 1}
               </div>
-              <div className={"text-left w-[45%]"}>
+              <div className={"text-left w-[60%]"}>
                 {entry.Player_Name}
               </div>
-              <div className={"text-right w-[45%]"}>{entry.Score}</div>
+              <div className={"text-right w-[30%]"}>{entry.Score}</div>
             </div>
           ))
         ) : (

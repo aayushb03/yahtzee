@@ -80,27 +80,37 @@ export class Scorecard implements IScorecard {
    * @param score - The score to add.
    */
   addScore(category: ScoreCategory, score: number): void {
-
-    if (category == 'Yahtzee' && this.scores[category] != -1) {
-      this.totalScore += score - this.scores[category];
-      this.scores[category] = score;
-      return;
-    }
     this.scores[category] = score;
-    this.totalScore += score;
-    if (category == 'Ones' || category == 'Twos' || category == 'Threes'
-      || category == 'Fours' || category == 'Fives' || category == 'Sixes') {
-      this.topTotal += score;
-      if (this.topBonus != 35 && this.topTotal >= 63) {
-        this.topBonus = 35;
-        this.totalScore += 35;
-        this.topTotal += 35;
-      }
-    }
+    this.recalculateTotals();
   }
 
   addYahtzeeBonus(): void {
     this.yahtzeeBonus += 100;
-    this.totalScore += 100;
+    this.recalculateTotals();
+  }
+
+  setYahtzeeBonus(score : number): void {
+    this.yahtzeeBonus = score;
+    this.recalculateTotals();
+  }
+
+  recalculateTotals(): void {
+    this.totalScore = 0;
+    this.topTotal = 0;
+    this.topBonus = 0;
+    for (const key in this.scores) {
+      if (this.scores[key as ScoreCategory] != -1) {
+        this.totalScore += this.scores[key as ScoreCategory];
+        if (key == 'Ones' || key == 'Twos' || key == 'Threes'
+          || key == 'Fours' || key == 'Fives' || key == 'Sixes') {
+          this.topTotal += this.scores[key];
+        }
+      }
+    }
+    if (this.topTotal >= 63) {
+      this.topBonus = 35;
+      this.totalScore += this.topBonus;
+    }
+    this.totalScore += this.yahtzeeBonus;
   }
 }

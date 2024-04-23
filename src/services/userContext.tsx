@@ -2,22 +2,29 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-// Define the type for user data
+/**
+ * User type.
+ */
 type User = {
   email: string;
   username: string;
 };
 
-// Define the type for context
+/**
+ * User context type.
+ */
 type UserContextType = {
   user: User | null;
   setUser: (user: User | null) => void;
 };
 
-// Create context
+// Create user context
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-// Define a custom hook to use the user context
+/**
+ * Custom hook to use the user context.
+ * @returns UserContextType
+ */
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
@@ -26,11 +33,18 @@ export const useUser = () => {
   return context;
 };
 
-// Create UserProvider component
+/**
+ * User provider props.
+ */
 type UserProviderProps = {
   children: ReactNode;
 };
 
+/**
+ * User provider component.
+ * @param children 
+ * @returns JSX.Element
+ */
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 

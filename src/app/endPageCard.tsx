@@ -15,7 +15,7 @@ type EndPageCardProps = {
 /**
  * EndpageCard that is displayed at the end of a game. Has final scores and leaderboards as well as Restart game option.
  * Connects to database to get leaderboard information.
- * @param param0
+ * @param EndPageCardProps
  * @returns
  */
 const EndPageCard = ({ players, onRestart }: EndPageCardProps) => {
@@ -23,6 +23,9 @@ const EndPageCard = ({ players, onRestart }: EndPageCardProps) => {
   const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
   // declares leaderboard scores as a list of player object which each have a Game_Num. Player_Name, and Score property
 
+  /**
+   * useEffect that runs when players change. Sorts the players by score and sets the current players to that list.
+   */
   useEffect(() => {
     const curPlayers = [...players];
     // lists the current players in order depending on their score

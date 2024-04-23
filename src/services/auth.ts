@@ -9,6 +9,9 @@ import bcrypt from 'bcryptjs';
 // used https://www.youtube.com/watch?v=AbUVY16P4Ys to help 
 // https://next-auth.js.org/providers/credentials
 
+/**
+ * Auth configuration.
+ */
 export const authConfig: NextAuthOptions = {
   providers: [
     CredentialsProvider({
