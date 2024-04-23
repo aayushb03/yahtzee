@@ -10,6 +10,7 @@ import { FaDice } from "react-icons/fa";
 import { GiGamepad } from "react-icons/gi";
 import { TbConfetti } from "react-icons/tb";
 import { MdScoreboard } from "react-icons/md";
+import { colors } from "unique-names-generator";
 
 /**
  * Handles the user profile if a user is logged in
@@ -106,44 +107,44 @@ const Profile = () => {
 
         <h2 className="font-bold ml-1 mr-1 my-1"><i>Online Game Statistics: </i></h2>
         <div className= "ml-20 mr-20">
-          <strong> <span style={{ display: 'inline-flex', alignItems: 'center' }}><GiGamepad />Online Games Played: {numOnlineGames} </span></strong>
+          <strong> <span style={{ display: 'inline-flex', alignItems: 'center' }}><GiGamepad />Online Games Played: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{numOnlineGames} </span></span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti />Number of Online Wins: {toatlOnlineWinCount}</span></strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti />Number of Online Wins: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{toatlOnlineWinCount}</span></span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti />Win Rate: {toatlOnlineWinCount/numOnlineGames * 100}</span></strong> <strong>%</strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti />Win Rate: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{toatlOnlineWinCount/numOnlineGames * 100}</span></span></strong> <strong>%</strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Total Number of Yahtzees: {totalOnlineYahtzeeCount}</span></strong> 
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Total Number of Yahtzees: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{totalOnlineYahtzeeCount}</span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-            <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Avg Number of Yahtzee's per Online Game: {Math.round(totalOnlineYahtzeeCount / numOnlineGames * 100)/100} </span></strong> 
+            <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Avg Number of Yahtzee's per Online Game: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{Math.round(totalOnlineYahtzeeCount / numOnlineGames * 100)/100} </span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Average Score per Online Game: {Math.round(totalOnlineScore / numOnlineGames * 100)/100}</span></strong> 
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Average Score per Online Game: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{Math.round(totalOnlineScore / numOnlineGames * 100)/100}</span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Highest Online Game Score: {maxOnlineScore}</span></strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Highest Online Game Score: <span style={{ color: '#AA6C39', fontSize: '24px'}}> {maxOnlineScore}</span></span></strong>
         </div>
         
         <hr style={{ height: '3px', borderWidth: '0', color: 'black', backgroundColor: 'black' }}/>
 
         <h2 className="font-bold ml-1 mr-1 my-1"><i>Local Game Statistics: </i></h2>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><GiGamepad /> Local Games Played: {numLocalGames} </span></strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><GiGamepad /> Local Games Played: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{numLocalGames} </span></span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Total Number of Yahtzees: {totalLocalYahtzeeCount}</span></strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Total Number of Yahtzees: <span style={{ color: '#AA6C39', fontSize: '24px' }}>{totalLocalYahtzeeCount}</span></span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Avg Number of Yahtzee's per Local Game: {Math.round(totalLocalYahtzeeCount / numLocalGames * 100)/100}</span></strong> 
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice /> Avg Number of Yahtzee's per Local Game: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{Math.round(totalLocalYahtzeeCount / numLocalGames * 100)/100}</span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Average Score per Local Game: {Math.round(totalLocalScore / numLocalGames * 100)/100}</span></strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Average Score per Local Game: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{Math.round(totalLocalScore / numLocalGames * 100)/100}</span></span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Highest Local Game Score: {maxLocalScore}</span></strong> 
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard />Highest Local Game Score: <span style={{ color: '#AA6C39', fontSize: '24px'}}>{maxLocalScore}</span></span></strong> 
         </div>
       </div>
       <button className={"bg-app-yellow text-app-gray text-xl px-2 py-1 rounded-xl mx-1 w-48 border transition hover:scale-105 shadow"}
