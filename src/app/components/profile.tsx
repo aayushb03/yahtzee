@@ -112,7 +112,7 @@ const Profile = () => {
           <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti style={{marginRight:'4px'}}/>Number of Online Wins: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{toatlOnlineWinCount}</span></span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti style={{marginRight:'4px'}}/>Win Rate: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{isNaN(toatlOnlineWinCount / numOnlineGames) ? 0 : Math.round((toatlOnlineWinCount / numOnlineGames) * 100) / 100}</span></span></strong> <strong>%</strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti style={{marginRight:'4px'}}/>Win Rate: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{isNaN(toatlOnlineWinCount / numOnlineGames) ? 0 : Math.round((toatlOnlineWinCount / numOnlineGames) * 100) / 100 * 100}</span></span></strong> <strong>%</strong>
         </div>
         <div className= "ml-20 mr-20">
           <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Total Number of Yahtzees: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{totalOnlineYahtzeeCount}</span></span></strong> 
