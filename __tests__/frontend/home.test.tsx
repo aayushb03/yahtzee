@@ -1,10 +1,12 @@
 import '@testing-library/jest-dom';
 
 import React from 'react';
-import { render, fireEvent, act, waitFor } from '@testing-library/react';
+import { render, fireEvent, act, waitFor, getByTestId } from '@testing-library/react';
 import Home from '../../src/app/page'
 import GameModeCard from '@/app/gameModeCard';
 import {UserProvider} from '@/services/userContext';
+import * as onlineGameService from '@/services/onlineGameService';
+
 
 // Mock pusherClient
 jest.mock('../../src/services/pusher/pusherClient', () => ({
@@ -26,8 +28,13 @@ jest.mock('next-auth/react' , () => ({
   getSession: jest.fn().mockResolvedValue(undefined),
 }));
 
+// Mock onlineGameService
+jest.mock('../../src/services/onlineGameService', () => ({
+  createGameRoom: jest.fn(), // Mock the createGameRoom function
+}));
+
 describe('Home component', () => {
-  test('renders GameModeCard when game status is AddPlayers', () => {
+  test('renders GameModeCard when game status is AddPlayers in Local', () => {
     const { getByText } = render(
       <UserProvider>
         <Home />
@@ -36,7 +43,7 @@ describe('Home component', () => {
     expect(getByText('START GAME')).toBeInTheDocument();
   });
 
-  test('renders GameModeCard and adds more than one player', async () => {
+  test('renders GameModeCard and adds more than one player in Local', async () => {
     const { getByText, getByLabelText } = render(
       <UserProvider>
         <Home />
@@ -53,7 +60,7 @@ describe('Home component', () => {
     });  
   });
 
-  test('renders GameModeCard and deletes a player', async () => {
+  test('renders GameModeCard and deletes a player in Local', async () => {
     const mockStartYahtzee = jest.fn();
     const mockStartOnlineYahtzee = jest.fn();
     const { getByTestId, getByLabelText, getByText, queryByLabelText } = render(
@@ -71,6 +78,40 @@ describe('Home component', () => {
     await waitFor(async () => {
       expect(queryByLabelText('Player 2:')).toBeNull();
     });  
+  });
+
+  test('renders Online game mode', () => {
+    const { getByText } = render(
+      <UserProvider>
+        <Home />
+      </UserProvider>
+    );
+    fireEvent.click(getByText('Online'));
+    expect(getByText('CREATE A GAME')).toBeInTheDocument();
+  });
+
+  test('renders Online game mode and create a game', async () => {
+    const mockGameRoom: onlineGameService.IRoomAndPlayerIds[] = [
+      { roomId: "testing", playerId: 1 },
+    ];
+  
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockGameRoom),
+    });
+
+    const { getByText, getByTestId } = render(
+      <UserProvider>
+        <Home />
+      </UserProvider>
+    );
+    fireEvent.click(getByText('Online'));
+    fireEvent.change(getByTestId('username'), { target: { value: 'test' } });
+    fireEvent.click(getByText('CREATE A GAME'));
+
+    await act(async () => {
+      expect(getByText('Player 1')).toBeInTheDocument();
+    });
   });
 
   test('renders YahtzeeGame when the game status is InProgress', () => {

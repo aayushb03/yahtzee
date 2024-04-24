@@ -128,7 +128,7 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
       <div className="flex justify-between w-full m-3">
         <form onSubmit={handleSubmit} className="flex flex-col items-left w-52">
           <div className="mb-4">
-            <label htmlFor="username" className="mr-2 text-lg w-48">Email: </label>
+            <label htmlFor="email" className="mr-2 text-lg w-48">Email: </label>
             <input
               type="text"
               id="email"
@@ -167,6 +167,8 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
             <label htmlFor="confirmPassword" className="mr-2 text-lg w-48"> Confirm Password: </label>
             <input
               type="password"
+              id="confirmPassword"
+              name="confirmPassword"
               className="border border-gray-800 px-4 py-2 text-lg"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -185,7 +187,7 @@ const CredentialsForm = ({csrfToken, onClose}: CredentialsFormProps) => {
               {isSignUp &&
                 (
                   <button
-                    type="button"
+                    type="submit"
                     className="bg-app-yellow text-app-gray px-2 py-1 rounded-xl mx-1 w-32 h-8 border transition hover:scale-105 shadow"
                     onClick={handleRegister}>
                     Sign Up
