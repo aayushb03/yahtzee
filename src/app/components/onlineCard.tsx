@@ -182,6 +182,7 @@ export const OnlineCard = ({ startOnlineYahtzee } : OnlineCardProps) => {
           <input
             className={`border-b-[1px] text-xl ${playerNameInput.trim() == "" ? "border-app-red" : "border-app-gray"} outline-0 text-center w-40 bg-transparent`}
             value={playerNameInput}
+            data-testid="username"
             onChange={(e) => setPlayerNameInput(e.target.value)}
             placeholder={"Your Name"}
           />

@@ -93,7 +93,7 @@ const Profile = () => {
   }
 
   return (
-    <div className={`${baloo2.className} flex flex-col justify-center items-center gap-1`}>
+    <div className={`${baloo2.className} flex flex-col justify-center items-center gap-1`}  data-testid="profile">
       <div className={"text-3xl"}>
         Hello {user?.username}!
       </div>
