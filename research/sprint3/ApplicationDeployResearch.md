@@ -12,7 +12,7 @@ Research on the best way to deploy our application
 
 **NOTES and changes to replicate on CSL**
 
-- Had to generate a new compose file which is viewable in [docker branch](https://git.doit.wisc.edu/cdis/cs/courses/cs506/sp2024/team/mondaywednesdaylecture/T_22/yahtzee/-/blob/docker/docker-compose.yml?ref_type=heads)
+- Had to generate a new compose file which is viewable in [docker branch](https://git.doit.wisc.edu/cdis/cs/courses/cs506/sp2024/team/mondaywednesdaylecture/T_22/yahtzee/-/blob/docker/docker-compose.yml?ref_type=heads) and [Dockerfile](https://git.doit.wisc.edu/cdis/cs/courses/cs506/sp2024/team/mondaywednesdaylecture/T_22/yahtzee/-/blob/docker/Dockerfile?ref_type=heads)
 
 - Had to change package.json npm start script to `next start -H 0.0.0.0`
 
