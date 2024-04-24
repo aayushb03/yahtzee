@@ -112,16 +112,16 @@ const Profile = () => {
           <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti style={{marginRight:'4px'}}/>Number of Online Wins: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{toatlOnlineWinCount}</span></span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti style={{marginRight:'4px'}}/>Win Rate: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{Math.round(toatlOnlineWinCount/numOnlineGames * 100)/100 * 100}</span></span></strong> <strong>%</strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><TbConfetti style={{marginRight:'4px'}}/>Win Rate: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{isNaN(toatlOnlineWinCount / numOnlineGames) ? 0 : Math.round((toatlOnlineWinCount / numOnlineGames) * 100) / 100}</span></span></strong> <strong>%</strong>
         </div>
         <div className= "ml-20 mr-20">
           <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Total Number of Yahtzees: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{totalOnlineYahtzeeCount}</span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Avg Number of Yahtzee's per game: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{Math.round(totalOnlineYahtzeeCount / numOnlineGames * 100)/100} </span></span></strong> 
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Avg Number of Yahtzee's per game: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{isNaN(totalOnlineYahtzeeCount / numOnlineGames) ? 0 : Math.round((totalOnlineYahtzeeCount / numOnlineGames) * 100) / 100}</span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard style={{marginRight:'4px'}}/>Average Score: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{Math.round(totalOnlineScore / numOnlineGames * 100)/100}</span></span></strong> 
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard style={{marginRight:'4px'}}/>Average Score: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{isNaN(totalOnlineScore / numOnlineGames) ? 0 : Math.round(totalOnlineScore / numOnlineGames * 100)/100}</span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
           <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard style={{marginRight:'4px'}}/>Highest Online Game Score: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}> {maxOnlineScore}</span></span></strong>
@@ -137,10 +137,10 @@ const Profile = () => {
           <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Total Number of Yahtzees: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{totalLocalYahtzeeCount}</span></span></strong>
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Avg Number of Yahtzee's per Game: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{Math.round(totalLocalYahtzeeCount / numLocalGames * 100)/100}</span></span></strong> 
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><FaDice style={{marginRight:'6px'}}/> Avg Number of Yahtzee's per Game: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{isNaN(totalLocalYahtzeeCount / numLocalGames) ? 0 : Math.round(totalLocalYahtzeeCount / numLocalGames * 100)/100}</span></span></strong> 
         </div>
         <div className= "ml-20 mr-20">
-          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard style={{marginRight:'4px'}}/>Average Score: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{Math.round(totalLocalScore / numLocalGames * 100)/100}</span></span></strong>
+          <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard style={{marginRight:'4px'}}/>Average Score: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{isNaN(totalLocalScore / numLocalGames) ? 0 : Math.round(totalLocalScore / numLocalGames * 100)/100}</span></span></strong>
         </div>
         <div className= "ml-20 mr-20">
           <strong><span style={{ display: 'inline-flex', alignItems: 'center' }}><MdScoreboard style={{marginRight:'4px'}}/>Highest Local Game Score: <span style={{ color: '#AA6C39', fontSize: '24px', marginLeft: '6px'}}>{maxLocalScore}</span></span></strong> 
