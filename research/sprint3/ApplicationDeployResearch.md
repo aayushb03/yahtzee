@@ -10,9 +10,11 @@ Research on the best way to deploy our application
 2. Go to [here](http://128.105.37.207:8080), this connects to our csl machine using it's IP and then targeting 8080 which is running our yahtzee-app
 3. Database should be able to work -- currently only working on Docker branch (PUSHER WIP)
 
-**NOTES**
+**NOTES and changes to replicate on CSL**
 
 - Had to generate a new compose file which is viewable in docker branch
+
+- Had to change package.json npm start script to `next start -H 0.0.0.0`
 
 - Had to change urls, all services needed urls changed to accomodate for service names from compose file, localhost becomes yahtzee-app, and hits it's accompanying production. For example, here is the new url in scoreService.ts: `const url = 'http://localhost:3000/api'`
 
