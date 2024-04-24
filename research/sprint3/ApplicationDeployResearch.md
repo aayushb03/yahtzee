@@ -16,7 +16,7 @@ Research on the best way to deploy our application
 
 - Had to change package.json npm start script to `next start -H 0.0.0.0`
 
-- Had to change urls, all services needed urls changed to accomodate for service names from compose file, localhost becomes yahtzee-app, and hits it's accompanying production. For example, here is the new url in scoreService.ts: `const url = 'http://localhost:3000/api'`
+- Had to change urls, all services needed urls changed to accomodate for service names from compose file, localhost becomes yahtzee-app, and hits it's accompanying production. For example, here is the new url in scoreService.ts: `const url = 'http://yahtzee-app:3000/api'`
 
 - .env file is changed to `DATABASE_URL=mysql://root:yahtzee@db1:3306/yahtzee` as the service 'db1' is located on port 3306
 
