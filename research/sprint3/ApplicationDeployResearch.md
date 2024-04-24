@@ -20,6 +20,8 @@ Research on the best way to deploy our application
 
 - .env file is changed to `DATABASE_URL=mysql://root:yahtzee@db1:3306/yahtzee` as the service 'db1' is located on port 3306
 
+- To run: `docker-compose up --build -d`
+
 **[Building & Deploying Application w/Next.js](https://nextjs.org/docs/pages/building-your-application/deploying)**
 * Goes over the basics of the production build and gives multiple options to deploy
 * Very helpful as it goes over 3 different ways to self host, most notably with Docker
