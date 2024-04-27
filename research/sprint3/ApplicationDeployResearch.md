@@ -22,6 +22,15 @@ Research on the best way to deploy our application
 
 - To run: `docker-compose up --build -d`
 
+**Update (as of 4/26): Auth is working -- Pusher is semi-working**
+
+- Added some additional changes to service files to allow for auth
+
+- Didn't need to add any changes for Pusher, but when starting games the right player isn't always put into the game. For instance, I had two tabs open
+to players "Ethan" and "Sam", but when starting the game recently opened accounts "Griffin" and "Griffin2" were put into game. Not really sure how to fix
+
+- Puppeteer still isn't working -- Puppeteer docs say that it is compatiable with node 14, but our current prisma version requires node 18/20 so it causes some dependency conflicts that I couldn't resolve. [Docs on Puppeteer with Docker](https://pptr.dev/troubleshooting)
+
 **[Building & Deploying Application w/Next.js](https://nextjs.org/docs/pages/building-your-application/deploying)**
 * Goes over the basics of the production build and gives multiple options to deploy
 * Very helpful as it goes over 3 different ways to self host, most notably with Docker
