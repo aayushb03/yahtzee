@@ -11,6 +11,7 @@ jest.mock('../../src/services/userService', () => ({
     json: () => Promise.resolve(),
   })
 }));
+
 jest.mock('next-auth/react' , () => ({
   signIn: jest.fn(),
   getSession: jest.fn().mockResolvedValue(undefined),

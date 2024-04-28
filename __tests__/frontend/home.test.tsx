@@ -12,6 +12,7 @@ import * as onlineGameService from '@/services/onlineGameService';
 jest.mock('../../src/services/pusher/pusherClient', () => ({
   pusherClient: {
     bind: jest.fn(),
+    subscribe: jest.fn(),
   },
 }));
 
@@ -26,11 +27,6 @@ jest.mock('../../src/services/userService', () => ({
 }));
 jest.mock('next-auth/react' , () => ({
   getSession: jest.fn().mockResolvedValue(undefined),
-}));
-
-// Mock onlineGameService
-jest.mock('../../src/services/onlineGameService', () => ({
-  createGameRoom: jest.fn(), // Mock the createGameRoom function
 }));
 
 describe('Home component', () => {
@@ -94,7 +90,7 @@ describe('Home component', () => {
     const mockGameRoom: onlineGameService.IRoomAndPlayerIds[] = [
       { roomId: "testing", playerId: 1 },
     ];
-  
+    
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockGameRoom),
@@ -109,8 +105,8 @@ describe('Home component', () => {
     fireEvent.change(getByTestId('username'), { target: { value: 'test' } });
     fireEvent.click(getByText('CREATE A GAME'));
 
-    await act(async () => {
-      expect(getByText('Player 1')).toBeInTheDocument();
+    await waitFor(async () => {
+      expect(getByText('START GAME')).toBeInTheDocument();
     });
   });
 
