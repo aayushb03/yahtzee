@@ -48,12 +48,11 @@ unit_test_frontend:
 #####################################
 build_and_release:
   stage: build
-  image: node:latest
+  image: docker:20.10.16
   before_script:
     - npm install
   script:
     - npm run build
-    - docker build --build-arg DATABASE_URL=$DATABASE_URL -t $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG .
     - echo "Build successful"
   artifacts:
     paths:
@@ -68,7 +67,7 @@ release:
     - docker:20.10.16-dind
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG .
+    - docker build --build-arg DATABASE_URL=$DATABASE_URL -t $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG .
     - docker tag $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG $CI_REGISTRY_PROJ/frontend:latest
     - docker push $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG
     - docker push $CI_REGISTRY_IMAGE/frontend:latest
