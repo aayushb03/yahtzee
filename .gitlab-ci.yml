@@ -52,6 +52,7 @@ build_and_release:
   before_script:
     - npm install
   script:
+    - npm run build
     - docker build --build-arg DATABASE_URL=$DATABASE_URL -t $CI_REGISTRY_IMAGE/frontend:$RELEASE_TAG .
     - echo "Build successful"
   artifacts:
