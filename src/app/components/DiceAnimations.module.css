@@ -1,3 +1,4 @@
+/* Dice container styles */
 .diceContainer {
   display: flex;
   justify-content: center;
@@ -6,6 +7,7 @@
   perspective: 1000px; 
 }
 
+/* Dice styles */
 .dice {
   width: 50px;
   height: 50px;
@@ -15,6 +17,7 @@
   margin: 0 10px;
 }
 
+/* Dice rolling animation */
 .diceRolling {
   animation: rollDice 3s infinite ease-in-out;
 }
@@ -54,6 +57,7 @@
   transform: rotateY(90deg) translateZ(25px);
 } 
 
+/* Dice selected styles */
 @keyframes rollDice {
   0% {
     transform: rotateX(0) rotateY(0) rotateZ(0);

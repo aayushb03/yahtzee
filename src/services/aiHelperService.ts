@@ -12,11 +12,11 @@ let browser: Browser;
  * @param rollsLeft - The number of rolls left.
  * @returns The dice that should be selected and the category to be scored with the score, if applicable
  */
+// eslint-disable-next-line
 export async function getBestOption(scores: { [key in ScoreCategory]: number }, rollsLeft: number, dice: number[]) {
   // Initialize the browser
   if (!browser) {
     browser = await puppeteer.launch();
-    console.log('Initialized browser')
   }
 
   // initialize and navigate to page

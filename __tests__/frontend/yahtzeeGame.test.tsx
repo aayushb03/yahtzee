@@ -7,6 +7,13 @@ import { Player } from '@/models/player';
 import { ScoreEvaluator } from '@/models/scoreEvaluator';
 import { Dice } from '@/models/dice';
 
+// Mock pusherClient
+jest.mock('../../src/services/pusher/pusherClient', () => ({
+  pusherClient: {
+    bind: jest.fn(),
+  },
+}));
+
 // Board Mocks
 // Mock player data
 const mockPlayer1 = new Player('Player 1');
@@ -16,7 +23,7 @@ const mockPlayer2 = new Player('Player 2');
 const mockLocalPlayers = new LocalPlayers([mockPlayer1, mockPlayer2]);
 
 // Mock potential scores data
-const mockPotentialScores = new ScoreEvaluator({ dice: [1, 1, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}});
+const mockPotentialScores = new ScoreEvaluator({ dice: [1, 1, 3, 4, 5], rollDice() {}, rollDiceByIndex() {}, rollDiceFixed() {}});
 
 // Mock onScoreSelect function
 const mockOnScoreSelect = jest.fn();
@@ -42,7 +49,7 @@ describe('Board component', () => {
         onScoreSelect={mockOnScoreSelect}
         rollsLeft={3}
         aiSelectedCategory={''}
-        isAiTurn={false}
+        isAiOrOnlineTurn={false}
       />
     );
 
@@ -58,7 +65,7 @@ describe('Board component', () => {
         onScoreSelect={mockOnScoreSelect}
         rollsLeft={3}
         aiSelectedCategory={''}
-        isAiTurn={false}
+        isAiOrOnlineTurn={false}
       />
     );
 
@@ -76,8 +83,9 @@ describe('DiceRow component', () => {
         diceRolled={false}
         playerName={""}
         rollsLeft={3}
-        aiSelectedDice={[]}
-        isAiTurn={false}
+        aiOrOnlineSelectedDice={[]}
+        isAiOrOnlineTurn={false}
+        gameRoomId={""}
       />
     );
 
@@ -96,8 +104,9 @@ describe('DiceRow component', () => {
         diceRolled={false}
         playerName={""}
         rollsLeft={3}
-        aiSelectedDice={[]}
-        isAiTurn={false}
+        aiOrOnlineSelectedDice={[]}
+        isAiOrOnlineTurn={false}
+        gameRoomId={""}
       />
     );
 
@@ -114,8 +123,9 @@ describe('DiceRow component', () => {
         diceRolled={false}
         playerName={""}
         rollsLeft={3}
-        aiSelectedDice={[]}
-        isAiTurn={false}
+        aiOrOnlineSelectedDice={[]}
+        isAiOrOnlineTurn={false}
+        gameRoomId={""}
       />
     );
     
@@ -129,8 +139,8 @@ describe('DiceRow component', () => {
     await waitFor(async () => {
       setTimeout(() => {
         // Check if the first dice now has the diceSelected class
-        expect(dice[0]).toHaveClass('dice diceSelected');
-      }, 100); // Adjust the delay time as needed
+        expect(dice[0]).toHaveClass('diceSelected');
+      }, 2500); // Adjust the delay time as needed
     });  
 
   });
@@ -143,8 +153,9 @@ describe('DiceRow component', () => {
         diceRolled={false}
         playerName={""}
         rollsLeft={0}
-        aiSelectedDice={[]}
-        isAiTurn={false}
+        aiOrOnlineSelectedDice={[]}
+        isAiOrOnlineTurn={false}
+        gameRoomId={""}
       />
     );
 

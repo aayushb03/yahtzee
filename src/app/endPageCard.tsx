@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 // eslint-disable-next-line
 import { Baloo_2 } from "next/font/google";
 import { Player } from "@/models/player";
-import { getAllScores } from "@/services/scoreService";
-import { IScore } from "@/services/scoreService";
+import Leaderboard from "@/app/components/leaderboard";
 
 // font that we use for titles (not cell text)
 const baloo2 = Baloo_2({ subsets: ["latin"] });
@@ -13,43 +12,26 @@ type EndPageCardProps = {
   onRestart: () => void;
 };
 
+/**
+ * EndpageCard that is displayed at the end of a game. Has final scores and leaderboards as well as Restart game option.
+ * Connects to database to get leaderboard information.
+ * @param EndPageCardProps
+ * @returns
+ */
 const EndPageCard = ({ players, onRestart }: EndPageCardProps) => {
   // declares the current players as a list of player objects who each have name and score property
   const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
   // declares leaderboard scores as a list of player object which each have a Game_Num. Player_Name, and Score property
-  const [leaderboardScores, setLeaderboardScores] = useState<IScore[]>([]);
-  // array that holds the gameNumbers associated with the users in the database
-  const [recentGameNums, setRecentGameNums] = useState([0]);
-  // boolean used to help timeout to wait for leaderboard to load
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
+  /**
+   * useEffect that runs when players change. Sorts the players by score and sets the current players to that list.
+   */
   useEffect(() => {
     const curPlayers = [...players];
     // lists the current players in order depending on their score
     setCurrentPlayers(
       curPlayers.sort((a, b) => b.scorecard.totalScore - a.scorecard.totalScore)
     );
-
-    // gets ALL of the scores from database then getst the top 10 to show on the leaderboard
-    getAllScores().then((scores: IScore[]) => {
-      const sortedScores = scores.sort((a, b) => b.Score - a.Score);
-      setLeaderboardScores(sortedScores.slice(0, 10));
-    });
-    //want to get the most recent game number (the greatest game number is going to be the largest)
-    getAllScores().then((scores: IScore[]) => {
-      const largestNums = scores.sort((a, b) => b.Game_Num - a.Game_Num);
-      const firstLargestNums = largestNums.slice(0, curPlayers.length);
-      const gameNumList = [];
-      for (const i in firstLargestNums) {
-        gameNumList.push(firstLargestNums[i].Game_Num);
-      }
-      setRecentGameNums(gameNumList);
-    });
-    const timer = setTimeout(() => {
-      setShowLeaderboard(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
   }, [players]);
 
   // scorecard
@@ -77,46 +59,7 @@ const EndPageCard = ({ players, onRestart }: EndPageCardProps) => {
 
         {/* leaderboard party of scorecard - only displays if connected to the database 
             if player makes it only the leaderboard - their name is highlighted */}
-        {showLeaderboard && (
-          <>
-            {leaderboardScores?.length !== 0 ? (
-              <div>
-                <div className={"text-2xl text-center"}>Leaderboard</div>
-                <div
-                  className={`flex flex-col items-center w-full py-4 ${baloo2.className}`}
-                >
-                  {leaderboardScores.map((entry, index) => (
-                    <div
-                      key={index}
-                      className={`text-xl flex w-[80%] border-b ${
-                        currentPlayers.some(
-                          (player) => player.name === entry.Player_Name
-                        ) &&
-                        recentGameNums.some((game) => game === entry.Game_Num)
-                          ? "font-bold"
-                          : ""
-                      }`}
-                    >
-                      <div className={"text-left w-[50%]"}>
-                        {entry.Player_Name}
-                      </div>
-                      <div className={"text-right w-[50%]"}>{entry.Score}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div
-                className={`${baloo2.className} text-center text-app-red px-4 pb-4`}
-              >
-                <p>
-                  <span className={"font-bold"}>Error: </span>Unable to connect
-                  to database, scores will not be recorded!
-                </p>
-              </div>
-            )}
-          </>
-        )}
+        <Leaderboard numScores={10} boldRecent={players.filter(player => !player.ai).length}/>
 
         {/* restart game button at bottom of the scorecard */}
         <div className={`flex justify-center items-center ${baloo2.className}`}>

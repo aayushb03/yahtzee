@@ -1,8 +1,9 @@
 import React from "react";
-import { render, fireEvent, waitFor, act } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { Player } from "@/models/player";
 import EndPageCard from "@/app/endPageCard";
 import * as scoreService from "@/services/scoreService";
+import {UserProvider} from "@/services/userContext";
 
 describe("EndPageCard component", () => {
   const mockPlayer1 = new Player("Player 1");
@@ -11,7 +12,7 @@ describe("EndPageCard component", () => {
 
   const mockScores: scoreService.IScore[] = [
     // eslint-disable-next-line
-    { Game_Num: 1, Player_Name: "Player 3", Score: 400 },
+    { Id: 1, Player_Name: "Player 3", Score: 400 },
   ];
 
   global.fetch = jest.fn().mockResolvedValue({
@@ -21,25 +22,31 @@ describe("EndPageCard component", () => {
 
   test("renders the final score card", () => {
     const { getByText } = render(
-      <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      <UserProvider>
+        <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      </UserProvider>
     );
 
     expect(getByText("Final Score")).toBeInTheDocument();
   });
 
-  test("renders error message when not connected to database", () => {
+  test("renders loading message while waiting to connect to database", () => {
     const { getByText } = render(
-      <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      <UserProvider>
+        <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      </UserProvider>
     );
 
     expect(
-      getByText("Unable to connect to database, scores will not be recorded!")
+      getByText("Loading...")
     ).toBeInTheDocument();
   });
 
   test("successfully renders leaderboard when connected to database", async () => {
     const { getByText } = render(
-      <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      <UserProvider>
+        <EndPageCard players={mockPlayers} onRestart={() => {}} />
+      </UserProvider>
     );
 
     await waitFor(() => {
