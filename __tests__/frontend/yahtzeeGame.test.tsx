@@ -139,7 +139,7 @@ describe('DiceRow component', () => {
     await waitFor(async () => {
       setTimeout(() => {
         // Check if the first dice now has the diceSelected class
-        expect(dice[0]).toHaveClass('dice diceSelected');
+        expect(dice[0]).toHaveClass('DiceAnimations_diceSelected__X1YEg');
       }, 100); // Adjust the delay time as needed
     });  
 
