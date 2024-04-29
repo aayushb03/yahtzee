@@ -11,7 +11,7 @@ stages:
 
 variables:
   RELEASE_TAG: release-$CI_PIPELINE_IID
-  DATABASE_URL: mysql://root:yahtzee@172.21.0.2:53316/yahtzee
+  DATABASE_URL: mysql://root:yahtzee@localhost:53316/yahtzee
   DATABASE_URL_LOCAL: mysql://root:yahtzee@localhost:53316/yahtzee
   PUSHER_APP_ID: 1789213
   NEXT_PUBLIC_PUSHER_APP_KEY: fb6ea79049f87d2302e3
