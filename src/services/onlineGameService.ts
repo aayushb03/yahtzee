@@ -2,7 +2,7 @@
 
 import {pusherServer} from "@/services/pusher/pusherServer";
 
-const url = 'http://localhost:3000/api/online';
+const url = `${process.env.BASE_URL}/api/online`;
 
 /**
  * Creates a game room with the player's name.
@@ -107,7 +107,8 @@ export async function startGame(roomId: string) {
 
 /**
  * Sends the selectdice roll to the game room.
- * @param roomId 
+ * @param roomId
+ * @param selectedDice
  */
 // eslint-disable-next-line
 export async function sendSelectDice(roomId: string, selectedDice: number[]) {
@@ -116,7 +117,8 @@ export async function sendSelectDice(roomId: string, selectedDice: number[]) {
 
 /**
  * Sends the dice roll to the game room.
- * @param roomId 
+ * @param roomId
+ * @param diceAndRolls
  */
 // eslint-disable-next-line
 export async function sendDiceRoll(roomId: string, diceAndRolls: [number[], number]) {

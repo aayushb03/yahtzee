@@ -1,6 +1,6 @@
 'use server';
 
-const url = 'http://localhost:3000/api';
+const url = `${process.env.BASE_URL}/api`;
 
 /** 
  *  retrieves ALL scores from the database (Past_Scores) and stores them in an Score[] - each has properties Game_Num, Player_Name, and Score

@@ -1,6 +1,6 @@
 'use server';
 
-const url = 'http://localhost:3000/api';
+const url = `${process.env.BASE_URL}/api`;
 
 /**
  * Adds a local game to the database.
