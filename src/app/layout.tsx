@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 // eslint-disable-next-line
 import { Irish_Grover } from "next/font/google";
 import "./globals.css";
