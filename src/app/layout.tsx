@@ -27,6 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <UserProvider>
+      <SpeedInsights />
       <html lang="en">
         <body className={irishGrover.className}>{children}</body>
       </html>
